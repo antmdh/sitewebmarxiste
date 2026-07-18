@@ -1,0 +1,337 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import ArticleCard from '../../../components/ArticleCard.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { localizedDate, type Locale } from '../../../lib/i18n';
+
+export const prerender = true;
+export async function getStaticPaths() {
+  const games = await getCollection('games', ({ data }) => !data.draft);
+  return games.map((game) => ({
+    params: { locale: game.data.locale, slug: game.data.slug },
+    props: { game },
+  }));
+}
+
+const { game } = Astro.props;
+const locale = Astro.params.locale as Locale;
+const { Content } = await render(game);
+const allGames = await getCollection('games', ({ data }) => !data.draft);
+const translations = allGames
+  .filter(({ data }) => data.translationKey === game.data.translationKey)
+  .map(({ data }) => ({ locale: data.locale, href: `/${data.locale}/jeux/${data.slug}/` }));
+const articles = (
+  await getCollection(
+    'articles',
+    ({ data }) =>
+      data.locale === locale && data.relatedGame === game.data.translationKey && !data.draft,
+  )
+)
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 3);
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoGame',
+  name: game.data.title,
+  description: game.data.description,
+  gamePlatform: game.data.platforms,
+  genre: game.data.genre,
+  inLanguage: locale,
+  image: new URL(game.data.heroImage.src, Astro.site).href,
+  author: { '@type': 'Organization', name: 'Marxists Games' },
+};
+---
+
+<BaseLayout
+  title={game.data.title}
+  description={game.data.description}
+  {locale}
+  image={game.data.heroImage}
+  translationLinks={translations}
+  {structuredData}
+>
+  <Breadcrumbs
+    items={[
+      { label: locale === 'fr' ? 'Accueil' : 'Home', href: `/${locale}/` },
+      { label: locale === 'fr' ? 'Jeux' : 'Games', href: `/${locale}/jeux/` },
+      { label: game.data.title },
+    ]}
+  />
+  <article>
+    <header class="game-hero">
+      <div class="container game-hero__grid">
+        <div class="game-hero__copy">
+          <p class="section-kicker">{game.data.genre}</p><h1>{game.data.title}</h1><p
+            class="game-hero__subtitle"
+          >
+            {game.data.subtitle}
+          </p><p>{game.data.description}</p><div class="button-row">
+            {
+              game.data.downloadUrl ? (
+                <a class="button" href={game.data.downloadUrl}>
+                  {game.data.ctaLabel}
+                </a>
+              ) : (
+                <a class="button" href={game.data.devlogUrl ?? `/${locale}/articles/`}>
+                  {game.data.ctaLabel}
+                </a>
+              )
+            }<a class="button button--ghost" href="https://discord.gg/placeholder">Discord ↗</a>
+          </div>
+        </div>
+        <figure>
+          <Image
+            src={game.data.heroImage}
+            alt={game.data.heroAlt}
+            widths={[720, 1080, 1440]}
+            sizes="(min-width: 60rem) 52vw, 100vw"
+            format="webp"
+            loading="eager"
+          /><figcaption>{game.data.heroAlt}</figcaption>
+        </figure>
+      </div>
+    </header>
+
+    <section class="game-facts">
+      <div class="container game-facts__grid">
+        <div>
+          <span>{locale === 'fr' ? 'Statut' : 'Status'}</span><strong
+            >{game.data.developmentStatus}</strong
+          >
+        </div>
+        <div>
+          <span>{locale === 'fr' ? 'Plateformes' : 'Platforms'}</span><strong
+            >{game.data.platforms.join(' · ')}</strong
+          >
+        </div>
+        <div>
+          <span>{locale === 'fr' ? 'Période' : 'Period'}</span><strong
+            >{game.data.historicalPeriod}</strong
+          >
+        </div>
+        <div>
+          <span>{locale === 'fr' ? 'Mise à jour' : 'Updated'}</span><strong
+            >{localizedDate(game.data.updatedAt, locale)}</strong
+          >
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container content-grid">
+        <aside>
+          <p class="section-kicker">{locale === 'fr' ? 'Le projet' : 'The project'}</p><h2>
+            {locale === 'fr' ? 'Stratégie, contexte et choix.' : 'Strategy, context and choices.'}
+          </h2>
+        </aside><div class="prose"><Content /></div>
+      </div>
+    </section>
+
+    {
+      game.data.gallery.length > 0 && (
+        <section class="section gallery section--dark">
+          <div class="container">
+            <>
+              <header class="section-heading">
+                <>
+                  <p class="section-kicker">Galerie</p>
+                  <h2>{locale === 'fr' ? 'Le jeu en images.' : 'The game in images.'}</h2>
+                </>
+              </header>
+              <div class="gallery__grid">
+                {game.data.gallery.map((item) => (
+                  <figure>
+                    <Image
+                      src={item.image}
+                      alt={item.alt}
+                      widths={[720, 1200]}
+                      sizes="(min-width: 50rem) 70vw, 100vw"
+                      format="webp"
+                      loading="lazy"
+                    />
+                    <figcaption>{item.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            </>
+          </div>
+        </section>
+      )
+    }
+
+    <section class="game-cta section section--red">
+      <div class="container">
+        <p class="section-kicker">Tests · discussions · histoire</p><h2>
+          {locale === 'fr' ? 'Suivez le développement avec nous.' : 'Follow development with us.'}
+        </h2><div class="button-row">
+          <a class="button button--cream" href="https://discord.gg/placeholder"
+            >{locale === 'fr' ? 'Rejoindre le Discord' : 'Join Discord'} ↗</a
+          >{
+            game.data.devlogUrl && (
+              <a class="button button--ghost" href={game.data.devlogUrl}>
+                {locale === 'fr' ? 'Lire le journal' : 'Read the journal'} →
+              </a>
+            )
+          }
+        </div>
+      </div>
+    </section>
+
+    {
+      articles.length > 0 && (
+        <section class="section">
+          <div class="container">
+            <>
+              <header class="section-heading">
+                <>
+                  <p class="section-kicker">
+                    {locale === 'fr' ? 'Dernières mises à jour' : 'Latest updates'}
+                  </p>
+                  <h2>{locale === 'fr' ? 'Dans le journal.' : 'From the journal.'}</h2>
+                </>
+              </header>
+              <div class="grid-3">
+                {articles.map((article) => (
+                  <ArticleCard {article} {locale} />
+                ))}
+              </div>
+            </>
+          </div>
+        </section>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .game-hero {
+    color: var(--color-paper);
+    background: var(--color-black);
+  }
+  .game-hero__grid {
+    display: grid;
+  }
+  .game-hero__copy {
+    display: grid;
+    gap: var(--space-4);
+    padding-block: var(--space-6);
+  }
+  .game-hero__copy > p:not(.section-kicker) {
+    max-width: 42rem;
+    color: var(--color-paper-deep);
+  }
+  .game-hero__subtitle {
+    color: var(--color-white) !important;
+    font-size: var(--step-1);
+    font-weight: 750;
+  }
+  .game-hero .button--ghost {
+    border-color: var(--color-cream);
+    color: var(--color-cream);
+  }
+  .game-hero figure {
+    position: relative;
+    min-width: 0;
+    margin-right: -1rem;
+  }
+  .game-hero figure :global(img) {
+    width: 100%;
+    height: 100%;
+    min-height: 22rem;
+    object-fit: cover;
+  }
+  .game-hero figcaption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    max-width: 22rem;
+    padding: 0.5rem;
+    background: var(--color-black);
+    font-size: 0.65rem;
+  }
+  .game-facts {
+    color: var(--color-white);
+    background: var(--color-red);
+  }
+  .game-facts__grid {
+    display: grid;
+  }
+  .game-facts__grid > div {
+    display: grid;
+    gap: 0.25rem;
+    padding: var(--space-3);
+    border-bottom: 1px solid rgb(255 255 255 / 0.3);
+  }
+  .game-facts span {
+    font-size: 0.65rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .game-facts strong {
+    line-height: 1.3;
+  }
+  .content-grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .content-grid aside {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+  }
+  .gallery__grid figure {
+    max-width: 62rem;
+    margin-inline: auto;
+  }
+  .gallery__grid :global(img) {
+    width: 100%;
+    border: 0.12rem solid var(--color-cream);
+  }
+  .gallery figcaption {
+    padding-top: var(--space-2);
+    color: var(--color-paper-deep);
+    font-size: var(--step--1);
+  }
+  .game-cta h2 {
+    max-width: 17ch;
+    margin-bottom: var(--space-5);
+  }
+  .game-cta .button--ghost {
+    border-color: var(--color-cream);
+    color: var(--color-cream);
+  }
+  @media (min-width: 44rem) {
+    .game-facts__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .game-facts__grid > div {
+      border-right: 1px solid rgb(255 255 255 / 0.3);
+    }
+  }
+  @media (min-width: 60rem) {
+    .game-hero__grid {
+      grid-template-columns: 0.9fr 1.1fr;
+      min-height: 42rem;
+    }
+    .game-hero__copy {
+      align-content: center;
+      padding-right: var(--space-5);
+    }
+    .game-hero figure {
+      margin-right: calc((100vw - min(100vw - 3rem, var(--max-width))) / -2);
+    }
+    .game-facts__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .content-grid {
+      grid-template-columns: 0.7fr 1.3fr;
+    }
+    .content-grid aside {
+      position: sticky;
+      top: var(--space-4);
+    }
+  }
+</style>

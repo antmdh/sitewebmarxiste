@@ -1,0 +1,231 @@
+---
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  variant?: 'project' | 'contact';
+}
+
+const { locale, variant = 'project' } = Astro.props;
+const fr = locale === 'fr';
+---
+
+<form class="contact-form" action="/api/contact" method="post" data-contact-form>
+  <div class="form-grid">
+    <div class="field">
+      <label for="name">{fr ? 'Nom' : 'Name'} <span aria-hidden="true">*</span></label>
+      <input id="name" name="name" type="text" autocomplete="name" required minlength="2" />
+    </div>
+    <div class="field">
+      <label for="organization">{fr ? 'Organisation' : 'Organisation'}</label>
+      <input id="organization" name="organization" type="text" autocomplete="organization" />
+    </div>
+    <div class="field">
+      <label for="email">E-mail <span aria-hidden="true">*</span></label>
+      <input id="email" name="email" type="email" autocomplete="email" required />
+    </div>
+    {
+      variant === 'project' && (
+        <div class="field">
+          <label for="projectType">
+            {fr ? 'Type de projet' : 'Project type'} <span aria-hidden="true">*</span>
+          </label>
+          <select id="projectType" name="projectType" required>
+            <option value="">{fr ? 'Choisir…' : 'Choose…'}</option>
+            <option value="educational">{fr ? 'Jeu pédagogique' : 'Educational game'}</option>
+            <option value="activist">{fr ? 'Jeu militant' : 'Campaign game'}</option>
+            <option value="cultural">
+              {fr ? 'Projet culturel ou historique' : 'Cultural or historical project'}
+            </option>
+            <option value="prototype">Prototype</option>
+            <option value="other">{fr ? 'Autre' : 'Other'}</option>
+          </select>
+        </div>
+      )
+    }
+    {
+      variant === 'project' && (
+        <>
+          <div class="field">
+            <label for="audience">{fr ? 'Public visé' : 'Target audience'}</label>
+            <input id="audience" name="audience" type="text" />
+          </div>
+          <div class="field">
+            <label for="platform">{fr ? 'Plateforme' : 'Platform'}</label>
+            <select id="platform" name="platform">
+              <option value="">{fr ? 'À définir' : 'To be defined'}</option>
+              <option>Web</option>
+              <option>PC</option>
+              <option>Android / iOS</option>
+              <option>Installation</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="budget">{fr ? 'Budget indicatif' : 'Indicative budget'}</label>
+            <select id="budget" name="budget">
+              <option value="">{fr ? 'À discuter' : 'To discuss'}</option>
+              <option value="under-5k">&lt; 5 000 €</option>
+              <option value="5-15k">5 000–15 000 €</option>
+              <option value="15-40k">15 000–40 000 €</option>
+              <option value="over-40k">40 000 € +</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="timeline">{fr ? 'Calendrier souhaité' : 'Desired timeline'}</label>
+            <input
+              id="timeline"
+              name="timeline"
+              type="text"
+              placeholder={fr ? 'Ex. septembre 2027' : 'E.g. September 2027'}
+            />
+          </div>
+        </>
+      )
+    }
+    <div class="field field--wide">
+      <label for="description"
+        >{fr ? 'Description du projet' : 'Project description'}
+        <span aria-hidden="true">*</span></label
+      >
+      <textarea
+        id="description"
+        name="description"
+        rows="8"
+        required
+        minlength="30"
+        aria-describedby="description-hint"></textarea>
+      <small id="description-hint"
+        >{
+          fr
+            ? 'Contexte, objectif, contenu envisagé et contraintes connues — 30 caractères minimum.'
+            : 'Context, objective, expected content and known constraints — 30 characters minimum.'
+        }</small
+      >
+    </div>
+  </div>
+  <div class="field honeypot" aria-hidden="true">
+    <label for="website">Website</label><input
+      id="website"
+      name="website"
+      type="text"
+      tabindex="-1"
+      autocomplete="off"
+    />
+  </div>
+  <label class="consent">
+    <input type="checkbox" name="consent" value="yes" required />
+    <span
+      >{
+        fr
+          ? 'J’accepte que Marxists Games utilise ces informations pour me recontacter au sujet de ma demande.'
+          : 'I agree that Marxists Games may use this information to contact me about my request.'
+      }
+      <span aria-hidden="true">*</span></span
+    >
+  </label>
+  <input type="hidden" name="locale" value={locale} />
+  <input type="hidden" name="formStartedAt" value={Date.now()} />
+  <div class="form-actions">
+    <button class="button" type="submit">{fr ? 'Envoyer la demande' : 'Send request'}</button>
+    <p class="form-status" data-form-status aria-live="polite">
+      {
+        fr
+          ? 'Les champs marqués d’un astérisque sont obligatoires.'
+          : 'Fields marked with an asterisk are required.'
+      }
+    </p>
+  </div>
+</form>
+
+<script is:inline src="/scripts/contact-form.js" defer></script>
+
+<style>
+  .contact-form {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .form-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .field {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .field label,
+  .consent {
+    font-size: var(--step--1);
+    font-weight: 800;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    min-height: 3.25rem;
+    padding: 0.75rem;
+    border: 0.13rem solid var(--color-black);
+    border-radius: 0;
+    color: var(--color-black);
+    background: var(--color-white);
+  }
+
+  .field textarea {
+    min-height: 11rem;
+    resize: vertical;
+  }
+
+  .field small {
+    color: var(--color-gray);
+  }
+
+  .consent {
+    display: flex;
+    gap: var(--space-2);
+    align-items: flex-start;
+  }
+
+  .consent input {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: 0 0 auto;
+    margin-top: 0.15rem;
+    accent-color: var(--color-red);
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -10000px;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .form-status {
+    max-width: 34rem;
+    color: var(--color-gray);
+    font-size: var(--step--1);
+  }
+
+  .button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+  }
+
+  @media (min-width: 44rem) {
+    .form-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .field--wide {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

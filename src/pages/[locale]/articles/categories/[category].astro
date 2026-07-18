@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import ArticleCard from '../../../../components/ArticleCard.astro';
+import Breadcrumbs from '../../../../components/Breadcrumbs.astro';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { categoryLabels, locales, type Locale } from '../../../../lib/i18n';
+
+export const prerender = true;
+export function getStaticPaths() {
+  const categories = Object.keys(categoryLabels.fr);
+  return locales.flatMap((locale) =>
+    categories.map((category) => ({ params: { locale, category } })),
+  );
+}
+const locale = Astro.params.locale as Locale;
+const category = Astro.params.category!;
+const label = categoryLabels[locale][category] ?? category;
+const articles = (
+  await getCollection(
+    'articles',
+    ({ data }) => data.locale === locale && data.category === category && !data.draft,
+  )
+).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const description = `${label} — Marxists Games`;
+const translations = locales.map((item) => ({
+  locale: item,
+  href: `/${item}/articles/categories/${category}/`,
+}));
+---
+
+<BaseLayout title={label} {description} {locale} translationLinks={translations}>
+  <Breadcrumbs
+    items={[
+      { label: locale === 'fr' ? 'Accueil' : 'Home', href: `/${locale}/` },
+      { label: 'Articles', href: `/${locale}/articles/` },
+      { label },
+    ]}
+  />
+  <header class="page-hero">
+    <div class="container page-hero__inner">
+      <p class="section-kicker">Catégorie</p><h1>{label}</h1><p>
+        {
+          locale === 'fr'
+            ? `${articles.length} article${articles.length > 1 ? 's' : ''} publié${articles.length > 1 ? 's' : ''}.`
+            : `${articles.length} published article${articles.length === 1 ? '' : 's'}.`
+        }
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="container">
+      {
+        articles.length > 0 ? (
+          <div class="grid-3">
+            {articles.map((article) => (
+              <ArticleCard {article} {locale} />
+            ))}
+          </div>
+        ) : (
+          <div class="notice">
+            <>
+              <p>
+                {locale === 'fr'
+                  ? 'Aucun article publié dans cette catégorie et cette langue.'
+                  : 'No article is published in this category and language.'}
+              </p>
+              <a href={`/${locale}/articles/`}>← Articles</a>
+            </>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

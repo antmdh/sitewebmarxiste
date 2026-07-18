@@ -1,0 +1,136 @@
+---
+import type { Locale } from '../lib/i18n';
+import { ui } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+---
+
+<details class="mobile-menu">
+  <summary>
+    <span class="mobile-menu__icon" aria-hidden="true"><i></i></span>
+    <span>{t.menu}</span>
+  </summary>
+  <nav aria-label="Navigation mobile">
+    <ul class="no-list">
+      {
+        t.nav.map((label, index) => (
+          <li>
+            <a href={`/${locale}/${t.paths[index]}/`}>{label}</a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mobile-menu__actions">
+      <a href={`/${locale}/newsletter/`}>{t.newsletter}</a>
+      <a href="https://discord.gg/placeholder" rel="external">{t.discord} ↗</a>
+    </div>
+  </nav>
+</details>
+
+<style>
+  .mobile-menu summary {
+    display: flex;
+    min-height: 2.8rem;
+    gap: 0.55rem;
+    align-items: center;
+    padding: 0.4rem 0.6rem;
+    border: 0.12rem solid currentColor;
+    cursor: pointer;
+    font-size: 0.76rem;
+    font-weight: 900;
+    list-style: none;
+    text-transform: uppercase;
+  }
+
+  .mobile-menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-menu__icon,
+  .mobile-menu__icon::before,
+  .mobile-menu__icon::after,
+  .mobile-menu__icon i {
+    display: block;
+    width: 1.15rem;
+    height: 0.13rem;
+    background: currentColor;
+    content: '';
+  }
+
+  .mobile-menu__icon {
+    position: relative;
+  }
+
+  .mobile-menu__icon::before {
+    position: absolute;
+    top: -0.35rem;
+  }
+
+  .mobile-menu__icon::after {
+    position: absolute;
+    top: 0.35rem;
+  }
+
+  .mobile-menu[open] .mobile-menu__icon {
+    background: transparent;
+  }
+
+  .mobile-menu[open] .mobile-menu__icon::before {
+    top: 0;
+    rotate: 45deg;
+  }
+
+  .mobile-menu[open] .mobile-menu__icon::after {
+    top: 0;
+    rotate: -45deg;
+  }
+
+  .mobile-menu nav {
+    position: absolute;
+    z-index: 30;
+    top: 100%;
+    right: 0;
+    left: 0;
+    padding: var(--space-4) 1rem var(--space-5);
+    border-bottom: 0.15rem solid var(--color-black);
+    color: var(--color-black);
+    background: var(--color-paper);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .mobile-menu li + li {
+    border-top: 1px solid var(--color-paper-deep);
+  }
+
+  .mobile-menu li a {
+    display: block;
+    padding: 0.8rem 0;
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .mobile-menu__actions {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+  }
+
+  .mobile-menu__actions a {
+    font-size: var(--step--1);
+    font-weight: 850;
+  }
+
+  @media (min-width: 62rem) {
+    .mobile-menu {
+      display: none;
+    }
+  }
+</style>

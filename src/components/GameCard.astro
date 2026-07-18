@@ -1,0 +1,106 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import type { Locale } from '../lib/i18n';
+import { ui } from '../lib/i18n';
+
+interface Props {
+  game: CollectionEntry<'games'>;
+  locale: Locale;
+}
+
+const { game, locale } = Astro.props;
+const t = ui[locale];
+---
+
+<article class="game-card card">
+  <div class="game-card__image">
+    <Image
+      src={game.data.heroImage}
+      alt={game.data.heroAlt}
+      widths={[480, 720]}
+      sizes="(min-width: 70rem) 32vw, (min-width: 44rem) 50vw, 100vw"
+      format="webp"
+      loading="lazy"
+    />
+    <span class="tag">{game.data.developmentStatus}</span>
+  </div>
+  <div class="game-card__body">
+    <p class="eyebrow">{game.data.genre}</p>
+    <h3>{game.data.title}</h3>
+    <p>{game.data.description}</p>
+    <div class="game-card__meta">
+      <span>{game.data.platforms.join(' · ')}</span>
+      <span>{game.data.historicalPeriod}</span>
+    </div>
+    <div class="button-row">
+      <a class="button" href={`/${locale}/jeux/${game.data.slug}/`}>{t.viewGame}</a>
+      {
+        game.data.devlogUrl && (
+          <a class="button button--ghost" href={game.data.devlogUrl}>
+            {t.devlog}
+          </a>
+        )
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  .game-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  .game-card__image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 8 / 5;
+    background: var(--color-charcoal);
+  }
+
+  .game-card__image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: scale 220ms ease;
+  }
+
+  .game-card:hover .game-card__image :global(img) {
+    scale: 1.025;
+  }
+
+  .game-card__image .tag {
+    position: absolute;
+    right: 0.65rem;
+    bottom: 0.65rem;
+    max-width: calc(100% - 1.3rem);
+  }
+
+  .game-card__body {
+    display: grid;
+    flex: 1;
+    gap: var(--space-3);
+    padding: var(--space-4);
+  }
+
+  .game-card__body > p:not(.eyebrow) {
+    color: var(--color-gray);
+  }
+
+  .game-card__meta {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-paper-deep);
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .game-card .button {
+    flex: 1 1 9rem;
+  }
+</style>

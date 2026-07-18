@@ -1,0 +1,155 @@
+---
+import type { Locale } from '../lib/i18n';
+import communityBackground from '../assets/images/marxists-games-background-wide.png';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = {
+  fr: {
+    kicker: 'Une communauté vivante',
+    title: 'On ne joue jamais seul.',
+    text: 'Le Discord est notre espace de discussion, de test et de travail collectif. Venez avec une question, une critique ou simplement l’envie de découvrir.',
+    items: [
+      'Discussions autour des jeux',
+      'Retours et tests',
+      'Cercles de lecture',
+      'Ressources partagées',
+      'Événements',
+    ],
+    button: 'Rejoindre le Discord',
+  },
+  en: {
+    kicker: 'A living community',
+    title: 'No one plays alone.',
+    text: 'Discord is our space for discussion, testing and collective work.',
+    items: [
+      'Game discussions',
+      'Feedback and playtests',
+      'Reading groups',
+      'Shared resources',
+      'Events',
+    ],
+    button: 'Join Discord',
+  },
+  es: {
+    kicker: 'Una comunidad viva',
+    title: 'Nadie juega solo.',
+    text: 'Discord es nuestro espacio de debate, pruebas y trabajo colectivo.',
+    items: [
+      'Debates sobre juegos',
+      'Pruebas y comentarios',
+      'Círculos de lectura',
+      'Recursos compartidos',
+      'Eventos',
+    ],
+    button: 'Unirse a Discord',
+  },
+  de: {
+    kicker: 'Eine lebendige Community',
+    title: 'Niemand spielt allein.',
+    text: 'Discord ist unser Ort für Diskussion, Tests und gemeinsame Arbeit.',
+    items: [
+      'Gespräche über Spiele',
+      'Feedback und Tests',
+      'Lesekreise',
+      'Geteilte Ressourcen',
+      'Veranstaltungen',
+    ],
+    button: 'Discord beitreten',
+  },
+}[locale];
+---
+
+<section
+  class="community section--red"
+  style={`--community-art: url('${communityBackground.src}')`}
+>
+  <div class="community__inner container">
+    <div class="community__copy">
+      <p class="section-kicker">{content.kicker}</p>
+      <h2>{content.title}</h2>
+      <p>{content.text}</p>
+      <a class="button button--cream" href="https://discord.gg/placeholder" rel="external"
+        >{content.button} ↗</a
+      >
+    </div>
+    <ul class="community__list no-list">
+      {
+        content.items.map((item, index) => (
+          <li>
+            <span>0{index + 1}</span>
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .community {
+    padding-block: var(--space-7);
+    overflow: hidden;
+    background-image:
+      linear-gradient(100deg, rgb(127 17 17 / 0.96), rgb(181 31 31 / 0.74)), var(--community-art);
+    background-position: center;
+    background-size: cover;
+  }
+
+  .community__inner {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .community__copy {
+    display: grid;
+    gap: var(--space-4);
+    align-content: center;
+  }
+
+  .community__copy > p:not(.section-kicker) {
+    max-width: 37rem;
+    color: var(--color-cream);
+    font-size: var(--step-1);
+  }
+
+  .community__copy .button {
+    width: fit-content;
+  }
+
+  .community__list {
+    border-block: 0.12rem solid rgb(255 255 255 / 0.4);
+  }
+
+  .community__list li {
+    display: flex;
+    gap: var(--space-4);
+    align-items: baseline;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.3);
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .community__list li:last-child {
+    border: 0;
+  }
+
+  .community__list span {
+    color: var(--color-black);
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+
+  @media (min-width: 52rem) {
+    .community__inner {
+      grid-template-columns: 0.9fr 1.1fr;
+    }
+  }
+</style>

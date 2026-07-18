@@ -1,0 +1,396 @@
+---
+import { getCollection } from 'astro:content';
+import ArticleCard from '../../components/ArticleCard.astro';
+import CommunitySection from '../../components/CommunitySection.astro';
+import GameCard from '../../components/GameCard.astro';
+import Hero from '../../components/Hero.astro';
+import NewsletterForm from '../../components/NewsletterForm.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales, localeNames, type Locale } from '../../lib/i18n';
+import brandBackground from '../../assets/images/marxists-games-background.webp';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const locale = Astro.params.locale as Locale;
+const games = (await getCollection('games', ({ data }) => data.locale === locale && !data.draft))
+  .filter(({ data }) => data.featured)
+  .sort((a, b) => b.data.updatedAt.valueOf() - a.data.updatedAt.valueOf());
+const articles = (
+  await getCollection('articles', ({ data }) => data.locale === locale && !data.draft)
+)
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 3);
+const staticTranslations = locales.map((item) => ({ locale: item, href: `/${item}/` }));
+
+const copy = {
+  fr: {
+    title: 'Des jeux marxistes, un studio engagé, une communauté vivante.',
+    intro:
+      'Nous créons des jeux qui interrogent le pouvoir, l’histoire et la société.\nNous écrivons sur le marxisme et le jeu vidéo.\nNous rassemblons une communauté critique et solidaire.',
+    gamesKicker: 'Nos terrains d’expérimentation',
+    gamesTitle: 'Jouer avec l’histoire. Penser le présent.',
+    gamesText:
+      'Stratégie, narration et recherche se rencontrent dans des projets conçus pour rester accessibles sans effacer leurs contradictions.',
+    allGames: 'Explorer tous les jeux',
+    commissionKicker: 'Un studio pour vos idées',
+    commissionTitle: 'Votre sujet mérite mieux qu’un quiz.',
+    commissionText:
+      'Associations, syndicats, musées, équipes pédagogiques : nous transformons une question complexe en expérience jouable, de la recherche au prototype.',
+    commissionButton: 'Parler de votre projet',
+    articleKicker: 'Le journal ouvert',
+    articleTitle: 'Développement, critique, histoire.',
+    articleText:
+      'Nous documentons nos choix, partageons nos outils et lisons politiquement les jeux qui nous entourent.',
+    allArticles: 'Voir tous les articles',
+    langKicker: 'Plusieurs langues, un même espace',
+    langTitle: 'Entrer par la langue qui vous convient.',
+    langText:
+      'Les traductions sont publiées au fur et à mesure. Le sélecteur indique les versions réellement disponibles pour chaque contenu.',
+    newsletterTitle: 'Recevoir des nouvelles, pas du bruit.',
+    newsletterText:
+      'Une lettre occasionnelle sur les jeux, les nouveaux articles et les appels à test.',
+  },
+  en: {
+    title: 'Marxist games, a committed studio, a living community.',
+    intro:
+      'We make games that question power, history and society.\nWe write about Marxism and video games.\nWe bring together a critical, supportive community.',
+    gamesKicker: 'Our testing grounds',
+    gamesTitle: 'Play with history. Think about the present.',
+    gamesText:
+      'Strategy, narrative and research meet in accessible projects that never erase contradiction.',
+    allGames: 'Explore all games',
+    commissionKicker: 'A studio for your ideas',
+    commissionTitle: 'Your subject deserves more than a quiz.',
+    commissionText:
+      'Associations, unions, museums and educators: we turn complex questions into playable experiences.',
+    commissionButton: 'Tell us about your project',
+    articleKicker: 'The open journal',
+    articleTitle: 'Development, criticism, history.',
+    articleText: 'We document our choices, share tools and read the games around us politically.',
+    allArticles: 'View all articles',
+    langKicker: 'Several languages, one space',
+    langTitle: 'Enter through the language that suits you.',
+    langText:
+      'Translations are published progressively. The selector only shows versions that truly exist.',
+    newsletterTitle: 'News, not noise.',
+    newsletterText: 'An occasional letter about games, new articles and playtests.',
+  },
+  es: {
+    title: 'Juegos marxistas, un estudio comprometido, una comunidad viva.',
+    intro:
+      'Creamos juegos que cuestionan el poder, la historia y la sociedad.\nEscribimos sobre marxismo y videojuegos.\nReunimos una comunidad crítica y solidaria.',
+    gamesKicker: 'Nuestros terrenos de prueba',
+    gamesTitle: 'Jugar con la historia. Pensar el presente.',
+    gamesText:
+      'Estrategia, narración e investigación se encuentran en proyectos accesibles que no borran las contradicciones.',
+    allGames: 'Explorar todos los juegos',
+    commissionKicker: 'Un estudio para tus ideas',
+    commissionTitle: 'Tu tema merece más que un cuestionario.',
+    commissionText:
+      'Asociaciones, sindicatos, museos y docentes: convertimos preguntas complejas en experiencias jugables.',
+    commissionButton: 'Cuéntanos tu proyecto',
+    articleKicker: 'El diario abierto',
+    articleTitle: 'Desarrollo, crítica, historia.',
+    articleText:
+      'Documentamos nuestras decisiones, compartimos herramientas y leemos políticamente los juegos.',
+    allArticles: 'Ver todos los artículos',
+    langKicker: 'Varios idiomas, un mismo espacio',
+    langTitle: 'Entra en el idioma que prefieras.',
+    langText: 'Las traducciones se publican progresivamente.',
+    newsletterTitle: 'Noticias, no ruido.',
+    newsletterText: 'Una carta ocasional sobre juegos, artículos y pruebas.',
+  },
+  de: {
+    title: 'Marxistische Spiele, ein engagiertes Studio, eine lebendige Community.',
+    intro:
+      'Wir entwickeln Spiele über Macht, Geschichte und Gesellschaft.\nWir schreiben über Marxismus und Videospiele.\nWir schaffen eine kritische, solidarische Community.',
+    gamesKicker: 'Unsere Versuchsfelder',
+    gamesTitle: 'Mit Geschichte spielen. Die Gegenwart denken.',
+    gamesText: 'Strategie, Erzählung und Forschung treffen in zugänglichen Projekten aufeinander.',
+    allGames: 'Alle Spiele entdecken',
+    commissionKicker: 'Ein Studio für deine Ideen',
+    commissionTitle: 'Dein Thema verdient mehr als ein Quiz.',
+    commissionText:
+      'Vereine, Gewerkschaften, Museen und Bildungsteams: Wir machen komplexe Fragen spielbar.',
+    commissionButton: 'Projekt besprechen',
+    articleKicker: 'Das offene Journal',
+    articleTitle: 'Entwicklung, Kritik, Geschichte.',
+    articleText: 'Wir dokumentieren Entscheidungen, teilen Werkzeuge und lesen Spiele politisch.',
+    allArticles: 'Alle Artikel',
+    langKicker: 'Mehrere Sprachen, ein Raum',
+    langTitle: 'Wähle die passende Sprache.',
+    langText: 'Übersetzungen erscheinen schrittweise.',
+    newsletterTitle: 'Neuigkeiten, kein Lärm.',
+    newsletterText: 'Ein gelegentlicher Brief über Spiele, Artikel und Tests.',
+  },
+}[locale];
+
+const serviceTitles =
+  locale === 'fr'
+    ? [
+        'Game design',
+        'Scénario & recherche',
+        'Prototype',
+        'Jeu pédagogique',
+        'Jeu militant',
+        'Accompagnement technique',
+      ]
+    : [
+        'Game design',
+        'Writing & research',
+        'Prototype',
+        'Educational game',
+        'Campaign game',
+        'Technical support',
+      ];
+const serviceDescriptions =
+  locale === 'fr'
+    ? [
+        'Transformer un objectif en règles lisibles et engageantes.',
+        'Documenter une époque, construire un récit et relire ses biais.',
+        'Tester vite la boucle centrale avant d’investir dans la production.',
+        'Faire manipuler un concept plutôt que le réciter.',
+        'Mettre l’action collective au cœur de l’expérience.',
+        'Choisir les bons outils et rendre votre équipe autonome.',
+      ]
+    : [
+        'Turn an objective into clear, engaging rules.',
+        'Research a period, build a narrative and examine its assumptions.',
+        'Test the central loop before full production.',
+        'Let players handle a concept rather than recite it.',
+        'Put collective action at the centre of the experience.',
+        'Choose the right tools and help your team become autonomous.',
+      ];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Marxists Games',
+  url: 'https://www.marxistsgames.org',
+  description: copy.intro.replaceAll('\n', ' '),
+};
+---
+
+<BaseLayout
+  title="Marxists Games"
+  description={copy.intro.replaceAll('\n', ' ')}
+  {locale}
+  image={brandBackground}
+  translationLinks={staticTranslations}
+  {structuredData}
+>
+  <Hero
+    title={copy.title}
+    intro={copy.intro}
+    image={brandBackground}
+    imageAlt="Personnage pixel art inspiré de Marx sautant au-dessus de livres et de plateformes"
+    caption="Marxists Games · Jeux, théorie et création"
+    primaryHref={`/${locale}/jeux/`}
+    primaryLabel={locale === 'fr' ? 'Découvrir nos jeux' : 'Discover our games'}
+    secondaryHref={`/${locale}/commander-un-jeu/`}
+    secondaryLabel={locale === 'fr' ? 'Commander un jeu' : 'Commission a game'}
+  />
+
+  <section class="section">
+    <div class="container">
+      <header class="section-heading">
+        <p class="section-kicker">{copy.gamesKicker}</p><h2>{copy.gamesTitle}</h2><p>
+          {copy.gamesText}
+        </p>
+      </header>
+      {
+        games.length > 0 ? (
+          <div class="grid-3">
+            {games.map((game) => (
+              <GameCard {game} {locale} />
+            ))}
+          </div>
+        ) : (
+          <p class="notice">Les traductions des autres jeux sont en préparation.</p>
+        )
+      }
+      <div class="section-cta">
+        <a class="button button--ghost" href={`/${locale}/jeux/`}>{copy.allGames} →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark commission">
+    <div class="container">
+      <header class="section-heading">
+        <p class="section-kicker">{copy.commissionKicker}</p><h2>{copy.commissionTitle}</h2><p>
+          {copy.commissionText}
+        </p>
+      </header>
+      <div class="grid-3">
+        {
+          serviceTitles.map((title, index) => (
+            <ServiceCard
+              number={`0${index + 1}`}
+              {title}
+              description={serviceDescriptions[index]}
+            />
+          ))
+        }
+      </div>
+      <a class="button button--cream commission__button" href={`/${locale}/commander-un-jeu/`}
+        >{copy.commissionButton} →</a
+      >
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <header class="section-heading">
+        <p class="section-kicker">{copy.articleKicker}</p><h2>{copy.articleTitle}</h2><p>
+          {copy.articleText}
+        </p>
+      </header>
+      {
+        articles.length > 0 ? (
+          <div class="grid-3">
+            {articles.map((article) => (
+              <ArticleCard {article} {locale} />
+            ))}
+          </div>
+        ) : (
+          <p class="notice">Les articles dans cette langue arrivent bientôt.</p>
+        )
+      }
+      <div class="section-cta">
+        <a class="button button--ghost" href={`/${locale}/articles/`}>{copy.allArticles} →</a>
+      </div>
+    </div>
+  </section>
+
+  <CommunitySection {locale} />
+
+  <section class="section language-band">
+    <div class="container language-band__grid">
+      <div>
+        <p class="section-kicker">{copy.langKicker}</p><h2>{copy.langTitle}</h2><p>
+          {copy.langText}
+        </p>
+      </div>
+      <nav aria-label="Langues disponibles">
+        <ul class="no-list">
+          {
+            locales.map((item, index) => (
+              <li>
+                <a href={`/${item}/`} hreflang={item}>
+                  <span>0{index + 1}</span>
+                  {localeNames[item]} <b aria-hidden="true">→</b>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <section class="section newsletter-band">
+    <div class="container newsletter-band__grid">
+      <div>
+        <p class="section-kicker">Newsletter</p><h2>{copy.newsletterTitle}</h2><p>
+          {copy.newsletterText}
+        </p>
+      </div><NewsletterForm {locale} compact />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .section-cta {
+    margin-top: var(--space-6);
+  }
+  .commission {
+    position: relative;
+    overflow: hidden;
+  }
+  .commission::after {
+    position: absolute;
+    right: -5rem;
+    bottom: -5rem;
+    width: 16rem;
+    height: 16rem;
+    border: 3rem solid var(--color-red);
+    border-radius: 50%;
+    content: '';
+    opacity: 0.35;
+  }
+  .commission__button {
+    position: relative;
+    z-index: 1;
+    margin-top: var(--space-6);
+  }
+  .language-band {
+    background: var(--color-cream);
+  }
+  .language-band__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .language-band__grid > div {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+  }
+  .language-band__grid > div > p:last-child {
+    max-width: 36rem;
+    color: var(--color-gray);
+    font-size: var(--step-1);
+  }
+  .language-band li {
+    border-top: 0.12rem solid var(--color-black);
+  }
+  .language-band li:last-child {
+    border-bottom: 0.12rem solid var(--color-black);
+  }
+  .language-band li a {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    gap: var(--space-3);
+    align-items: baseline;
+    padding-block: var(--space-3);
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .language-band li span {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+  .language-band li b {
+    color: var(--color-red);
+  }
+  .newsletter-band {
+    border-top: 0.12rem solid var(--color-black);
+  }
+  .newsletter-band__grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+  .newsletter-band__grid > div {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .newsletter-band__grid > div > p:last-child {
+    color: var(--color-gray);
+  }
+  @media (min-width: 54rem) {
+    .language-band__grid,
+    .newsletter-band__grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+  }
+</style>

@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales, type Locale } from '../../lib/i18n';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+const locale = Astro.params.locale as Locale;
+const fr = locale === 'fr';
+const title = fr ? 'Confidentialité' : 'Privacy';
+const description = fr
+  ? 'Comment Marxists Games traite les données transmises par ses formulaires.'
+  : 'How Marxists Games handles data submitted through its forms.';
+const translations = locales.map((item) => ({ locale: item, href: `/${item}/confidentialite/` }));
+---
+
+<BaseLayout {title} {description} {locale} translationLinks={translations}>
+  <header class="page-hero">
+    <div class="container page-hero__inner">
+      <p class="section-kicker">Données personnelles</p><h1>{title}</h1><p>{description}</p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="prose legal">
+      <p>
+        {
+          fr
+            ? 'Les informations envoyées via les formulaires de contact sont utilisées uniquement pour répondre à votre demande. La base juridique est votre consentement et, lorsqu’un projet est discuté, l’exécution de mesures précontractuelles.'
+            : 'Information sent through contact forms is used only to answer your request. The legal basis is consent and, when discussing a project, pre-contractual steps.'
+        }
+      </p><h2>{fr ? 'Données collectées' : 'Data collected'}</h2><p>
+        {
+          fr
+            ? 'Nom, organisation éventuelle, adresse e-mail et informations que vous choisissez de fournir sur votre projet. Le champ anti-spam et l’heure de début du formulaire servent uniquement à limiter les envois automatisés.'
+            : 'Name, optional organisation, email address and information you choose to provide about your project. The anti-spam field and form start time are used only to limit automated submissions.'
+        }
+      </p><h2>{fr ? 'Durée et destinataires' : 'Retention and recipients'}</h2><p>
+        {
+          fr
+            ? 'Une durée de conservation précise devra être validée avant la mise en ligne. Les données sont destinées uniquement à l’équipe autorisée de Marxists Games et au futur prestataire d’e-mail, encadré contractuellement.'
+            : 'A precise retention period must be approved before launch. Data is intended only for authorised Marxists Games team members and the future email provider under contract.'
+        }
+      </p><h2>{fr ? 'Vos droits' : 'Your rights'}</h2><p>
+        {
+          fr
+            ? 'Vous pouvez demander l’accès, la rectification ou la suppression de vos données, ainsi que retirer votre consentement, en écrivant à marxismepourdebutant@gmail.com.'
+            : 'You can request access, correction or deletion of your data, and withdraw consent, by writing to marxismepourdebutant@gmail.com.'
+        }
+      </p><div class="notice">
+        <strong>{fr ? 'À valider avant publication' : 'To approve before publication'}</strong><p>
+          {
+            fr
+              ? 'Responsable de traitement, durée de conservation, prestataire newsletter, transferts éventuels hors UE et coordonnées de l’autorité de contrôle.'
+              : 'Controller, retention period, newsletter provider, possible non-EU transfers and supervisory authority details.'
+          }
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding-inline: 1rem;
+    overflow-wrap: anywhere;
+  }
+  .legal .notice {
+    font-family: var(--font-sans);
+  }
+</style>

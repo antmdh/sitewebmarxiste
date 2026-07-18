@@ -1,0 +1,56 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import SeoHead from '../components/SeoHead.astro';
+import type { Locale } from '../lib/i18n';
+import { ui } from '../lib/i18n';
+import '../styles/global.css';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  image?: ImageMetadata;
+  type?: 'website' | 'article';
+  translationLinks?: { locale: Locale; href: string }[];
+  publishedAt?: Date;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { title, description, locale, image, type, translationLinks, publishedAt, structuredData } =
+  Astro.props;
+const t = ui[locale];
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#151515" />
+    <link rel="icon" href="/icon-marxists-games.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/icon-marxists-games.png" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Marxists Games — Articles FR"
+      href="/rss/fr.xml"
+    />
+    <SeoHead {title} {description} {locale} {image} {type} {translationLinks} {publishedAt} />
+    {
+      structuredData && (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+      )
+    }
+  </head>
+  <body>
+    <a class="skip-link" href="#contenu">{t.skip}</a>
+    <Header {locale} {translationLinks} />
+    <main id="contenu">
+      <slot />
+    </main>
+    <Footer {locale} />
+  </body>
+</html>

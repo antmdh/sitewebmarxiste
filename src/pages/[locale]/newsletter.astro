@@ -1,0 +1,87 @@
+---
+import NewsletterForm from '../../components/NewsletterForm.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales, type Locale } from '../../lib/i18n';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+const locale = Astro.params.locale as Locale;
+const fr = locale === 'fr';
+const title = 'Newsletter';
+const description = fr
+  ? 'Recevoir les nouvelles des jeux, des articles et des appels à test de Marxists Games.'
+  : 'Receive news about Marxists Games projects, articles and playtests.';
+const translations = locales.map((item) => ({ locale: item, href: `/${item}/newsletter/` }));
+---
+
+<BaseLayout {title} {description} {locale} translationLinks={translations}>
+  <section class="newsletter-page">
+    <div class="container newsletter-page__grid">
+      <div>
+        <p class="section-kicker">{fr ? 'La voie calme' : 'The quieter route'}</p><h1>
+          {fr ? 'Des nouvelles, pas du bruit.' : 'News, not noise.'}
+        </h1><p>{description}</p><ul>
+          <li>{fr ? 'Avancement des jeux' : 'Game development'}</li><li>
+            {fr ? 'Nouveaux articles' : 'New articles'}
+          </li><li>{fr ? 'Appels à test' : 'Playtest calls'}</li><li>
+            {fr ? 'Événements de la communauté' : 'Community events'}
+          </li>
+        </ul>
+      </div><div class="newsletter-page__form">
+        <h2>{fr ? 'S’inscrire' : 'Subscribe'}</h2><NewsletterForm {locale} /><p class="notice">
+          {
+            fr
+              ? 'Le prestataire d’envoi et la fréquence définitive restent à valider. Aucune adresse ne sera transmise à un tiers à des fins commerciales.'
+              : 'The sending provider and final frequency still need approval. Addresses will never be sold for commercial use.'
+          }
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .newsletter-page {
+    padding-block: var(--space-7);
+    min-height: 70vh;
+    background: var(--color-cream);
+  }
+  .newsletter-page__grid {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .newsletter-page__grid > div:first-child {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .newsletter-page__grid > div:first-child > p:not(.section-kicker) {
+    color: var(--color-gray);
+    font-size: var(--step-1);
+  }
+  .newsletter-page ul {
+    padding-left: 1.3rem;
+    font-weight: 800;
+  }
+  .newsletter-page__form {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    border: 0.12rem solid var(--color-black);
+    background: var(--color-paper);
+    box-shadow: var(--shadow-hard);
+  }
+  .newsletter-page__form h2 {
+    font-size: var(--step-2);
+  }
+  .newsletter-page__form .notice {
+    font-size: var(--step--1);
+  }
+  @media (min-width: 58rem) {
+    .newsletter-page__grid {
+      grid-template-columns: 1fr 0.9fr;
+    }
+  }
+</style>

@@ -1,0 +1,155 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { categoryLabels, localizedDate, type Locale } from '../../../lib/i18n';
+
+export const prerender = true;
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => !data.draft);
+  return articles.map((article) => ({
+    params: { locale: article.data.locale, slug: article.data.slug },
+    props: { article },
+  }));
+}
+const { article } = Astro.props;
+const locale = Astro.params.locale as Locale;
+const { Content } = await render(article);
+const allArticles = await getCollection('articles', ({ data }) => !data.draft);
+const translations = allArticles
+  .filter(({ data }) => data.translationKey === article.data.translationKey)
+  .map(({ data }) => ({ locale: data.locale, href: `/${data.locale}/articles/${data.slug}/` }));
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.data.title,
+  description: article.data.description,
+  datePublished: article.data.publishedAt.toISOString(),
+  dateModified: (article.data.updatedAt ?? article.data.publishedAt).toISOString(),
+  inLanguage: locale,
+  author: { '@type': 'Person', name: 'Antoine Moens' },
+  publisher: { '@type': 'Organization', name: 'Marxists Games' },
+  ...(article.data.heroImage
+    ? { image: new URL(article.data.heroImage.src, Astro.site).href }
+    : {}),
+};
+---
+
+<BaseLayout
+  title={article.data.title}
+  description={article.data.description}
+  {locale}
+  image={article.data.heroImage}
+  type="article"
+  publishedAt={article.data.publishedAt}
+  translationLinks={translations}
+  {structuredData}
+>
+  <Breadcrumbs
+    items={[
+      { label: locale === 'fr' ? 'Accueil' : 'Home', href: `/${locale}/` },
+      { label: 'Articles', href: `/${locale}/articles/` },
+      { label: article.data.title },
+    ]}
+  />
+  <article class="article">
+    <header class="article__header container">
+      <div class="article__meta">
+        <a class="tag" href={`/${locale}/articles/categories/${article.data.category}/`}
+          >{categoryLabels[locale][article.data.category]}</a
+        ><time datetime={article.data.publishedAt.toISOString()}
+          >{localizedDate(article.data.publishedAt, locale)}</time
+        ><span>{locale === 'fr' ? 'Par' : 'By'} Antoine Moens</span>
+      </div>
+      <h1>{article.data.title}</h1><p>{article.data.description}</p>
+    </header>
+    {
+      article.data.heroImage && (
+        <figure class="article__image container">
+          <>
+            <Image
+              src={article.data.heroImage}
+              alt={article.data.heroAlt ?? ''}
+              widths={[720, 1200, 1600]}
+              sizes="(min-width: 76rem) 76rem, 100vw"
+              format="webp"
+              loading="eager"
+            />
+            <figcaption>{article.data.heroAlt} · Visuel temporaire</figcaption>
+          </>
+        </figure>
+      )
+    }
+    <div class="article__body section"><div class="prose"><Content /></div></div>
+    <footer class="article__footer container">
+      <div>
+        <p class="eyebrow">
+          {locale === 'fr' ? 'Continuer la discussion' : 'Continue the discussion'}
+        </p><h2>{locale === 'fr' ? 'Une remarque ? Une source ?' : 'A comment? A source?'}</h2>
+      </div><a class="button" href="https://discord.gg/placeholder">Discord ↗</a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .article__header {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 62rem;
+    padding-block: var(--space-6);
+  }
+  .article__header > p {
+    max-width: 45rem;
+    color: var(--color-gray);
+    font-size: var(--step-1);
+  }
+  .article__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    color: var(--color-gray);
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .article__meta .tag {
+    color: var(--color-white);
+    text-decoration: none;
+  }
+  .article__image {
+    position: relative;
+  }
+  .article__image :global(img) {
+    width: 100%;
+    max-height: 43rem;
+    object-fit: cover;
+    border: 0.12rem solid var(--color-black);
+  }
+  .article__image figcaption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 0.4rem;
+    color: var(--color-paper);
+    background: var(--color-black);
+    font-size: 0.65rem;
+  }
+  .article__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-7);
+    padding: var(--space-5);
+    border: 0.12rem solid var(--color-black);
+    background: var(--color-cream);
+    box-shadow: var(--shadow-hard);
+  }
+  .article__footer h2 {
+    margin-top: var(--space-2);
+    font-size: var(--step-2);
+  }
+</style>

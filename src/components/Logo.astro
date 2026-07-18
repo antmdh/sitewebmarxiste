@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import icon from '../assets/images/marxists-games-icon.png';
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<a class="logo" href="/fr/" aria-label="Marxists Games — accueil">
+  <span class="logo__mark" aria-hidden="true">
+    <Image src={icon} alt="" width={50} height={65} format="png" loading="eager" />
+  </span>
+  <span class:list={['logo__type', { 'logo__type--compact': compact }]}>Marxists<br />Games</span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    gap: 0.65rem;
+    align-items: center;
+    line-height: 0.82;
+    text-decoration: none;
+  }
+
+  .logo__mark {
+    display: grid;
+    width: 2.5rem;
+    height: 3rem;
+    place-items: center;
+  }
+
+  .logo__mark :global(img) {
+    width: auto;
+    height: 100%;
+    image-rendering: pixelated;
+  }
+
+  .logo__type {
+    font-family: var(--font-display);
+    font-size: 1.08rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .logo__type--compact {
+    display: none;
+  }
+
+  @media (min-width: 26rem) {
+    .logo__type--compact {
+      display: inline;
+    }
+  }
+</style>

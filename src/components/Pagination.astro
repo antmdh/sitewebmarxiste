@@ -1,0 +1,42 @@
+---
+interface Props {
+  currentPage?: number;
+  totalPages?: number;
+  basePath: string;
+}
+
+const { currentPage = 1, totalPages = 1, basePath } = Astro.props;
+---
+
+{
+  totalPages > 1 && (
+    <nav class="pagination" aria-label="Pagination">
+      {currentPage > 1 && (
+        <a class="button button--ghost" href={`${basePath}${currentPage - 1}/`}>
+          ← Précédent
+        </a>
+      )}
+      <span>
+        Page {currentPage} / {totalPages}
+      </span>
+      {currentPage < totalPages && (
+        <a class="button button--ghost" href={`${basePath}${currentPage + 1}/`}>
+          Suivant →
+        </a>
+      )}
+    </nav>
+  )
+}
+
+<style>
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--space-6);
+    font-size: var(--step--1);
+    font-weight: 800;
+  }
+</style>

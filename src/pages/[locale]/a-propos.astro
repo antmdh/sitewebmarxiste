@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales, type Locale } from '../../lib/i18n';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+const locale = Astro.params.locale as Locale;
+const fr = locale === 'fr';
+const title = fr ? 'À propos' : 'About Marxists Games';
+const description = fr
+  ? 'Une association de développeur·ses, scénaristes, artistes et passionné·es qui créent des jeux à partir d’une lecture matérialiste de l’histoire.'
+  : 'An association of developers, writers, artists and players making games from a materialist reading of history.';
+const translations = locales.map((item) => ({ locale: item, href: `/${item}/a-propos/` }));
+---
+
+<BaseLayout {title} {description} {locale} translationLinks={translations}>
+  <header class="about-hero">
+    <div class="container">
+      <p class="section-kicker">Association · Studio · Revue</p><h1>
+        {
+          fr
+            ? 'Créer des jeux qui prennent les idées au sérieux.'
+            : 'Making games that take ideas seriously.'
+        }
+      </h1><p>{description}</p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="container about-grid">
+      <aside>
+        <p class="section-kicker">{fr ? 'Qui sommes-nous ?' : 'Who are we?'}</p><h2>
+          {fr ? 'Une pratique collective en construction.' : 'A collective practice in progress.'}
+        </h2>
+      </aside><div class="prose">
+        <p>
+          {
+            fr
+              ? 'Marxists Games réunit création, recherche historique et discussion politique. Nous partons d’une conviction simple : les classes sociales existent, leurs intérêts entrent en conflit, et le jeu peut rendre ces rapports sensibles sans sacrifier le plaisir de jouer.'
+              : 'Marxists Games brings together creation, historical research and political discussion. We begin from a simple premise: social classes exist, their interests conflict, and games can make these relations tangible without sacrificing play.'
+          }
+        </p><p>
+          {
+            fr
+              ? 'Le site devient notre atelier public. Il présente les jeux, documente leur fabrication, accueille des analyses et permet à des organisations de nous confier un projet sur mesure.'
+              : 'This site is our public workshop: a place for games, development notes, analysis and custom commissions.'
+          }
+        </p><div class="notice">
+          {
+            fr
+              ? 'La composition complète de l’association, ses statuts et ses partenaires restent à documenter avant la publication finale.'
+              : 'The full association team, statutes and partners still need to be documented before final publication.'
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="valeurs" class="section values section--dark">
+    <div class="container">
+      <header class="section-heading">
+        <p class="section-kicker">{fr ? 'Nos valeurs' : 'Our values'}</p><h2>
+          {fr ? 'Ce qui guide le travail.' : 'What guides the work.'}
+        </h2>
+      </header><div class="values__grid">
+        {
+          [
+            [
+              fr ? 'Matérialisme' : 'Materialism',
+              fr
+                ? 'Partir des rapports sociaux concrets, des ressources et des institutions.'
+                : 'Begin with concrete social relations, resources and institutions.',
+            ],
+            [
+              fr ? 'Accessibilité' : 'Accessibility',
+              fr
+                ? 'Rendre les systèmes lisibles et les contenus utilisables par le plus grand nombre.'
+                : 'Make systems understandable and content usable by as many people as possible.',
+            ],
+            [
+              fr ? 'Esprit critique' : 'Critical thinking',
+              fr
+                ? 'Documenter les sources, montrer les choix de conception et accepter la contradiction.'
+                : 'Document sources, expose design choices and welcome disagreement.',
+            ],
+            [
+              fr ? 'Solidarité' : 'Solidarity',
+              fr
+                ? 'Créer avec les personnes concernées et privilégier l’action collective.'
+                : 'Create with the people concerned and centre collective action.',
+            ],
+          ].map(([name, text], index) => (
+            <article>
+              <>
+                <span>0{index + 1}</span>
+                <h3>{name}</h3>
+                <p>{text}</p>
+              </>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container contact-callout">
+      <div>
+        <p class="section-kicker">{fr ? 'Travailler ensemble' : 'Work together'}</p><h2>
+          {fr ? 'Une idée, une source, un projet ?' : 'An idea, a source, a project?'}
+        </h2>
+      </div><div class="button-row">
+        <a class="button" href={`/${locale}/contact/`}>Contact →</a><a
+          class="button button--ghost"
+          href={`/${locale}/commander-un-jeu/`}>{fr ? 'Commander un jeu' : 'Commission a game'} →</a
+        >
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-hero {
+    padding-block: var(--space-7);
+    background: var(--color-cream);
+  }
+  .about-hero .container {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .about-hero h1 {
+    max-width: 15ch;
+  }
+  .about-hero .container > p:last-child {
+    max-width: 48rem;
+    color: var(--color-gray);
+    font-size: var(--step-1);
+  }
+  .about-grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .about-grid aside {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+  }
+  .values__grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .values__grid article {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border-top: 0.12rem solid var(--color-cream);
+  }
+  .values__grid span {
+    color: var(--color-red-bright);
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+  .values__grid p {
+    color: var(--color-paper-deep);
+  }
+  .contact-callout {
+    display: grid;
+    gap: var(--space-5);
+    align-items: center;
+    padding: var(--space-5);
+    border: 0.12rem solid var(--color-black);
+    background: var(--color-cream);
+    box-shadow: var(--shadow-hard);
+  }
+  .contact-callout > div:first-child {
+    display: grid;
+    gap: var(--space-3);
+  }
+  @media (min-width: 48rem) {
+    .values__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .contact-callout {
+      grid-template-columns: 1fr auto;
+    }
+  }
+  @media (min-width: 64rem) {
+    .about-grid {
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+  }
+</style>

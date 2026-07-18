@@ -1,0 +1,85 @@
+---
+import ContactForm from '../../components/ContactForm.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales, type Locale } from '../../lib/i18n';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+const locale = Astro.params.locale as Locale;
+const fr = locale === 'fr';
+const title = 'Contact';
+const description = fr
+  ? 'Contacter l’association Marxists Games pour une question, une proposition ou une collaboration.'
+  : 'Contact Marxists Games with a question, proposal or collaboration.';
+const translations = locales.map((item) => ({ locale: item, href: `/${item}/contact/` }));
+---
+
+<BaseLayout {title} {description} {locale} translationLinks={translations}>
+  <header class="page-hero">
+    <div class="container page-hero__inner">
+      <p class="section-kicker">{fr ? 'Une question ?' : 'A question?'}</p><h1>Contact</h1><p>
+        {description}
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="container contact-grid">
+      <aside>
+        <p class="section-kicker">Marxists Games</p><h2>
+          {fr ? 'Écrivez-nous.' : 'Write to us.'}
+        </h2><p>
+          {
+            fr
+              ? 'Pour un jeu sur mesure, utilisez de préférence le formulaire détaillé de la page Commander un jeu.'
+              : 'For a custom commission, please use the detailed form on the Commission a game page.'
+          }
+        </p><a href={`/${locale}/commander-un-jeu/`}
+          >{fr ? 'Présenter un projet' : 'Present a project'} →</a
+        ><div class="notice">
+          <strong>{fr ? 'Coordonnées à valider' : 'Contact details to validate'}</strong><p>
+            marxismepourdebutant@gmail.com
+          </p><p>
+            {
+              fr
+                ? 'Adresse postale de l’association à compléter.'
+                : 'Association postal address to be added.'
+            }
+          </p>
+        </div>
+      </aside><ContactForm {locale} variant="contact" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .contact-grid aside {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+  }
+  .contact-grid aside > p:not(.section-kicker) {
+    color: var(--color-gray);
+  }
+  .contact-grid aside > a {
+    color: var(--color-dark-red);
+    font-weight: 900;
+  }
+  .contact-grid .notice {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: var(--space-3);
+    font-size: var(--step--1);
+    overflow-wrap: anywhere;
+  }
+  @media (min-width: 64rem) {
+    .contact-grid {
+      grid-template-columns: 0.75fr 1.25fr;
+    }
+  }
+</style>

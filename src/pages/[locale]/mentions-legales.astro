@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales, type Locale } from '../../lib/i18n';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+const locale = Astro.params.locale as Locale;
+const fr = locale === 'fr';
+const title = fr ? 'Mentions légales' : 'Legal notice';
+const description = fr
+  ? 'Informations légales relatives au site Marxists Games.'
+  : 'Legal information for the Marxists Games website.';
+const translations = locales.map((item) => ({ locale: item, href: `/${item}/mentions-legales/` }));
+---
+
+<BaseLayout {title} {description} {locale} translationLinks={translations}>
+  <header class="page-hero">
+    <div class="container page-hero__inner">
+      <p class="section-kicker">Information</p><h1>{title}</h1><p>{description}</p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="prose legal">
+      <div class="notice">
+        <strong
+          >{
+            fr
+              ? 'Document à compléter avant mise en production.'
+              : 'Document to complete before production.'
+          }</strong
+        ><p>
+          {
+            fr
+              ? 'Le nom légal exact, le numéro d’entreprise, l’adresse du siège et le responsable de publication doivent être confirmés.'
+              : 'The exact legal name, registration number, registered address and publishing director must be confirmed.'
+          }
+        </p>
+      </div><h2>{fr ? 'Éditeur' : 'Publisher'}</h2><p>
+        Marxists Games — {fr ? 'association' : 'association'}<br />{
+          fr ? 'Adresse du siège : à compléter' : 'Registered address: to be added'
+        }<br />E-mail : marxismepourdebutant@gmail.com
+      </p><h2>{fr ? 'Hébergement' : 'Hosting'}</h2><p>
+        {
+          fr
+            ? 'Hébergement prévu sur Cloudflare Pages ou Cloudflare Workers. Les informations contractuelles de l’hébergeur seront ajoutées lors du déploiement.'
+            : 'Hosting is planned on Cloudflare Pages or Cloudflare Workers. Contractual hosting details will be added at deployment.'
+        }
+      </p><h2>{fr ? 'Propriété intellectuelle' : 'Intellectual property'}</h2><p>
+        {
+          fr
+            ? 'Sauf mention contraire, les textes, créations graphiques et éléments de jeu appartiennent à Marxists Games ou sont utilisés avec l’autorisation de leurs titulaires. Les crédits détaillés des œuvres historiques seront indiqués sur les contenus concernés.'
+            : 'Unless otherwise stated, texts, graphic creations and game materials belong to Marxists Games or are used with permission. Historical artwork credits will appear with the relevant content.'
+        }
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding-inline: 1rem;
+  }
+  .legal .notice {
+    font-family: var(--font-sans);
+  }
+</style>

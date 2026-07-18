@@ -1,0 +1,412 @@
+---
+import ContactForm from '../../components/ContactForm.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales, type Locale } from '../../lib/i18n';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+const locale = Astro.params.locale as Locale;
+const fr = locale === 'fr';
+const title = fr ? 'Commander un jeu' : 'Commission a game';
+const description = fr
+  ? 'Concevons un jeu sur mesure pour transmettre, former, mobiliser ou ouvrir un débat.'
+  : 'Let us create a custom game to teach, train, mobilise or open a debate.';
+const translations = locales.map((item) => ({ locale: item, href: `/${item}/commander-un-jeu/` }));
+const projectTypes = fr
+  ? [
+      [
+        'Jeu pédagogique',
+        'Faire expérimenter un système, une époque ou un choix plutôt que l’expliquer de manière abstraite.',
+      ],
+      [
+        'Jeu militant',
+        'Mobiliser autour d’une campagne, rendre visibles des rapports de force et faire place à l’action collective.',
+      ],
+      [
+        'Médiation culturelle',
+        'Créer une expérience pour un musée, une exposition, une archive ou un lieu de mémoire.',
+      ],
+      [
+        'Prototype sur mesure',
+        'Tester rapidement une idée de mécanique, de narration ou de dispositif public.',
+      ],
+    ]
+  : [
+      [
+        'Educational game',
+        'Let people experience a system, period or choice rather than explain it abstractly.',
+      ],
+      [
+        'Campaign game',
+        'Support a campaign and make collective action and power relations visible.',
+      ],
+      [
+        'Cultural mediation',
+        'Create an experience for a museum, exhibition, archive or memorial site.',
+      ],
+      [
+        'Custom prototype',
+        'Rapidly test an idea for a mechanic, narrative or public installation.',
+      ],
+    ];
+const steps = fr
+  ? [
+      [
+        'Cadrage',
+        'Nous clarifions le public, le message, les contraintes et ce que le jeu doit faire vivre.',
+      ],
+      [
+        'Recherche',
+        'Nous réunissons les sources, les personnes concernées et les contradictions à préserver.',
+      ],
+      [
+        'Prototype',
+        'Une boucle jouable arrive tôt pour tester l’idée centrale avant la production.',
+      ],
+      [
+        'Production',
+        'Design, écriture, intégration et tests avancent par cycles courts et documentés.',
+      ],
+      ['Livraison', 'Nous préparons le déploiement, la prise en main et les évolutions futures.'],
+    ]
+  : [
+      [
+        'Scoping',
+        'We clarify the audience, message, constraints and experience the game must create.',
+      ],
+      ['Research', 'We gather sources, stakeholders and the contradictions worth preserving.'],
+      ['Prototype', 'A playable loop arrives early to test the core idea before production.'],
+      [
+        'Production',
+        'Design, writing, integration and testing move forward in short documented cycles.',
+      ],
+      ['Delivery', 'We prepare deployment, handover and future development.'],
+    ];
+---
+
+<BaseLayout {title} {description} {locale} translationLinks={translations}>
+  <header class="commission-hero">
+    <div class="container commission-hero__grid">
+      <div>
+        <p class="section-kicker">Studio sur mesure</p><h1>{title}</h1><p>{description}</p><a
+          class="button button--cream"
+          href="#parler-projet">{fr ? 'Parler de votre projet' : 'Tell us about your project'} ↓</a
+        >
+      </div><aside>
+        <span>{fr ? 'Notre point de départ' : 'Our starting point'}</span><blockquote>
+          {
+            fr
+              ? 'Un bon jeu de commande ne plaque pas des points sur un contenu. Il trouve la règle qui rend votre question sensible.'
+              : 'A good commissioned game does not paste points onto content. It finds the rule that makes your question tangible.'
+          }
+        </blockquote>
+      </aside>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <header class="section-heading">
+        <p class="section-kicker">01 · {fr ? 'L’offre' : 'The offer'}</p><h2>
+          {fr ? 'Du premier atelier au jeu livré.' : 'From the first workshop to delivery.'}
+        </h2><p>
+          {
+            fr
+              ? 'Nous pouvons prendre en charge toute la production ou intervenir sur une étape précise : game design, scénario, recherche historique, prototypage ou accompagnement technique.'
+              : 'We can handle the full production or support one stage: game design, writing, historical research, prototyping or technical guidance.'
+          }
+        </p>
+      </header><div class="project-grid">
+        {
+          projectTypes.map(([name, text], index) => (
+            <article>
+              <>
+                <span>0{index + 1}</span>
+                <h3>{name}</h3>
+                <p>{text}</p>
+              </>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="methode" class="section section--dark">
+    <div class="container">
+      <header class="section-heading">
+        <p class="section-kicker">02 · {fr ? 'La méthode' : 'The method'}</p><h2>
+          {fr ? 'Rendre le complexe jouable.' : 'Make complexity playable.'}
+        </h2><p>
+          {
+            fr
+              ? 'Nous travaillons avec vos équipes et les publics concernés. Chaque étape produit un objet vérifiable : cadrage, corpus, prototype, tests, version livrée.'
+              : 'We work with your teams and stakeholders. Every stage produces something that can be reviewed and tested.'
+          }
+        </p>
+      </header><ol class="steps">
+        {
+          steps.map(([name, text], index) => (
+            <li>
+              <>
+                <span>0{index + 1}</span>
+                <div>
+                  <>
+                    <h3>{name}</h3>
+                    <p>{text}</p>
+                  </>
+                </div>
+              </>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <header class="section-heading">
+        <p class="section-kicker">03 · {fr ? 'Projets réalisés' : 'Selected work'}</p><h2>
+          {fr ? 'Des méthodes éprouvées sur nos propres jeux.' : 'Methods tested on our own games.'}
+        </h2>
+      </header><div class="grid-3">
+        <ServiceCard
+          number="A"
+          title="Russia 1917"
+          description={fr
+            ? 'Une carte stratégique reliée à 43 débats politiques documentés.'
+            : 'A strategic map linked to 43 documented political debates.'}
+        /><ServiceCard
+          number="B"
+          title={fr ? 'La vallée de Sing Sing' : 'Sing Sing Valley'}
+          description={fr
+            ? 'Une fiction pour faire apparaître les structures d’une guerre coloniale.'
+            : 'Fiction that reveals the structures of a colonial war.'}
+        /><ServiceCard
+          number="C"
+          title="Florida 1865"
+          description={fr
+            ? 'Un prototype sur la Reconstruction, la terre et le pouvoir politique.'
+            : 'A prototype about Reconstruction, land and political power.'}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq">
+    <div class="container faq__grid">
+      <header>
+        <p class="section-kicker">04 · FAQ</p><h2>
+          {fr ? 'Avant de commencer.' : 'Before we begin.'}
+        </h2>
+      </header><div>
+        {
+          [
+            [
+              fr ? 'Quel budget prévoir ?' : 'What budget should we plan?',
+              fr
+                ? 'Un prototype court et un jeu complet n’ont pas le même périmètre. Le formulaire propose des fourchettes ; le cadrage transforme ensuite le besoin en devis explicite.'
+                : 'A short prototype and a complete game have different scopes. We turn the brief into an explicit quote.',
+            ],
+            [
+              fr
+                ? 'Travaillez-vous avec une équipe interne ?'
+                : 'Can you work with an internal team?',
+              fr
+                ? 'Oui. Nous pouvons produire seuls, co-concevoir avec vos équipes ou transmettre une méthode et un prototype.'
+                : 'Yes. We can produce independently, co-design with your team, or hand over a method and prototype.',
+            ],
+            [
+              fr ? 'Peut-on commencer par un atelier ?' : 'Can we start with a workshop?',
+              fr
+                ? 'Oui. Un atelier de cadrage est souvent la meilleure manière de tester la pertinence d’un jeu avant de lancer la production.'
+                : 'Yes. A scoping workshop is often the best way to test whether a game is the right format.',
+            ],
+            [
+              fr ? 'Quelles plateformes ?' : 'Which platforms?',
+              fr
+                ? 'Web, ordinateur et mobile en priorité. Une installation ou un dispositif d’exposition peut être étudié selon le contexte.'
+                : 'Web, desktop and mobile first. Installations can be considered depending on context.',
+            ],
+          ].map(([question, answer]) => (
+            <details>
+              <>
+                <summary>{question}</summary>
+                <p>{answer}</p>
+              </>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="parler-projet" class="section project-form">
+    <div class="container project-form__grid">
+      <header>
+        <p class="section-kicker">05 · Contact</p><h2>
+          {fr ? 'Parlons de votre projet.' : 'Let’s discuss your project.'}
+        </h2><p>
+          {
+            fr
+              ? 'Même si tout n’est pas encore défini, décrivez le contexte et la décision que vous cherchez à éclairer. Nous répondrons avec les questions utiles.'
+              : 'Even if the brief is not final, tell us about the context and the decision you want to illuminate.'
+          }
+        </p>
+      </header><ContactForm {locale} />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .commission-hero {
+    padding-block: var(--space-7);
+    color: var(--color-paper);
+    background: var(--color-red);
+  }
+  .commission-hero__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .commission-hero__grid > div {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .commission-hero__grid > div > p:not(.section-kicker) {
+    max-width: 42rem;
+    color: var(--color-cream);
+    font-size: var(--step-1);
+  }
+  .commission-hero .button {
+    width: fit-content;
+  }
+  .commission-hero aside {
+    padding: var(--space-5);
+    color: var(--color-black);
+    background: var(--color-cream);
+    box-shadow: var(--shadow-hard);
+    rotate: -1deg;
+  }
+  .commission-hero aside span {
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .commission-hero blockquote {
+    margin-top: var(--space-3);
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    font-weight: 700;
+  }
+  .project-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .project-grid article {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: 0.12rem solid var(--color-black);
+  }
+  .project-grid article > span {
+    color: var(--color-red);
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+  .project-grid p {
+    color: var(--color-gray);
+  }
+  .steps {
+    max-width: 60rem;
+    padding: 0;
+    list-style: none;
+  }
+  .steps li {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: var(--space-3);
+    padding-block: var(--space-4);
+    border-top: 1px solid rgb(242 234 220 / 0.35);
+  }
+  .steps li > span {
+    color: var(--color-red-bright);
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+  .steps h3 {
+    font-size: var(--step-2);
+  }
+  .steps p {
+    margin-top: var(--space-2);
+    color: var(--color-paper-deep);
+  }
+  :global(.section:not(.section--dark) .service-card) {
+    border-color: var(--color-black);
+    color: var(--color-paper);
+    background: var(--color-charcoal);
+  }
+  .faq {
+    background: var(--color-cream);
+  }
+  .faq__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .faq details {
+    border-top: 0.12rem solid var(--color-black);
+  }
+  .faq details:last-child {
+    border-bottom: 0.12rem solid var(--color-black);
+  }
+  .faq summary {
+    padding-block: var(--space-3);
+    cursor: pointer;
+    font-weight: 900;
+  }
+  .faq details p {
+    max-width: 40rem;
+    padding-bottom: var(--space-4);
+    color: var(--color-gray);
+  }
+  .project-form {
+    border-top: 0.7rem solid var(--color-red);
+  }
+  .project-form__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .project-form header {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+  }
+  .project-form header > p:last-child {
+    color: var(--color-gray);
+    font-size: var(--step-1);
+  }
+  @media (min-width: 48rem) {
+    .project-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 64rem) {
+    .commission-hero__grid {
+      grid-template-columns: 1.25fr 0.75fr;
+      align-items: center;
+    }
+    .faq__grid,
+    .project-form__grid {
+      grid-template-columns: 0.7fr 1.3fr;
+    }
+    .faq__grid header,
+    .project-form header {
+      position: sticky;
+      top: var(--space-4);
+    }
+  }
+</style>

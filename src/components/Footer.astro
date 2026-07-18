@@ -1,0 +1,161 @@
+---
+import type { Locale } from '../lib/i18n';
+import Logo from './Logo.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const columns = [
+  {
+    title: locale === 'fr' ? 'Jeux' : 'Games',
+    links: [
+      ['Russia 1917', `/${locale}/jeux/russia-1917/`],
+      [locale === 'en' ? 'Sing Sing Valley' : 'La vallée de Sing Sing', `/${locale}/jeux/`],
+      [locale === 'fr' ? 'Tous les jeux' : 'All games', `/${locale}/jeux/`],
+    ],
+  },
+  {
+    title: locale === 'fr' ? 'Studio' : 'Studio',
+    links: [
+      [locale === 'fr' ? 'Commandes' : 'Commissions', `/${locale}/commander-un-jeu/`],
+      [locale === 'fr' ? 'Méthode' : 'Method', `/${locale}/commander-un-jeu/#methode`],
+      ['Contact', `/${locale}/contact/`],
+    ],
+  },
+  {
+    title: locale === 'fr' ? 'Articles' : 'Articles',
+    links: [
+      [
+        locale === 'fr' ? 'Journaux de développement' : 'Development journals',
+        `/${locale}/articles/categories/devlog/`,
+      ],
+      [
+        locale === 'fr' ? 'Jeux marxistes' : 'Marxist games',
+        `/${locale}/articles/categories/marxist-games/`,
+      ],
+      [locale === 'fr' ? 'Réflexions' : 'Essays', `/${locale}/articles/categories/marxism-games/`],
+    ],
+  },
+  {
+    title: locale === 'fr' ? 'Communauté' : 'Community',
+    links: [
+      ['Discord', 'https://discord.gg/placeholder'],
+      ['Newsletter', `/${locale}/newsletter/`],
+      [locale === 'fr' ? 'Ressources' : 'Resources', `/${locale}/communaute/`],
+    ],
+  },
+  {
+    title: locale === 'fr' ? 'À propos' : 'About',
+    links: [
+      [locale === 'fr' ? 'Qui sommes-nous ?' : 'Who we are', `/${locale}/a-propos/`],
+      [locale === 'fr' ? 'Valeurs' : 'Values', `/${locale}/a-propos/#valeurs`],
+      [locale === 'fr' ? 'Mentions légales' : 'Legal notice', `/${locale}/mentions-legales/`],
+      [locale === 'fr' ? 'Confidentialité' : 'Privacy', `/${locale}/confidentialite/`],
+    ],
+  },
+];
+---
+
+<footer class="site-footer">
+  <div class="site-footer__top container">
+    <div class="site-footer__manifesto">
+      <Logo />
+      <p>Jeux · Histoire · Politique · Création collective</p>
+    </div>
+    <div class="site-footer__columns">
+      {
+        columns.map((column) => (
+          <section>
+            <h2>{column.title}</h2>
+            <ul class="no-list">
+              {column.links.map(([label, href]) => (
+                <li>
+                  <a href={href}>{label}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+  <div class="site-footer__bottom container">
+    <p>© {new Date().getFullYear()} Marxists Games · Association</p>
+    <a href="/fr/">Français langue principale</a>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-top: var(--space-7);
+    color: var(--color-paper);
+    background: var(--color-black);
+  }
+
+  .site-footer__top {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .site-footer__manifesto {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+  }
+
+  .site-footer__manifesto p {
+    max-width: 18rem;
+    color: var(--color-paper-deep);
+    font-size: var(--step--1);
+    font-weight: 750;
+    text-transform: uppercase;
+  }
+
+  .site-footer__columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5) var(--space-4);
+  }
+
+  .site-footer h2 {
+    margin-bottom: var(--space-3);
+    color: var(--color-red-bright);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.13em;
+  }
+
+  .site-footer li + li {
+    margin-top: 0.55rem;
+  }
+
+  .site-footer a {
+    color: inherit;
+    font-size: var(--step--1);
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: space-between;
+    margin-top: var(--space-6);
+    padding-block: var(--space-4);
+    border-top: 1px solid rgb(242 234 220 / 0.25);
+    color: var(--color-paper-deep);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 50rem) {
+    .site-footer__top {
+      grid-template-columns: 0.8fr 2fr;
+    }
+
+    .site-footer__columns {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+</style>

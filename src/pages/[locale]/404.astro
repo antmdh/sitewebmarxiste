@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales, type Locale } from '../../lib/i18n';
+export const prerender = true;
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+const locale = Astro.params.locale as Locale;
+const fr = locale === 'fr';
+---
+
+<BaseLayout title={fr ? 'Page introuvable' : 'Page not found'} description="Erreur 404" {locale}>
+  <section class="not-found">
+    <div class="container">
+      <span>404</span><p class="section-kicker">
+        {fr ? 'Le chemin s’arrête ici' : 'The path ends here'}
+      </p><h1>{fr ? 'Page introuvable.' : 'Page not found.'}</h1><p>
+        {
+          fr
+            ? 'Cette page a été déplacée, traduite ailleurs ou n’existe pas encore.'
+            : 'This page has moved, exists in another language or is not published yet.'
+        }
+      </p><div class="button-row">
+        <a class="button" href={`/${locale}/`}>{fr ? 'Retour à l’accueil' : 'Back home'}</a><a
+          class="button button--ghost"
+          href={`/${locale}/articles/`}>Articles</a
+        >
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .not-found {
+    position: relative;
+    min-height: 70vh;
+    padding-block: var(--space-7);
+    overflow: hidden;
+  }
+  .not-found .container {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--space-4);
+  }
+  .not-found .container > span {
+    position: absolute;
+    z-index: -1;
+    top: -6rem;
+    right: -2rem;
+    color: var(--color-cream);
+    font-family: var(--font-display);
+    font-size: clamp(12rem, 40vw, 30rem);
+    line-height: 1;
+  }
+  .not-found .container > p:not(.section-kicker) {
+    max-width: 35rem;
+    color: var(--color-gray);
+    font-size: var(--step-1);
+  }
+</style>

@@ -1,0 +1,114 @@
+---
+import type { Locale } from '../lib/i18n';
+import { locales, ui } from '../lib/i18n';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import Logo from './Logo.astro';
+import MobileMenu from './MobileMenu.astro';
+
+interface Props {
+  locale: Locale;
+  translationLinks?: { locale: Locale; href: string }[];
+}
+
+const { locale, translationLinks = locales.map((item) => ({ locale: item, href: `/${item}/` })) } =
+  Astro.props;
+const t = ui[locale];
+---
+
+<header class="site-header">
+  <div class="site-header__inner container">
+    <Logo compact />
+    <nav class="desktop-nav" aria-label="Navigation principale">
+      <ul class="no-list">
+        {
+          t.nav.map((label, index) => (
+            <li>
+              <a href={`/${locale}/${t.paths[index]}/`}>{label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="site-header__actions">
+      <a class="newsletter-link" href={`/${locale}/newsletter/`}>{t.newsletter}</a>
+      <a class="discord-link" href="https://discord.gg/placeholder" rel="external">{t.discord} ↗</a>
+      <LanguageSwitcher currentLocale={locale} links={translationLinks} />
+      <MobileMenu locale={locale} />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 50;
+    border-bottom: 0.12rem solid var(--color-black);
+    color: var(--color-black);
+    background: rgb(250 246 237 / 0.96);
+  }
+
+  .site-header__inner {
+    display: flex;
+    min-height: var(--header-height);
+    gap: var(--space-3);
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .desktop-nav,
+  .newsletter-link,
+  .discord-link {
+    display: none;
+  }
+
+  .site-header__actions {
+    display: flex;
+    gap: 0.55rem;
+    align-items: center;
+  }
+
+  @media (min-width: 62rem) {
+    .desktop-nav {
+      display: block;
+      margin-inline: auto;
+    }
+
+    .desktop-nav ul {
+      display: flex;
+      gap: clamp(0.8rem, 1.6vw, 1.7rem);
+    }
+
+    .desktop-nav a,
+    .newsletter-link,
+    .discord-link {
+      font-size: clamp(0.72rem, 0.68rem + 0.12vw, 0.82rem);
+      font-weight: 850;
+      letter-spacing: 0.025em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .desktop-nav a {
+      display: block;
+      padding-block: 1rem;
+    }
+
+    .desktop-nav a:hover {
+      color: var(--color-red);
+    }
+
+    .newsletter-link,
+    .discord-link {
+      display: inline-flex;
+      min-height: 2.6rem;
+      align-items: center;
+      padding-inline: 0.75rem;
+      border: 0.1rem solid var(--color-black);
+    }
+
+    .discord-link {
+      color: var(--color-white);
+      background: var(--color-black);
+    }
+  }
+</style>

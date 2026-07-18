@@ -1,0 +1,96 @@
+---
+import { localeNames, type Locale } from '../lib/i18n';
+
+interface Link {
+  locale: Locale;
+  href: string;
+}
+
+interface Props {
+  currentLocale: Locale;
+  links?: Link[];
+}
+
+const { currentLocale, links = [] } = Astro.props;
+const available = new Map(links.map((link) => [link.locale, link.href]));
+---
+
+<div class="language-switcher" aria-label="Langues">
+  <span class="language-switcher__label" aria-hidden="true">{currentLocale.toUpperCase()}</span>
+  <ul class="language-switcher__list no-list">
+    {
+      Object.entries(localeNames).map(([locale, name]) => {
+        const href = available.get(locale as Locale);
+        const isCurrent = locale === currentLocale;
+        return (
+          <li>
+            {href || isCurrent ? (
+              <a
+                href={href ?? Astro.url.pathname}
+                hreflang={locale}
+                aria-current={isCurrent ? 'page' : undefined}
+              >
+                {name}
+              </a>
+            ) : (
+              <a
+                href={`/${locale}/`}
+                hreflang={locale}
+                title="Traduction indisponible — retour à l’accueil"
+              >
+                {name} <span aria-hidden="true">↗</span>
+              </a>
+            )}
+          </li>
+        );
+      })
+    }
+  </ul>
+</div>
+
+<style>
+  .language-switcher {
+    position: relative;
+  }
+
+  .language-switcher__label {
+    display: grid;
+    width: 2.6rem;
+    height: 2.6rem;
+    place-items: center;
+    border: 0.12rem solid currentColor;
+    font-size: 0.74rem;
+    font-weight: 900;
+  }
+
+  .language-switcher__list {
+    position: absolute;
+    z-index: 20;
+    top: 100%;
+    right: 0;
+    display: none;
+    width: 12rem;
+    padding: 0.4rem;
+    border: 0.12rem solid var(--color-black);
+    color: var(--color-black);
+    background: var(--color-paper);
+    box-shadow: var(--shadow-hard);
+  }
+
+  .language-switcher:hover .language-switcher__list,
+  .language-switcher:focus-within .language-switcher__list {
+    display: grid;
+  }
+
+  .language-switcher a {
+    display: block;
+    padding: 0.6rem;
+    font-size: var(--step--1);
+    font-weight: 750;
+  }
+
+  .language-switcher a[aria-current='page'] {
+    color: var(--color-white);
+    background: var(--color-red);
+  }
+</style>

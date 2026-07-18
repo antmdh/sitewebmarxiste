@@ -1,0 +1,135 @@
+---
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  compact?: boolean;
+}
+
+const { locale, compact = false } = Astro.props;
+const labels = {
+  fr: {
+    email: 'Votre adresse e-mail',
+    button: 'S’inscrire',
+    consent: 'J’accepte de recevoir les nouvelles de Marxists Games.',
+    status: 'Le service d’envoi sera connecté avant la mise en ligne.',
+  },
+  en: {
+    email: 'Your email address',
+    button: 'Subscribe',
+    consent: 'I agree to receive news from Marxists Games.',
+    status: 'The sending service will be connected before launch.',
+  },
+  es: {
+    email: 'Tu correo electrónico',
+    button: 'Suscribirse',
+    consent: 'Acepto recibir noticias de Marxists Games.',
+    status: 'El servicio de envío se conectará antes del lanzamiento.',
+  },
+  de: {
+    email: 'Deine E-Mail-Adresse',
+    button: 'Anmelden',
+    consent: 'Ich möchte Neuigkeiten von Marxists Games erhalten.',
+    status: 'Der Versanddienst wird vor dem Start angeschlossen.',
+  },
+}[locale];
+---
+
+<form
+  class:list={['newsletter-form', { 'newsletter-form--compact': compact }]}
+  action="/api/newsletter"
+  method="post"
+>
+  <div class="newsletter-form__field">
+    <label for={`newsletter-email-${compact ? 'compact' : 'full'}`}>{labels.email}</label>
+    <input
+      id={`newsletter-email-${compact ? 'compact' : 'full'}`}
+      name="email"
+      type="email"
+      autocomplete="email"
+      required
+      placeholder="vous@exemple.org"
+    />
+  </div>
+  <label class="newsletter-form__consent">
+    <input type="checkbox" name="consent" value="yes" required />
+    <span>{labels.consent}</span>
+  </label>
+  <input
+    class="honeypot"
+    type="text"
+    name="website"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+  />
+  <input type="hidden" name="locale" value={locale} />
+  <button class="button" type="submit">{labels.button}</button>
+  <p class="newsletter-form__status">{labels.status}</p>
+</form>
+
+<style>
+  .newsletter-form {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 40rem;
+  }
+
+  .newsletter-form__field {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .newsletter-form label {
+    font-size: var(--step--1);
+    font-weight: 800;
+  }
+
+  .newsletter-form input[type='email'] {
+    min-height: 3.3rem;
+    width: 100%;
+    padding: 0.7rem 0.8rem;
+    border: 0.13rem solid var(--color-black);
+    border-radius: 0;
+    color: var(--color-black);
+    background: var(--color-white);
+  }
+
+  .newsletter-form__consent {
+    display: flex;
+    gap: var(--space-2);
+    align-items: flex-start;
+  }
+
+  .newsletter-form__consent input {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: 0.2rem;
+    accent-color: var(--color-red);
+  }
+
+  .newsletter-form .button {
+    width: fit-content;
+  }
+
+  .newsletter-form__status {
+    color: var(--color-gray);
+    font-size: 0.76rem;
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -10000px;
+  }
+
+  @media (min-width: 40rem) {
+    .newsletter-form--compact {
+      grid-template-columns: 1fr auto;
+    }
+
+    .newsletter-form--compact .newsletter-form__consent,
+    .newsletter-form--compact .newsletter-form__status {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
