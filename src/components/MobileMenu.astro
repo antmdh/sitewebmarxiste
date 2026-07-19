@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '../lib/i18n';
 import { ui } from '../lib/i18n';
+import PixelIcon from './PixelIcon.astro';
 
 interface Props {
   locale: Locale;
@@ -8,6 +9,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = ui[locale];
+const navIcons = ['gamepad', 'gear', 'article', 'community', 'info'] as const;
 ---
 
 <details class="mobile-menu">
@@ -20,7 +22,10 @@ const t = ui[locale];
       {
         t.nav.map((label, index) => (
           <li>
-            <a href={`/${locale}/${t.paths[index]}/`}>{label}</a>
+            <a href={`/${locale}/${t.paths[index]}/`}>
+              <PixelIcon name={navIcons[index]} size={22} />
+              <span>{label}</span>
+            </a>
           </li>
         ))
       }
@@ -39,8 +44,11 @@ const t = ui[locale];
     gap: 0.55rem;
     align-items: center;
     padding: 0.4rem 0.6rem;
-    border: 0.12rem solid currentColor;
+    border: 0.16rem solid currentColor;
+    background: var(--color-cream);
+    box-shadow: 0.15rem 0.15rem 0 var(--color-dark-red);
     cursor: pointer;
+    font-family: var(--font-pixel);
     font-size: 0.76rem;
     font-weight: 900;
     list-style: none;
@@ -97,10 +105,14 @@ const t = ui[locale];
     right: 0;
     left: 0;
     padding: var(--space-4) 1rem var(--space-5);
-    border-bottom: 0.15rem solid var(--color-black);
+    border-bottom: 0.28rem solid var(--color-black);
     color: var(--color-black);
-    background: var(--color-paper);
-    box-shadow: var(--shadow-soft);
+    background-color: var(--color-paper);
+    background-image:
+      linear-gradient(90deg, rgb(184 52 30 / 0.05) 1px, transparent 1px),
+      linear-gradient(rgb(184 52 30 / 0.05) 1px, transparent 1px);
+    background-size: 5px 5px;
+    box-shadow: 0 0.4rem 0 var(--color-dark-red);
   }
 
   .mobile-menu li + li {
@@ -108,13 +120,19 @@ const t = ui[locale];
   }
 
   .mobile-menu li a {
-    display: block;
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
     padding: 0.8rem 0;
     font-family: var(--font-display);
     font-size: var(--step-2);
     line-height: 1;
     text-decoration: none;
     text-transform: uppercase;
+  }
+
+  .mobile-menu li a :global(.pixel-icon) {
+    color: var(--color-red);
   }
 
   .mobile-menu__actions {
@@ -124,6 +142,7 @@ const t = ui[locale];
   }
 
   .mobile-menu__actions a {
+    font-family: var(--font-pixel);
     font-size: var(--step--1);
     font-weight: 850;
   }

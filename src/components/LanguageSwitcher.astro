@@ -58,7 +58,10 @@ const available = new Map(links.map((link) => [link.locale, link.href]));
     width: 2.6rem;
     height: 2.6rem;
     place-items: center;
-    border: 0.12rem solid currentColor;
+    border: 0.16rem solid currentColor;
+    background: var(--color-cream);
+    box-shadow: 0.15rem 0.15rem 0 var(--color-dark-red);
+    font-family: var(--font-pixel);
     font-size: 0.74rem;
     font-weight: 900;
   }
@@ -71,9 +74,11 @@ const available = new Map(links.map((link) => [link.locale, link.href]));
     display: none;
     width: 12rem;
     padding: 0.4rem;
-    border: 0.12rem solid var(--color-black);
+    border: 0.19rem solid var(--color-black);
     color: var(--color-black);
-    background: var(--color-paper);
+    background-color: var(--color-paper);
+    background-image: linear-gradient(90deg, rgb(184 52 30 / 0.05) 1px, transparent 1px);
+    background-size: 5px 5px;
     box-shadow: var(--shadow-hard);
   }
 
@@ -85,6 +90,7 @@ const available = new Map(links.map((link) => [link.locale, link.href]));
   .language-switcher a {
     display: block;
     padding: 0.6rem;
+    font-family: var(--font-pixel);
     font-size: var(--step--1);
     font-weight: 750;
   }

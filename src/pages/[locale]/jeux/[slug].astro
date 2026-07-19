@@ -230,6 +230,7 @@ const structuredData = {
   .game-hero .button--ghost {
     border-color: var(--color-cream);
     color: var(--color-cream);
+    background: transparent;
   }
   .game-hero figure {
     position: relative;
@@ -241,6 +242,9 @@ const structuredData = {
     height: 100%;
     min-height: 22rem;
     object-fit: cover;
+    border-inline: 0.22rem solid var(--color-black);
+    filter: contrast(1.06) saturate(0.88);
+    image-rendering: pixelated;
   }
   .game-hero figcaption {
     position: absolute;
@@ -288,7 +292,9 @@ const structuredData = {
   }
   .gallery__grid :global(img) {
     width: 100%;
-    border: 0.12rem solid var(--color-cream);
+    border: 0.22rem solid var(--color-cream);
+    box-shadow: 0.35rem 0.35rem 0 var(--color-red);
+    image-rendering: pixelated;
   }
   .gallery figcaption {
     padding-top: var(--space-2);
@@ -302,6 +308,7 @@ const structuredData = {
   .game-cta .button--ghost {
     border-color: var(--color-cream);
     color: var(--color-cream);
+    background: transparent;
   }
   @media (min-width: 44rem) {
     .game-facts__grid {

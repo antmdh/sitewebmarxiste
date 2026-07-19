@@ -5,6 +5,7 @@ import CommunitySection from '../../components/CommunitySection.astro';
 import GameCard from '../../components/GameCard.astro';
 import Hero from '../../components/Hero.astro';
 import NewsletterForm from '../../components/NewsletterForm.astro';
+import PixelIcon from '../../components/PixelIcon.astro';
 import ServiceCard from '../../components/ServiceCard.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { locales, localeNames, type Locale } from '../../lib/i18n';
@@ -29,6 +30,7 @@ const staticTranslations = locales.map((item) => ({ locale: item, href: `/${item
 
 const copy = {
   fr: {
+    eyebrow: 'Marxists Games · Association · Studio Indépendant',
     title: 'Des jeux marxistes, un studio engagé, une communauté vivante.',
     intro:
       'Nous créons des jeux qui interrogent le pouvoir, l’histoire et la société.\nNous écrivons sur le marxisme et le jeu vidéo.\nNous rassemblons une communauté critique et solidaire.',
@@ -56,6 +58,7 @@ const copy = {
       'Une lettre occasionnelle sur les jeux, les nouveaux articles et les appels à test.',
   },
   en: {
+    eyebrow: 'Marxists Games · Association · Independent Studio',
     title: 'Marxist games, a committed studio, a living community.',
     intro:
       'We make games that question power, history and society.\nWe write about Marxism and video games.\nWe bring together a critical, supportive community.',
@@ -81,6 +84,7 @@ const copy = {
     newsletterText: 'An occasional letter about games, new articles and playtests.',
   },
   es: {
+    eyebrow: 'Marxists Games · Asociación · Estudio Independiente',
     title: 'Juegos marxistas, un estudio comprometido, una comunidad viva.',
     intro:
       'Creamos juegos que cuestionan el poder, la historia y la sociedad.\nEscribimos sobre marxismo y videojuegos.\nReunimos una comunidad crítica y solidaria.',
@@ -106,6 +110,7 @@ const copy = {
     newsletterText: 'Una carta ocasional sobre juegos, artículos y pruebas.',
   },
   de: {
+    eyebrow: 'Marxists Games · Verein · Unabhängiges Studio',
     title: 'Marxistische Spiele, ein engagiertes Studio, eine lebendige Community.',
     intro:
       'Wir entwickeln Spiele über Macht, Geschichte und Gesellschaft.\nWir schreiben über Marxismus und Videospiele.\nWir schaffen eine kritische, solidarische Community.',
@@ -167,6 +172,8 @@ const serviceDescriptions =
         'Choose the right tools and help your team become autonomous.',
       ];
 
+const serviceIcons = ['gamepad', 'quill', 'tools', 'book', 'community', 'gear'] as const;
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -185,6 +192,7 @@ const structuredData = {
   {structuredData}
 >
   <Hero
+    eyebrow={copy.eyebrow}
     title={copy.title}
     intro={copy.intro}
     image={brandBackground}
@@ -215,7 +223,10 @@ const structuredData = {
         )
       }
       <div class="section-cta">
-        <a class="button button--ghost" href={`/${locale}/jeux/`}>{copy.allGames} →</a>
+        <a class="button button--ghost" href={`/${locale}/jeux/`}>
+          {copy.allGames}
+          <PixelIcon name="arrow" size={17} />
+        </a>
       </div>
     </div>
   </section>
@@ -232,6 +243,7 @@ const structuredData = {
           serviceTitles.map((title, index) => (
             <ServiceCard
               number={`0${index + 1}`}
+              icon={serviceIcons[index]}
               {title}
               description={serviceDescriptions[index]}
             />
@@ -239,7 +251,7 @@ const structuredData = {
         }
       </div>
       <a class="button button--cream commission__button" href={`/${locale}/commander-un-jeu/`}
-        >{copy.commissionButton} →</a
+        >{copy.commissionButton}<PixelIcon name="arrow" size={17} /></a
       >
     </div>
   </section>
@@ -263,7 +275,10 @@ const structuredData = {
         )
       }
       <div class="section-cta">
-        <a class="button button--ghost" href={`/${locale}/articles/`}>{copy.allArticles} →</a>
+        <a class="button button--ghost" href={`/${locale}/articles/`}>
+          {copy.allArticles}
+          <PixelIcon name="arrow" size={17} />
+        </a>
       </div>
     </div>
   </section>
@@ -283,8 +298,9 @@ const structuredData = {
             locales.map((item, index) => (
               <li>
                 <a href={`/${item}/`} hreflang={item}>
+                  <PixelIcon name="globe" size={24} />
                   <span>0{index + 1}</span>
-                  {localeNames[item]} <b aria-hidden="true">→</b>
+                  {localeNames[item]} <PixelIcon name="arrow" size={16} />
                 </a>
               </li>
             ))
@@ -312,17 +328,37 @@ const structuredData = {
   .commission {
     position: relative;
     overflow: hidden;
+    color: var(--color-black);
+    background-color: var(--color-paper);
+    background-image: var(--texture-staggered-mosaic);
+    background-size: var(--texture-mosaic-size);
+    background-position: 0 0;
+    box-shadow: inset 0 0.35rem 0 var(--color-red);
   }
   .commission::after {
     position: absolute;
-    right: -5rem;
-    bottom: -5rem;
-    width: 16rem;
-    height: 16rem;
-    border: 3rem solid var(--color-red);
-    border-radius: 50%;
+    right: 0;
+    bottom: 0;
+    width: clamp(7rem, 18vw, 15rem);
+    height: clamp(3rem, 9vw, 7rem);
+    background: var(--color-red);
     content: '';
-    opacity: 0.35;
+    clip-path: polygon(35% 0, 100% 0, 100% 100%, 0 100%, 0 70%, 15% 70%, 15% 40%, 35% 40%);
+    opacity: 0.3;
+  }
+  .commission :global(.section-kicker),
+  .commission :global(.section-heading p),
+  .commission :global(.service-card p) {
+    color: var(--color-gray);
+  }
+  .commission :global(.service-card) {
+    border-color: var(--color-black);
+    color: var(--color-black);
+    background: var(--color-paper);
+    box-shadow: 0.28rem 0.28rem 0 var(--color-red);
+  }
+  .commission :global(.service-card > span) {
+    color: var(--color-white);
   }
   .commission__button {
     position: relative;
@@ -330,7 +366,10 @@ const structuredData = {
     margin-top: var(--space-6);
   }
   .language-band {
-    background: var(--color-cream);
+    background-color: var(--color-cream);
+    background-image: var(--texture-staggered-mosaic);
+    background-size: var(--texture-mosaic-size);
+    background-position: 0 0;
   }
   .language-band__grid {
     display: grid;
@@ -346,18 +385,21 @@ const structuredData = {
     color: var(--color-gray);
     font-size: var(--step-1);
   }
-  .language-band li {
-    border-top: 0.12rem solid var(--color-black);
+  .language-band ul {
+    display: grid;
+    gap: var(--space-3);
   }
-  .language-band li:last-child {
-    border-bottom: 0.12rem solid var(--color-black);
+  .language-band li {
+    border: 0.16rem solid var(--color-black);
+    background: var(--color-paper);
+    box-shadow: 0.2rem 0.2rem 0 var(--color-dark-red);
   }
   .language-band li a {
     display: grid;
-    grid-template-columns: 2.5rem 1fr auto;
+    grid-template-columns: 1.5rem 2.5rem 1fr auto;
     gap: var(--space-3);
     align-items: baseline;
-    padding-block: var(--space-3);
+    padding: var(--space-3);
     font-family: var(--font-display);
     font-size: var(--step-2);
     line-height: 1;
@@ -369,11 +411,12 @@ const structuredData = {
     font-size: 0.7rem;
     font-weight: 900;
   }
-  .language-band li b {
+  .language-band li :global(.pixel-icon:last-child) {
     color: var(--color-red);
   }
   .newsletter-band {
-    border-top: 0.12rem solid var(--color-black);
+    border-top: 0.35rem solid var(--color-black);
+    box-shadow: inset 0 0.3rem 0 var(--color-red);
   }
   .newsletter-band__grid {
     display: grid;
@@ -391,6 +434,9 @@ const structuredData = {
     .newsletter-band__grid {
       grid-template-columns: 1fr 1fr;
       align-items: center;
+    }
+    .language-band ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>

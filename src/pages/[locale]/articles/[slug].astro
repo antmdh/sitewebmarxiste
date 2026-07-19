@@ -125,7 +125,10 @@ const structuredData = {
     width: 100%;
     max-height: 43rem;
     object-fit: cover;
-    border: 0.12rem solid var(--color-black);
+    border: var(--pixel-border);
+    box-shadow: var(--shadow-hard);
+    filter: contrast(1.06) saturate(0.86);
+    image-rendering: pixelated;
   }
   .article__image figcaption {
     position: absolute;

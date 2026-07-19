@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import type { Locale } from '../lib/i18n';
 import { ui } from '../lib/i18n';
+import PixelIcon from './PixelIcon.astro';
 
 interface Props {
   game: CollectionEntry<'games'>;
@@ -14,11 +15,11 @@ const t = ui[locale];
 ---
 
 <article class="game-card card">
-  <div class="game-card__image">
+  <div class="game-card__image pixel-image">
     <Image
       src={game.data.heroImage}
       alt={game.data.heroAlt}
-      widths={[480, 720]}
+      widths={[320, 480]}
       sizes="(min-width: 70rem) 32vw, (min-width: 44rem) 50vw, 100vw"
       format="webp"
       loading="lazy"
@@ -34,10 +35,14 @@ const t = ui[locale];
       <span>{game.data.historicalPeriod}</span>
     </div>
     <div class="button-row">
-      <a class="button" href={`/${locale}/jeux/${game.data.slug}/`}>{t.viewGame}</a>
+      <a class="button" href={`/${locale}/jeux/${game.data.slug}/`}>
+        <PixelIcon name="gamepad" size={18} />
+        {t.viewGame}
+      </a>
       {
         game.data.devlogUrl && (
           <a class="button button--ghost" href={game.data.devlogUrl}>
+            <PixelIcon name="book" size={18} />
             {t.devlog}
           </a>
         )
@@ -56,7 +61,8 @@ const t = ui[locale];
   .game-card__image {
     position: relative;
     overflow: hidden;
-    aspect-ratio: 8 / 5;
+    aspect-ratio: 16 / 7;
+    border-bottom: 0.19rem solid var(--color-black);
     background: var(--color-charcoal);
   }
 
@@ -64,7 +70,9 @@ const t = ui[locale];
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: scale 220ms ease;
+    filter: contrast(1.2) saturate(0.72) sepia(0.08);
+    image-rendering: pixelated;
+    transition: scale 140ms steps(2, end);
   }
 
   .game-card:hover .game-card__image :global(img) {
@@ -73,6 +81,7 @@ const t = ui[locale];
 
   .game-card__image .tag {
     position: absolute;
+    z-index: 3;
     right: 0.65rem;
     bottom: 0.65rem;
     max-width: calc(100% - 1.3rem);
@@ -81,20 +90,22 @@ const t = ui[locale];
   .game-card__body {
     display: grid;
     flex: 1;
-    gap: var(--space-3);
-    padding: var(--space-4);
+    gap: var(--space-2);
+    padding: var(--space-3);
   }
 
   .game-card__body > p:not(.eyebrow) {
     color: var(--color-gray);
+    font-size: var(--step--1);
   }
 
   .game-card__meta {
     display: grid;
     gap: 0.25rem;
     margin-top: auto;
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--color-paper-deep);
+    padding-top: var(--space-2);
+    border-top: 0.12rem dashed var(--color-gray);
+    font-family: var(--font-pixel);
     font-size: 0.72rem;
     font-weight: 800;
     text-transform: uppercase;
@@ -102,5 +113,6 @@ const t = ui[locale];
 
   .game-card .button {
     flex: 1 1 9rem;
+    min-height: 2.65rem;
   }
 </style>

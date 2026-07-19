@@ -12,5 +12,8 @@ export default defineConfig({
   },
   vite: {
     build: { cssMinify: true },
+    server: {
+      allowedHosts: ['mar-reef-unless-beth.trycloudflare.com'],
+    },
   },
 });
