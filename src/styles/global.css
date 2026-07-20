@@ -439,6 +439,18 @@
     font-weight: 700;
   }
 
+  .prose img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 48rem;
+    margin-inline: auto;
+    border: var(--pixel-border);
+    background: var(--color-cream);
+    box-shadow: var(--shadow-hard);
+    object-fit: contain;
+  }
+
   .eyebrow {
     font-family: var(--font-pixel);
     font-size: var(--step--1);
