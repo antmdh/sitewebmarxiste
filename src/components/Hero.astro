@@ -1,7 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import PixelIcon from './PixelIcon.astro';
+import gameDesignIcon from '../assets/images/services/icone_gamedesign_blanc.png';
+import prototypeIcon from '../assets/images/services/icone_prototype_blanc.png';
+import ButtonImageIcon from './ButtonImageIcon.astro';
 
 interface Props {
   title: string;
@@ -40,11 +42,11 @@ const {
       <p class="hero__intro">{intro}</p>
       <div class="button-row">
         <a class="button" href={primaryHref}>
-          <PixelIcon name="gamepad" size={18} />
+          <ButtonImageIcon src={gameDesignIcon} />
           {primaryLabel}
         </a>
         <a class="button button--ghost" href={secondaryHref}>
-          <PixelIcon name="tools" size={18} />
+          <ButtonImageIcon src={prototypeIcon} />
           {secondaryLabel}
         </a>
       </div>

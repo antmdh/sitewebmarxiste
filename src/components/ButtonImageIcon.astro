@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+}
+
+const { src } = Astro.props;
+---
+
+<span class="button-image-icon" aria-hidden="true">
+  <Image src={src} alt="" width={24} height={24} />
+</span>
+
+<style>
+  .button-image-icon {
+    display: inline-grid;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 0.1rem solid var(--color-black);
+    background: var(--color-red);
+    box-shadow: 0.08rem 0.08rem 0 var(--color-black);
+  }
+
+  .button-image-icon :global(img) {
+    display: block;
+    width: 1.3rem;
+    height: 1.3rem;
+    object-fit: contain;
+    image-rendering: pixelated;
+  }
+</style>
