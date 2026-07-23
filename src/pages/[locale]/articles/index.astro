@@ -12,18 +12,73 @@ const locale = Astro.params.locale as Locale;
 const articles = (
   await getCollection('articles', ({ data }) => data.locale === locale && !data.draft)
 ).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
-const title =
-  locale === 'fr'
-    ? 'Articles & réflexions'
-    : locale === 'en'
-      ? 'Articles & essays'
-      : locale === 'es'
-        ? 'Artículos y reflexiones'
-        : 'Artikel & Essays';
-const description =
-  locale === 'fr'
-    ? 'Journaux de développement, jeux marxistes à découvrir, histoire, tutoriels et réflexions sur le jeu vidéo.'
-    : 'Development journals, Marxist games, history, tutorials and essays on video games.';
+const copy: Record<
+  Locale,
+  {
+    kicker: string;
+    title: string;
+    description: string;
+    categories: string;
+    empty: string;
+    french: string;
+  }
+> = {
+  fr: {
+    kicker: 'Magazine culturel',
+    title: 'Articles & réflexions',
+    description:
+      'Journaux de développement, jeux marxistes à découvrir, histoire, tutoriels et réflexions sur le jeu vidéo.',
+    categories: 'Catégories d’articles',
+    empty: 'Aucun article publié dans cette langue.',
+    french: 'Consulter les articles en français',
+  },
+  en: {
+    kicker: 'Cultural magazine',
+    title: 'Articles & essays',
+    description:
+      'Development journals, Marxist games, history, tutorials and essays on video games.',
+    categories: 'Article categories',
+    empty: 'No article is published in this language yet.',
+    french: 'Read the articles in French',
+  },
+  es: {
+    kicker: 'Revista cultural',
+    title: 'Artículos y reflexiones',
+    description:
+      'Diarios de desarrollo, juegos marxistas, historia, tutoriales y reflexiones sobre videojuegos.',
+    categories: 'Categorías de artículos',
+    empty: 'Todavía no hay artículos publicados en este idioma.',
+    french: 'Consultar los artículos en francés',
+  },
+  de: {
+    kicker: 'Kulturmagazin',
+    title: 'Artikel & Essays',
+    description:
+      'Entwicklungstagebücher, marxistische Spiele, Geschichte, Tutorials und Essays über Videospiele.',
+    categories: 'Artikelkategorien',
+    empty: 'In dieser Sprache ist noch kein Artikel veröffentlicht.',
+    french: 'Artikel auf Französisch lesen',
+  },
+  nl: {
+    kicker: 'Cultureel magazine',
+    title: 'Artikelen & beschouwingen',
+    description:
+      'Ontwikkelingsdagboeken, marxistische spellen, geschiedenis, handleidingen en beschouwingen over videogames.',
+    categories: 'Artikelcategorieën',
+    empty: 'Er is nog geen artikel in deze taal gepubliceerd.',
+    french: 'Lees de artikelen in het Frans',
+  },
+  it: {
+    kicker: 'Rivista culturale',
+    title: 'Articoli & riflessioni',
+    description:
+      'Diari di sviluppo, giochi marxisti, storia, tutorial e riflessioni sui videogiochi.',
+    categories: 'Categorie degli articoli',
+    empty: 'Non è ancora stato pubblicato alcun articolo in questa lingua.',
+    french: 'Leggi gli articoli in francese',
+  },
+};
+const { kicker, title, description, categories: categoriesLabel, empty, french } = copy[locale];
 const translations = locales.map((item) => ({ locale: item, href: `/${item}/articles/` }));
 const categories = Object.entries(categoryLabels[locale]);
 ---
@@ -31,10 +86,10 @@ const categories = Object.entries(categoryLabels[locale]);
 <BaseLayout {title} {description} {locale} translationLinks={translations}>
   <header class="page-hero">
     <div class="container page-hero__inner">
-      <p class="section-kicker">Magazine culturel</p><h1>{title}</h1><p>{description}</p>
+      <p class="section-kicker">{kicker}</p><h1>{title}</h1><p>{description}</p>
     </div>
   </header>
-  <nav class="category-nav" aria-label="Catégories d’articles">
+  <nav class="category-nav" aria-label={categoriesLabel}>
     <div class="container">
       <ul class="no-list">
         {
@@ -59,12 +114,8 @@ const categories = Object.entries(categoryLabels[locale]);
         ) : (
           <div class="notice">
             <>
-              <p>
-                {locale === 'fr'
-                  ? 'Aucun article publié dans cette langue.'
-                  : 'No article is published in this language yet.'}
-              </p>
-              <a href="/fr/articles/">Consulter les articles en français →</a>
+              <p>{empty}</p>
+              <a href="/fr/articles/">{french} →</a>
             </>
           </div>
         )

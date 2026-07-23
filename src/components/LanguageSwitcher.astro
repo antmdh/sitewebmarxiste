@@ -1,5 +1,5 @@
 ---
-import { localeNames, type Locale } from '../lib/i18n';
+import { localeNames, type Locale, ui } from '../lib/i18n';
 
 interface Link {
   locale: Locale;
@@ -13,9 +13,17 @@ interface Props {
 
 const { currentLocale, links = [] } = Astro.props;
 const available = new Map(links.map((link) => [link.locale, link.href]));
+const languageLabel: Record<Locale, string> = {
+  fr: 'Langues',
+  en: 'Languages',
+  es: 'Idiomas',
+  de: 'Sprachen',
+  nl: 'Talen',
+  it: 'Lingue',
+};
 ---
 
-<div class="language-switcher" aria-label="Langues">
+<div class="language-switcher" aria-label={languageLabel[currentLocale]}>
   <span class="language-switcher__label" aria-hidden="true">{currentLocale.toUpperCase()}</span>
   <ul class="language-switcher__list no-list">
     {
@@ -33,11 +41,7 @@ const available = new Map(links.map((link) => [link.locale, link.href]));
                 {name}
               </a>
             ) : (
-              <a
-                href={`/${locale}/`}
-                hreflang={locale}
-                title="Traduction indisponible — retour à l’accueil"
-              >
+              <a href={`/${locale}/`} hreflang={locale} title={ui[currentLocale].unavailable}>
                 {name} <span aria-hidden="true">↗</span>
               </a>
             )}

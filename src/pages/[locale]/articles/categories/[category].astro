@@ -26,24 +26,57 @@ const translations = locales.map((item) => ({
   locale: item,
   href: `/${item}/articles/categories/${category}/`,
 }));
+const pageTranslations: Partial<
+  Record<
+    Locale,
+    {
+      home: string;
+      category: string;
+      count: (count: number) => string;
+      empty: string;
+    }
+  >
+> = {
+  fr: {
+    home: 'Accueil',
+    category: 'Catégorie',
+    count: (count) => `${count} article${count > 1 ? 's' : ''} publié${count > 1 ? 's' : ''}.`,
+    empty: 'Aucun article publié dans cette catégorie et cette langue.',
+  },
+  en: {
+    home: 'Home',
+    category: 'Category',
+    count: (count) => `${count} published article${count === 1 ? '' : 's'}.`,
+    empty: 'No article is published in this category and language.',
+  },
+  nl: {
+    home: 'Home',
+    category: 'Categorie',
+    count: (count) => `${count} gepubliceerd${count === 1 ? ' artikel' : 'e artikelen'}.`,
+    empty: 'Er is geen artikel gepubliceerd in deze categorie en taal.',
+  },
+  it: {
+    home: 'Home',
+    category: 'Categoria',
+    count: (count) => `${count} articol${count === 1 ? 'o pubblicato' : 'i pubblicati'}.`,
+    empty: 'Non è stato pubblicato alcun articolo in questa categoria e lingua.',
+  },
+};
+const copy = pageTranslations[locale] ?? pageTranslations.en!;
 ---
 
 <BaseLayout title={label} {description} {locale} translationLinks={translations}>
   <Breadcrumbs
     items={[
-      { label: locale === 'fr' ? 'Accueil' : 'Home', href: `/${locale}/` },
+      { label: copy.home, href: `/${locale}/` },
       { label: 'Articles', href: `/${locale}/articles/` },
       { label },
     ]}
   />
   <header class="page-hero">
     <div class="container page-hero__inner">
-      <p class="section-kicker">Catégorie</p><h1>{label}</h1><p>
-        {
-          locale === 'fr'
-            ? `${articles.length} article${articles.length > 1 ? 's' : ''} publié${articles.length > 1 ? 's' : ''}.`
-            : `${articles.length} published article${articles.length === 1 ? '' : 's'}.`
-        }
+      <p class="section-kicker">{copy.category}</p><h1>{label}</h1><p>
+        {copy.count(articles.length)}
       </p>
     </div>
   </header>
@@ -59,11 +92,7 @@ const translations = locales.map((item) => ({
         ) : (
           <div class="notice">
             <>
-              <p>
-                {locale === 'fr'
-                  ? 'Aucun article publié dans cette catégorie et cette langue.'
-                  : 'No article is published in this category and language.'}
-              </p>
+              <p>{copy.empty}</p>
               <a href={`/${locale}/articles/`}>← Articles</a>
             </>
           </div>

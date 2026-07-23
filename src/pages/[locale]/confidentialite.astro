@@ -7,54 +7,123 @@ export function getStaticPaths() {
   return locales.map((locale) => ({ params: { locale } }));
 }
 const locale = Astro.params.locale as Locale;
-const fr = locale === 'fr';
-const title = fr ? 'Confidentialité' : 'Privacy';
-const description = fr
-  ? 'Comment Marxists Games traite les données transmises par ses formulaires.'
-  : 'How Marxists Games handles data submitted through its forms.';
 const translations = locales.map((item) => ({ locale: item, href: `/${item}/confidentialite/` }));
+const pageTranslations: Partial<
+  Record<
+    Locale,
+    {
+      title: string;
+      description: string;
+      kicker: string;
+      intro: string;
+      collected: string;
+      collectedText: string;
+      retention: string;
+      retentionText: string;
+      rights: string;
+      rightsText: string;
+      warning: string;
+      warningText: string;
+    }
+  >
+> = {
+  fr: {
+    title: 'Confidentialité',
+    description: 'Comment Marxists Games traite les données transmises par ses formulaires.',
+    kicker: 'Données personnelles',
+    intro:
+      'Les informations envoyées via les formulaires de contact sont utilisées uniquement pour répondre à votre demande. La base juridique est votre consentement et, lorsqu’un projet est discuté, l’exécution de mesures précontractuelles.',
+    collected: 'Données collectées',
+    collectedText:
+      'Nom, organisation éventuelle, adresse e-mail et informations que vous choisissez de fournir sur votre projet. Le champ anti-spam et l’heure de début du formulaire servent uniquement à limiter les envois automatisés.',
+    retention: 'Durée et destinataires',
+    retentionText:
+      'Une durée de conservation précise devra être validée avant la mise en ligne. Les données sont destinées uniquement à l’équipe autorisée de Marxists Games et au futur prestataire d’e-mail, encadré contractuellement.',
+    rights: 'Vos droits',
+    rightsText:
+      'Vous pouvez demander l’accès, la rectification ou la suppression de vos données, ainsi que retirer votre consentement, en écrivant à marxismepourdebutant@gmail.com.',
+    warning: 'À valider avant publication',
+    warningText:
+      'Responsable de traitement, durée de conservation, prestataire newsletter, transferts éventuels hors UE et coordonnées de l’autorité de contrôle.',
+  },
+  en: {
+    title: 'Privacy',
+    description: 'How Marxists Games handles data submitted through its forms.',
+    kicker: 'Personal data',
+    intro:
+      'Information sent through contact forms is used only to answer your request. The legal basis is consent and, when discussing a project, pre-contractual steps.',
+    collected: 'Data collected',
+    collectedText:
+      'Name, optional organisation, email address and information you choose to provide about your project. The anti-spam field and form start time are used only to limit automated submissions.',
+    retention: 'Retention and recipients',
+    retentionText:
+      'A precise retention period must be approved before launch. Data is intended only for authorised Marxists Games team members and the future email provider under contract.',
+    rights: 'Your rights',
+    rightsText:
+      'You can request access, correction or deletion of your data, and withdraw consent, by writing to marxismepourdebutant@gmail.com.',
+    warning: 'To approve before publication',
+    warningText:
+      'Controller, retention period, newsletter provider, possible non-EU transfers and supervisory authority details.',
+  },
+  nl: {
+    title: 'Privacy',
+    description: 'Hoe Marxists Games omgaat met gegevens die via formulieren worden verzonden.',
+    kicker: 'Persoonsgegevens',
+    intro:
+      'Informatie die via de contactformulieren wordt verzonden, wordt uitsluitend gebruikt om je aanvraag te beantwoorden. De rechtsgrond is toestemming en, wanneer een project wordt besproken, het nemen van precontractuele maatregelen.',
+    collected: 'Verzamelde gegevens',
+    collectedText:
+      'Naam, eventuele organisatie, e-mailadres en informatie die je over je project verstrekt. Het antispamveld en de starttijd van het formulier worden alleen gebruikt om geautomatiseerde inzendingen te beperken.',
+    retention: 'Bewaartermijn en ontvangers',
+    retentionText:
+      'Vóór de lancering moet een precieze bewaartermijn worden vastgesteld. De gegevens zijn uitsluitend bestemd voor bevoegde leden van Marxists Games en de toekomstige e-maildienstverlener onder contract.',
+    rights: 'Jouw rechten',
+    rightsText:
+      'Je kunt inzage, correctie of verwijdering van je gegevens vragen en je toestemming intrekken via marxismepourdebutant@gmail.com.',
+    warning: 'Te bevestigen vóór publicatie',
+    warningText:
+      'Verwerkingsverantwoordelijke, bewaartermijn, nieuwsbriefdienst, mogelijke doorgiften buiten de EU en gegevens van de toezichthoudende autoriteit.',
+  },
+  it: {
+    title: 'Privacy',
+    description: 'Come Marxists Games tratta i dati inviati tramite i suoi moduli.',
+    kicker: 'Dati personali',
+    intro:
+      'Le informazioni inviate tramite i moduli di contatto vengono utilizzate esclusivamente per rispondere alla richiesta. La base giuridica è il consenso e, quando si discute un progetto, l’esecuzione di misure precontrattuali.',
+    collected: 'Dati raccolti',
+    collectedText:
+      'Nome, eventuale organizzazione, indirizzo e-mail e informazioni che scegli di fornire sul progetto. Il campo antispam e l’ora di inizio del modulo servono solo a limitare gli invii automatizzati.',
+    retention: 'Conservazione e destinatari',
+    retentionText:
+      'Prima del lancio dovrà essere definito un periodo preciso di conservazione. I dati sono destinati esclusivamente ai membri autorizzati di Marxists Games e al futuro fornitore e-mail sotto contratto.',
+    rights: 'I tuoi diritti',
+    rightsText:
+      'Puoi chiedere l’accesso, la rettifica o la cancellazione dei dati e revocare il consenso scrivendo a marxismepourdebutant@gmail.com.',
+    warning: 'Da confermare prima della pubblicazione',
+    warningText:
+      'Titolare del trattamento, durata della conservazione, fornitore della newsletter, eventuali trasferimenti fuori dall’UE e dati dell’autorità di controllo.',
+  },
+};
+const copy = pageTranslations[locale] ?? pageTranslations.en!;
+const { title, description } = copy;
 ---
 
 <BaseLayout {title} {description} {locale} translationLinks={translations}>
   <header class="page-hero">
     <div class="container page-hero__inner">
-      <p class="section-kicker">Données personnelles</p><h1>{title}</h1><p>{description}</p>
+      <p class="section-kicker">{copy.kicker}</p><h1>{title}</h1><p>{description}</p>
     </div>
   </header>
   <section class="section">
     <div class="prose legal">
-      <p>
-        {
-          fr
-            ? 'Les informations envoyées via les formulaires de contact sont utilisées uniquement pour répondre à votre demande. La base juridique est votre consentement et, lorsqu’un projet est discuté, l’exécution de mesures précontractuelles.'
-            : 'Information sent through contact forms is used only to answer your request. The legal basis is consent and, when discussing a project, pre-contractual steps.'
-        }
-      </p><h2>{fr ? 'Données collectées' : 'Data collected'}</h2><p>
-        {
-          fr
-            ? 'Nom, organisation éventuelle, adresse e-mail et informations que vous choisissez de fournir sur votre projet. Le champ anti-spam et l’heure de début du formulaire servent uniquement à limiter les envois automatisés.'
-            : 'Name, optional organisation, email address and information you choose to provide about your project. The anti-spam field and form start time are used only to limit automated submissions.'
-        }
-      </p><h2>{fr ? 'Durée et destinataires' : 'Retention and recipients'}</h2><p>
-        {
-          fr
-            ? 'Une durée de conservation précise devra être validée avant la mise en ligne. Les données sont destinées uniquement à l’équipe autorisée de Marxists Games et au futur prestataire d’e-mail, encadré contractuellement.'
-            : 'A precise retention period must be approved before launch. Data is intended only for authorised Marxists Games team members and the future email provider under contract.'
-        }
-      </p><h2>{fr ? 'Vos droits' : 'Your rights'}</h2><p>
-        {
-          fr
-            ? 'Vous pouvez demander l’accès, la rectification ou la suppression de vos données, ainsi que retirer votre consentement, en écrivant à marxismepourdebutant@gmail.com.'
-            : 'You can request access, correction or deletion of your data, and withdraw consent, by writing to marxismepourdebutant@gmail.com.'
-        }
+      <p>{copy.intro}</p><h2>{copy.collected}</h2><p>
+        {copy.collectedText}
+      </p><h2>{copy.retention}</h2><p>
+        {copy.retentionText}
+      </p><h2>{copy.rights}</h2><p>
+        {copy.rightsText}
       </p><div class="notice">
-        <strong>{fr ? 'À valider avant publication' : 'To approve before publication'}</strong><p>
-          {
-            fr
-              ? 'Responsable de traitement, durée de conservation, prestataire newsletter, transferts éventuels hors UE et coordonnées de l’autorité de contrôle.'
-              : 'Controller, retention period, newsletter provider, possible non-EU transfers and supervisory authority details.'
-          }
-        </p>
+        <strong>{copy.warning}</strong><p>{copy.warningText}</p>
       </div>
     </div>
   </section>

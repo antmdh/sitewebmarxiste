@@ -10,7 +10,27 @@ document.querySelectorAll('[data-contact-form]').forEach((form) => {
     if (!status || !button) return;
 
     button.disabled = true;
-    status.textContent = document.documentElement.lang === 'fr' ? 'Envoi en cours…' : 'Sending…';
+    const language = document.documentElement.lang;
+    const messages = {
+      fr: {
+        sending: 'Envoi en cours…',
+        error: 'Impossible de contacter le serveur. Réessayez plus tard.',
+      },
+      en: {
+        sending: 'Sending…',
+        error: 'The server could not be reached. Please try again later.',
+      },
+      nl: {
+        sending: 'Bezig met verzenden…',
+        error: 'De server is niet bereikbaar. Probeer het later opnieuw.',
+      },
+      it: {
+        sending: 'Invio in corso…',
+        error: 'Impossibile contattare il server. Riprova più tardi.',
+      },
+    };
+    const text = messages[language] ?? messages.en;
+    status.textContent = text.sending;
     try {
       const response = await fetch(form.action, {
         method: 'POST',
@@ -21,10 +41,7 @@ document.querySelectorAll('[data-contact-form]').forEach((form) => {
       status.textContent = payload.message ?? 'Une erreur est survenue.';
       if (response.ok) form.reset();
     } catch {
-      status.textContent =
-        document.documentElement.lang === 'fr'
-          ? 'Impossible de contacter le serveur. Réessayez plus tard.'
-          : 'The server could not be reached. Please try again later.';
+      status.textContent = text.error;
     } finally {
       button.disabled = false;
     }

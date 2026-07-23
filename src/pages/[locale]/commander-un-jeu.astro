@@ -9,14 +9,52 @@ export function getStaticPaths() {
   return locales.map((locale) => ({ params: { locale } }));
 }
 const locale = Astro.params.locale as Locale;
-const fr = locale === 'fr';
-const title = fr ? 'Commander un jeu' : 'Commission a game';
-const description = fr
-  ? 'Concevons un jeu sur mesure pour transmettre, former, mobiliser ou ouvrir un débat.'
-  : 'Let us create a custom game to teach, train, mobilise or open a debate.';
 const translations = locales.map((item) => ({ locale: item, href: `/${item}/commander-un-jeu/` }));
-const projectTypes = fr
-  ? [
+const pageTranslations: Partial<
+  Record<
+    Locale,
+    {
+      title: string;
+      description: string;
+      heroKicker: string;
+      talk: string;
+      startingPoint: string;
+      quote: string;
+      offer: string;
+      offerTitle: string;
+      offerText: string;
+      projectTypes: string[][];
+      method: string;
+      methodTitle: string;
+      methodText: string;
+      steps: string[][];
+      selected: string;
+      selectedTitle: string;
+      russia: string;
+      singTitle: string;
+      sing: string;
+      florida: string;
+      faqTitle: string;
+      faqs: string[][];
+      contactTitle: string;
+      contactText: string;
+    }
+  >
+> = {
+  fr: {
+    title: 'Commander un jeu',
+    description:
+      'Concevons un jeu sur mesure pour transmettre, former, mobiliser ou ouvrir un débat.',
+    heroKicker: 'Studio sur mesure',
+    talk: 'Parler de votre projet',
+    startingPoint: 'Notre point de départ',
+    quote:
+      'Un bon jeu de commande ne plaque pas des points sur un contenu. Il trouve la règle qui rend votre question sensible.',
+    offer: 'L’offre',
+    offerTitle: 'Du premier atelier au jeu livré.',
+    offerText:
+      'Nous pouvons prendre en charge toute la production ou intervenir sur une étape précise : game design, scénario, recherche historique, prototypage ou accompagnement technique.',
+    projectTypes: [
       [
         'Jeu pédagogique',
         'Faire expérimenter un système, une époque ou un choix plutôt que l’expliquer de manière abstraite.',
@@ -33,27 +71,12 @@ const projectTypes = fr
         'Prototype sur mesure',
         'Tester rapidement une idée de mécanique, de narration ou de dispositif public.',
       ],
-    ]
-  : [
-      [
-        'Educational game',
-        'Let people experience a system, period or choice rather than explain it abstractly.',
-      ],
-      [
-        'Campaign game',
-        'Support a campaign and make collective action and power relations visible.',
-      ],
-      [
-        'Cultural mediation',
-        'Create an experience for a museum, exhibition, archive or memorial site.',
-      ],
-      [
-        'Custom prototype',
-        'Rapidly test an idea for a mechanic, narrative or public installation.',
-      ],
-    ];
-const steps = fr
-  ? [
+    ],
+    method: 'La méthode',
+    methodTitle: 'Rendre le complexe jouable.',
+    methodText:
+      'Nous travaillons avec vos équipes et les publics concernés. Chaque étape produit un objet vérifiable : cadrage, corpus, prototype, tests, version livrée.',
+    steps: [
       [
         'Cadrage',
         'Nous clarifions le public, le message, les contraintes et ce que le jeu doit faire vivre.',
@@ -71,8 +94,71 @@ const steps = fr
         'Design, écriture, intégration et tests avancent par cycles courts et documentés.',
       ],
       ['Livraison', 'Nous préparons le déploiement, la prise en main et les évolutions futures.'],
-    ]
-  : [
+    ],
+    selected: 'Projets réalisés',
+    selectedTitle: 'Des méthodes éprouvées sur nos propres jeux.',
+    russia: 'Une carte stratégique reliée à 43 débats politiques documentés.',
+    singTitle: 'La vallée de Sing Sing',
+    sing: 'Une fiction pour faire apparaître les structures d’une guerre coloniale.',
+    florida: 'Un prototype sur la Reconstruction, la terre et le pouvoir politique.',
+    faqTitle: 'Avant de commencer.',
+    faqs: [
+      [
+        'Quel budget prévoir ?',
+        'Un prototype court et un jeu complet n’ont pas le même périmètre. Le formulaire propose des fourchettes ; le cadrage transforme ensuite le besoin en devis explicite.',
+      ],
+      [
+        'Travaillez-vous avec une équipe interne ?',
+        'Oui. Nous pouvons produire seuls, co-concevoir avec vos équipes ou transmettre une méthode et un prototype.',
+      ],
+      [
+        'Peut-on commencer par un atelier ?',
+        'Oui. Un atelier de cadrage est souvent la meilleure manière de tester la pertinence d’un jeu avant de lancer la production.',
+      ],
+      [
+        'Quelles plateformes ?',
+        'Web, ordinateur et mobile en priorité. Une installation ou un dispositif d’exposition peut être étudié selon le contexte.',
+      ],
+    ],
+    contactTitle: 'Parlons de votre projet.',
+    contactText:
+      'Même si tout n’est pas encore défini, décrivez le contexte et la décision que vous cherchez à éclairer. Nous répondrons avec les questions utiles.',
+  },
+  en: {
+    title: 'Commission a game',
+    description: 'Let us create a custom game to teach, train, mobilise or open a debate.',
+    heroKicker: 'Custom studio',
+    talk: 'Tell us about your project',
+    startingPoint: 'Our starting point',
+    quote:
+      'A good commissioned game does not paste points onto content. It finds the rule that makes your question tangible.',
+    offer: 'The offer',
+    offerTitle: 'From the first workshop to delivery.',
+    offerText:
+      'We can handle the full production or support one stage: game design, writing, historical research, prototyping or technical guidance.',
+    projectTypes: [
+      [
+        'Educational game',
+        'Let people experience a system, period or choice rather than explain it abstractly.',
+      ],
+      [
+        'Campaign game',
+        'Support a campaign and make collective action and power relations visible.',
+      ],
+      [
+        'Cultural mediation',
+        'Create an experience for a museum, exhibition, archive or memorial site.',
+      ],
+      [
+        'Custom prototype',
+        'Rapidly test an idea for a mechanic, narrative or public installation.',
+      ],
+    ],
+    method: 'The method',
+    methodTitle: 'Make complexity playable.',
+    methodText:
+      'We work with your teams and stakeholders. Every stage produces something that can be reviewed and tested.',
+    steps: [
       [
         'Scoping',
         'We clarify the audience, message, constraints and experience the game must create.',
@@ -84,25 +170,211 @@ const steps = fr
         'Design, writing, integration and testing move forward in short documented cycles.',
       ],
       ['Delivery', 'We prepare deployment, handover and future development.'],
-    ];
+    ],
+    selected: 'Selected work',
+    selectedTitle: 'Methods tested on our own games.',
+    russia: 'A strategic map linked to 43 documented political debates.',
+    singTitle: 'Sing Sing Valley',
+    sing: 'Fiction that reveals the structures of a colonial war.',
+    florida: 'A prototype about Reconstruction, land and political power.',
+    faqTitle: 'Before we begin.',
+    faqs: [
+      [
+        'What budget should we plan?',
+        'A short prototype and a complete game have different scopes. We turn the brief into an explicit quote.',
+      ],
+      [
+        'Can you work with an internal team?',
+        'Yes. We can produce independently, co-design with your team, or hand over a method and prototype.',
+      ],
+      [
+        'Can we start with a workshop?',
+        'Yes. A scoping workshop is often the best way to test whether a game is the right format.',
+      ],
+      [
+        'Which platforms?',
+        'Web, desktop and mobile first. Installations can be considered depending on context.',
+      ],
+    ],
+    contactTitle: 'Let’s discuss your project.',
+    contactText:
+      'Even if the brief is not final, tell us about the context and the decision you want to illuminate.',
+  },
+  nl: {
+    title: 'Laat een spel maken',
+    description:
+      'Laten we een spel op maat maken om kennis over te dragen, op te leiden, te mobiliseren of een debat te openen.',
+    heroKicker: 'Studio op maat',
+    talk: 'Vertel ons over je project',
+    startingPoint: 'Ons uitgangspunt',
+    quote:
+      'Een goed spel op maat plakt geen punten op inhoud. Het vindt de regel die jouw vraag voelbaar maakt.',
+    offer: 'Ons aanbod',
+    offerTitle: 'Van de eerste workshop tot het afgewerkte spel.',
+    offerText:
+      'We kunnen de volledige productie verzorgen of één fase ondersteunen: game design, scenario, historisch onderzoek, prototyping of technische begeleiding.',
+    projectTypes: [
+      [
+        'Educatief spel',
+        'Laat mensen een systeem, periode of keuze ervaren in plaats van die abstract uit te leggen.',
+      ],
+      [
+        'Actiespel',
+        'Ondersteun een campagne en maak machtsverhoudingen en collectieve actie zichtbaar.',
+      ],
+      [
+        'Culturele bemiddeling',
+        'Maak een ervaring voor een museum, tentoonstelling, archief of herdenkingsplek.',
+      ],
+      [
+        'Prototype op maat',
+        'Test snel een idee voor een spelmechaniek, verhaal of publieke installatie.',
+      ],
+    ],
+    method: 'De methode',
+    methodTitle: 'Complexiteit speelbaar maken.',
+    methodText:
+      'We werken met je team en de betrokken publieken. Elke fase levert iets op dat kan worden beoordeeld en getest.',
+    steps: [
+      [
+        'Afbakening',
+        'We verduidelijken het publiek, de boodschap, de beperkingen en wat het spel moet laten ervaren.',
+      ],
+      [
+        'Onderzoek',
+        'We verzamelen bronnen, betrokkenen en de tegenstellingen die behouden moeten blijven.',
+      ],
+      ['Prototype', 'Een speelbare cyclus komt vroeg om het kernidee vóór de productie te testen.'],
+      [
+        'Productie',
+        'Ontwerp, schrijven, integratie en tests verlopen in korte, gedocumenteerde cycli.',
+      ],
+      ['Oplevering', 'We bereiden implementatie, overdracht en toekomstige ontwikkeling voor.'],
+    ],
+    selected: 'Geselecteerd werk',
+    selectedTitle: 'Methoden getest in onze eigen spellen.',
+    russia: 'Een strategische kaart gekoppeld aan 43 gedocumenteerde politieke debatten.',
+    singTitle: 'De vallei van Sing Sing',
+    sing: 'Fictie die de structuren van een koloniale oorlog zichtbaar maakt.',
+    florida: 'Een prototype over de Reconstruction, land en politieke macht.',
+    faqTitle: 'Voor we beginnen.',
+    faqs: [
+      [
+        'Welk budget is nodig?',
+        'Een kort prototype en een volledig spel hebben een andere omvang. We vertalen de briefing naar een duidelijke offerte.',
+      ],
+      [
+        'Kunnen jullie met een intern team werken?',
+        'Ja. We kunnen zelfstandig produceren, samen ontwerpen of een methode en prototype overdragen.',
+      ],
+      [
+        'Kunnen we met een workshop beginnen?',
+        'Ja. Een afbakeningsworkshop is vaak de beste manier om te testen of een spel het juiste format is.',
+      ],
+      [
+        'Welke platformen?',
+        'Web, desktop en mobiel eerst. Installaties zijn afhankelijk van de context mogelijk.',
+      ],
+    ],
+    contactTitle: 'Laten we je project bespreken.',
+    contactText:
+      'Ook als de briefing nog niet definitief is, kun je de context en de vraag die je wilt verhelderen beschrijven.',
+  },
+  it: {
+    title: 'Commissiona un gioco',
+    description:
+      'Creiamo un gioco su misura per trasmettere, formare, mobilitare o aprire un dibattito.',
+    heroKicker: 'Studio su misura',
+    talk: 'Parlaci del tuo progetto',
+    startingPoint: 'Il nostro punto di partenza',
+    quote:
+      'Un buon gioco su commissione non applica punti a un contenuto. Trova la regola che rende tangibile la tua domanda.',
+    offer: 'L’offerta',
+    offerTitle: 'Dal primo laboratorio al gioco consegnato.',
+    offerText:
+      'Possiamo occuparci dell’intera produzione o intervenire in una fase precisa: game design, sceneggiatura, ricerca storica, prototipazione o supporto tecnico.',
+    projectTypes: [
+      [
+        'Gioco educativo',
+        'Far sperimentare un sistema, un’epoca o una scelta invece di spiegarli in astratto.',
+      ],
+      [
+        'Gioco militante',
+        'Sostenere una campagna e rendere visibili i rapporti di forza e l’azione collettiva.',
+      ],
+      [
+        'Mediazione culturale',
+        'Creare un’esperienza per un museo, una mostra, un archivio o un luogo della memoria.',
+      ],
+      [
+        'Prototipo su misura',
+        'Testare rapidamente un’idea di meccanica, narrazione o installazione pubblica.',
+      ],
+    ],
+    method: 'Il metodo',
+    methodTitle: 'Rendere giocabile la complessità.',
+    methodText:
+      'Lavoriamo con i tuoi gruppi e i pubblici coinvolti. Ogni fase produce qualcosa che può essere verificato e testato.',
+    steps: [
+      [
+        'Definizione',
+        'Chiariamo il pubblico, il messaggio, i vincoli e l’esperienza che il gioco deve creare.',
+      ],
+      ['Ricerca', 'Riuniamo fonti, persone coinvolte e contraddizioni da preservare.'],
+      [
+        'Prototipo',
+        'Un ciclo giocabile arriva presto per testare l’idea centrale prima della produzione.',
+      ],
+      [
+        'Produzione',
+        'Design, scrittura, integrazione e test avanzano in cicli brevi e documentati.',
+      ],
+      ['Consegna', 'Prepariamo il deployment, il passaggio di consegne e gli sviluppi futuri.'],
+    ],
+    selected: 'Progetti realizzati',
+    selectedTitle: 'Metodi sperimentati sui nostri giochi.',
+    russia: 'Una mappa strategica collegata a 43 dibattiti politici documentati.',
+    singTitle: 'La valle di Sing Sing',
+    sing: 'Una finzione che rivela le strutture di una guerra coloniale.',
+    florida: 'Un prototipo sulla Reconstruction, la terra e il potere politico.',
+    faqTitle: 'Prima di cominciare.',
+    faqs: [
+      [
+        'Quale budget prevedere?',
+        'Un prototipo breve e un gioco completo hanno dimensioni diverse. Traduciamo la richiesta in un preventivo esplicito.',
+      ],
+      [
+        'Potete lavorare con un gruppo interno?',
+        'Sì. Possiamo produrre in autonomia, co-progettare o consegnare un metodo e un prototipo.',
+      ],
+      [
+        'Possiamo iniziare con un laboratorio?',
+        'Sì. Un laboratorio di definizione è spesso il modo migliore per capire se un gioco è il formato giusto.',
+      ],
+      [
+        'Quali piattaforme?',
+        'Web, desktop e mobile prima di tutto. Le installazioni possono essere valutate in base al contesto.',
+      ],
+    ],
+    contactTitle: 'Parliamo del tuo progetto.',
+    contactText:
+      'Anche se la richiesta non è ancora definitiva, descrivi il contesto e la decisione che vuoi rendere più chiara.',
+  },
+};
+const copy = pageTranslations[locale] ?? pageTranslations.en!;
+const { title, description, projectTypes, steps } = copy;
 ---
 
 <BaseLayout {title} {description} {locale} translationLinks={translations}>
   <header class="commission-hero">
     <div class="container commission-hero__grid">
       <div>
-        <p class="section-kicker">Studio sur mesure</p><h1>{title}</h1><p>{description}</p><a
+        <p class="section-kicker">{copy.heroKicker}</p><h1>{title}</h1><p>{description}</p><a
           class="button button--cream"
-          href="#parler-projet">{fr ? 'Parler de votre projet' : 'Tell us about your project'} ↓</a
+          href="#parler-projet">{copy.talk} ↓</a
         >
       </div><aside>
-        <span>{fr ? 'Notre point de départ' : 'Our starting point'}</span><blockquote>
-          {
-            fr
-              ? 'Un bon jeu de commande ne plaque pas des points sur un contenu. Il trouve la règle qui rend votre question sensible.'
-              : 'A good commissioned game does not paste points onto content. It finds the rule that makes your question tangible.'
-          }
-        </blockquote>
+        <span>{copy.startingPoint}</span><blockquote>{copy.quote}</blockquote>
       </aside>
     </div>
   </header>
@@ -110,14 +382,8 @@ const steps = fr
   <section class="section">
     <div class="container">
       <header class="section-heading">
-        <p class="section-kicker">01 · {fr ? 'L’offre' : 'The offer'}</p><h2>
-          {fr ? 'Du premier atelier au jeu livré.' : 'From the first workshop to delivery.'}
-        </h2><p>
-          {
-            fr
-              ? 'Nous pouvons prendre en charge toute la production ou intervenir sur une étape précise : game design, scénario, recherche historique, prototypage ou accompagnement technique.'
-              : 'We can handle the full production or support one stage: game design, writing, historical research, prototyping or technical guidance.'
-          }
+        <p class="section-kicker">01 · {copy.offer}</p><h2>{copy.offerTitle}</h2><p>
+          {copy.offerText}
         </p>
       </header><div class="project-grid">
         {
@@ -138,14 +404,8 @@ const steps = fr
   <section id="methode" class="section section--dark">
     <div class="container">
       <header class="section-heading">
-        <p class="section-kicker">02 · {fr ? 'La méthode' : 'The method'}</p><h2>
-          {fr ? 'Rendre le complexe jouable.' : 'Make complexity playable.'}
-        </h2><p>
-          {
-            fr
-              ? 'Nous travaillons avec vos équipes et les publics concernés. Chaque étape produit un objet vérifiable : cadrage, corpus, prototype, tests, version livrée.'
-              : 'We work with your teams and stakeholders. Every stage produces something that can be reviewed and tested.'
-          }
+        <p class="section-kicker">02 · {copy.method}</p><h2>{copy.methodTitle}</h2><p>
+          {copy.methodText}
         </p>
       </header><ol class="steps">
         {
@@ -170,32 +430,19 @@ const steps = fr
   <section class="section">
     <div class="container">
       <header class="section-heading">
-        <p class="section-kicker">03 · {fr ? 'Projets réalisés' : 'Selected work'}</p><h2>
-          {fr ? 'Des méthodes éprouvées sur nos propres jeux.' : 'Methods tested on our own games.'}
-        </h2>
+        <p class="section-kicker">03 · {copy.selected}</p><h2>{copy.selectedTitle}</h2>
       </header><div class="grid-3">
         <ServiceCard
           number="A"
           icon="gamepad"
           title="Russia 1917"
-          description={fr
-            ? 'Une carte stratégique reliée à 43 débats politiques documentés.'
-            : 'A strategic map linked to 43 documented political debates.'}
+          description={copy.russia}
         /><ServiceCard
           number="B"
           icon="book"
-          title={fr ? 'La vallée de Sing Sing' : 'Sing Sing Valley'}
-          description={fr
-            ? 'Une fiction pour faire apparaître les structures d’une guerre coloniale.'
-            : 'Fiction that reveals the structures of a colonial war.'}
-        /><ServiceCard
-          number="C"
-          icon="globe"
-          title="Florida 1865"
-          description={fr
-            ? 'Un prototype sur la Reconstruction, la terre et le pouvoir politique.'
-            : 'A prototype about Reconstruction, land and political power.'}
-        />
+          title={copy.singTitle}
+          description={copy.sing}
+        /><ServiceCard number="C" icon="globe" title="Florida 1865" description={copy.florida} />
       </div>
     </div>
   </section>
@@ -203,39 +450,10 @@ const steps = fr
   <section class="section faq">
     <div class="container faq__grid">
       <header>
-        <p class="section-kicker">04 · FAQ</p><h2>
-          {fr ? 'Avant de commencer.' : 'Before we begin.'}
-        </h2>
+        <p class="section-kicker">04 · FAQ</p><h2>{copy.faqTitle}</h2>
       </header><div>
         {
-          [
-            [
-              fr ? 'Quel budget prévoir ?' : 'What budget should we plan?',
-              fr
-                ? 'Un prototype court et un jeu complet n’ont pas le même périmètre. Le formulaire propose des fourchettes ; le cadrage transforme ensuite le besoin en devis explicite.'
-                : 'A short prototype and a complete game have different scopes. We turn the brief into an explicit quote.',
-            ],
-            [
-              fr
-                ? 'Travaillez-vous avec une équipe interne ?'
-                : 'Can you work with an internal team?',
-              fr
-                ? 'Oui. Nous pouvons produire seuls, co-concevoir avec vos équipes ou transmettre une méthode et un prototype.'
-                : 'Yes. We can produce independently, co-design with your team, or hand over a method and prototype.',
-            ],
-            [
-              fr ? 'Peut-on commencer par un atelier ?' : 'Can we start with a workshop?',
-              fr
-                ? 'Oui. Un atelier de cadrage est souvent la meilleure manière de tester la pertinence d’un jeu avant de lancer la production.'
-                : 'Yes. A scoping workshop is often the best way to test whether a game is the right format.',
-            ],
-            [
-              fr ? 'Quelles plateformes ?' : 'Which platforms?',
-              fr
-                ? 'Web, ordinateur et mobile en priorité. Une installation ou un dispositif d’exposition peut être étudié selon le contexte.'
-                : 'Web, desktop and mobile first. Installations can be considered depending on context.',
-            ],
-          ].map(([question, answer]) => (
+          copy.faqs.map(([question, answer]) => (
             <details>
               <>
                 <summary>{question}</summary>
@@ -251,14 +469,8 @@ const steps = fr
   <section id="parler-projet" class="section project-form">
     <div class="container project-form__grid">
       <header>
-        <p class="section-kicker">05 · Contact</p><h2>
-          {fr ? 'Parlons de votre projet.' : 'Let’s discuss your project.'}
-        </h2><p>
-          {
-            fr
-              ? 'Même si tout n’est pas encore défini, décrivez le contexte et la décision que vous cherchez à éclairer. Nous répondrons avec les questions utiles.'
-              : 'Even if the brief is not final, tell us about the context and the decision you want to illuminate.'
-          }
+        <p class="section-kicker">05 · Contact</p><h2>{copy.contactTitle}</h2><p>
+          {copy.contactText}
         </p>
       </header><ContactForm {locale} />
     </div>

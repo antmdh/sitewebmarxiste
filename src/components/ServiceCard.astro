@@ -1,11 +1,15 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import PixelIcon from './PixelIcon.astro';
+
+type ServiceIcon = 'gamepad' | 'quill' | 'tools' | 'book' | 'community' | 'gear' | 'globe';
 
 interface Props {
   number: string;
   title: string;
   description: string;
-  icon: 'gamepad' | 'quill' | 'tools' | 'book' | 'community' | 'gear' | 'globe';
+  icon: ImageMetadata | ServiceIcon;
 }
 
 const { number, title, description, icon } = Astro.props;
@@ -14,7 +18,13 @@ const { number, title, description, icon } = Astro.props;
 <article class="service-card">
   <span class="service-card__number" aria-hidden="true">{number}</span>
   <span class="service-card__icon" aria-hidden="true">
-    <PixelIcon name={icon} size={44} />
+    {
+      typeof icon === 'string' ? (
+        <PixelIcon name={icon} size={44} />
+      ) : (
+        <Image class="service-card__icon-image" src={icon} alt="" width={50} height={50} />
+      )
+    }
   </span>
   <h3>{title}</h3>
   <p>{description}</p>
@@ -61,6 +71,14 @@ const { number, title, description, icon } = Astro.props;
     box-shadow:
       0.18rem 0 0 var(--color-black),
       0 0.18rem 0 var(--color-black);
+  }
+
+  .service-card__icon :global(.service-card__icon-image) {
+    display: block;
+    width: 3.1rem;
+    height: 3.1rem;
+    object-fit: contain;
+    image-rendering: pixelated;
   }
 
   .service-card h3 {

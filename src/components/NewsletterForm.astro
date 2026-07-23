@@ -33,6 +33,18 @@ const labels = {
     consent: 'Ich möchte Neuigkeiten von Marxists Games erhalten.',
     status: 'Der Versanddienst wird vor dem Start angeschlossen.',
   },
+  nl: {
+    email: 'Je e-mailadres',
+    button: 'Inschrijven',
+    consent: 'Ik ga ermee akkoord nieuws van Marxists Games te ontvangen.',
+    status: 'De verzenddienst wordt voor de lancering aangesloten.',
+  },
+  it: {
+    email: 'Il tuo indirizzo e-mail',
+    button: 'Iscriviti',
+    consent: 'Accetto di ricevere notizie da Marxists Games.',
+    status: 'Il servizio di invio sarà collegato prima del lancio.',
+  },
 }[locale];
 ---
 
@@ -49,7 +61,7 @@ const labels = {
       type="email"
       autocomplete="email"
       required
-      placeholder="vous@exemple.org"
+      placeholder="email@example.org"
     />
   </div>
   <label class="newsletter-form__consent">

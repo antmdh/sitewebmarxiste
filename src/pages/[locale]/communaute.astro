@@ -9,14 +9,37 @@ export function getStaticPaths() {
   return locales.map((locale) => ({ params: { locale } }));
 }
 const locale = Astro.params.locale as Locale;
-const fr = locale === 'fr';
-const title = fr ? 'Communauté' : 'Community';
-const description = fr
-  ? 'Un espace critique et solidaire pour discuter des jeux, tester les prototypes, lire et partager des ressources.'
-  : 'A critical, supportive space to discuss games, test prototypes, read and share resources.';
 const translations = locales.map((item) => ({ locale: item, href: `/${item}/communaute/` }));
-const activities = fr
-  ? [
+const pageTranslations: Partial<
+  Record<
+    Locale,
+    {
+      title: string;
+      description: string;
+      kicker: string;
+      join: string;
+      charterLink: string;
+      activitiesKicker: string;
+      activitiesTitle: string;
+      activities: string[][];
+      charterKicker: string;
+      charterTitle: string;
+      charter: string[];
+      newsletterTitle: string;
+      newsletterText: string;
+    }
+  >
+> = {
+  fr: {
+    title: 'Communauté',
+    description:
+      'Un espace critique et solidaire pour discuter des jeux, tester les prototypes, lire et partager des ressources.',
+    kicker: 'Discord · Tests · Lecture',
+    join: 'Rejoindre le Discord',
+    charterLink: 'Lire la charte',
+    activitiesKicker: 'Ce qu’on y fait',
+    activitiesTitle: 'Un atelier public, pas un flux de plus.',
+    activities: [
       [
         'Discuter',
         'Analyse de jeux, actualités des projets et débats sur les rapports entre jeu vidéo, histoire et politique.',
@@ -33,25 +56,118 @@ const activities = fr
         'Construire',
         'Propositions de ressources, traductions, recherches et événements portés avec les membres.',
       ],
-    ]
-  : [
+    ],
+    charterKicker: 'Charte courte',
+    charterTitle: 'Critique exigeante. Accueil solidaire.',
+    charter: [
+      'Nous discutons les idées et les œuvres sans humilier les personnes. Racisme, sexisme, LGBTphobies, validisme, harcèlement et promotion de mouvements réactionnaires n’ont pas leur place dans la communauté.',
+      'Les retours de test portent sur une expérience concrète : ce que vous avez compris, ressenti ou tenté. La contradiction est bienvenue lorsqu’elle aide à travailler.',
+      'Une charte de modération complète et les coordonnées de l’équipe sont à valider avant l’ouverture publique.',
+    ],
+    newsletterTitle: 'Suivre sans rejoindre Discord.',
+    newsletterText:
+      'La newsletter est la voie calme : nouvelles importantes, sorties et appels à test.',
+  },
+  en: {
+    title: 'Community',
+    description:
+      'A critical, supportive space to discuss games, test prototypes, read and share resources.',
+    kicker: 'Discord · Tests · Reading',
+    join: 'Join Discord',
+    charterLink: 'Read the charter',
+    activitiesKicker: 'What happens there',
+    activitiesTitle: 'A public workshop, not another feed.',
+    activities: [
       ['Discuss', 'Game analysis, project news and debates about games, history and politics.'],
       ['Test', 'Work-in-progress builds, playtests and structured feedback.'],
       ['Read', 'Reading groups and shared bibliographies on Marxism, history and game design.'],
       ['Build', 'Resources, translations, research and events created with members.'],
-    ];
+    ],
+    charterKicker: 'Short charter',
+    charterTitle: 'Rigorous criticism. Supportive welcome.',
+    charter: [
+      'We discuss ideas and works without humiliating people. Racism, sexism, LGBTphobia, ableism, harassment and the promotion of reactionary movements have no place in the community.',
+      'Playtest feedback should describe a concrete experience: what you understood, felt or tried. Disagreement is welcome when it helps the work.',
+      'A full moderation charter and team contacts must be approved before public launch.',
+    ],
+    newsletterTitle: 'Follow without joining Discord.',
+    newsletterText: 'The newsletter is the quieter route: important news, releases and playtests.',
+  },
+  nl: {
+    title: 'Gemeenschap',
+    description:
+      'Een kritische en solidaire plek om spellen te bespreken, prototypes te testen, te lezen en bronnen te delen.',
+    kicker: 'Discord · Tests · Lezen',
+    join: 'Naar Discord',
+    charterLink: 'Lees het handvest',
+    activitiesKicker: 'Wat we er doen',
+    activitiesTitle: 'Een openbaar atelier, geen extra berichtenstroom.',
+    activities: [
+      [
+        'Bespreken',
+        'Spelanalyses, projectnieuws en debatten over spellen, geschiedenis en politiek.',
+      ],
+      ['Testen', 'Werkversies, speeltests en gestructureerde feedback.'],
+      [
+        'Lezen',
+        'Leesgroepen en gedeelde bibliografieën over marxisme, geschiedenis en game design.',
+      ],
+      ['Bouwen', 'Bronnen, vertalingen, onderzoek en evenementen die we met leden maken.'],
+    ],
+    charterKicker: 'Kort handvest',
+    charterTitle: 'Grondige kritiek. Solidaire ontvangst.',
+    charter: [
+      'We bespreken ideeën en werken zonder mensen te vernederen. Racisme, seksisme, lhbti-fobie, validisme, intimidatie en de promotie van reactionaire bewegingen horen niet thuis in de gemeenschap.',
+      'Feedback op speeltests gaat over een concrete ervaring: wat je begreep, voelde of probeerde. Meningsverschillen zijn welkom wanneer ze het werk vooruithelpen.',
+      'Een volledig moderatiehandvest en de contactgegevens van het team moeten vóór de publieke lancering worden goedgekeurd.',
+    ],
+    newsletterTitle: 'Volg ons zonder lid te worden van Discord.',
+    newsletterText:
+      'De nieuwsbrief is de rustige route: belangrijk nieuws, releases en oproepen voor speeltests.',
+  },
+  it: {
+    title: 'Comunità',
+    description:
+      'Uno spazio critico e solidale per discutere di giochi, testare prototipi, leggere e condividere risorse.',
+    kicker: 'Discord · Test · Lettura',
+    join: 'Unisciti a Discord',
+    charterLink: 'Leggi la carta',
+    activitiesKicker: 'Cosa facciamo',
+    activitiesTitle: 'Un laboratorio pubblico, non un altro flusso.',
+    activities: [
+      [
+        'Discutere',
+        'Analisi di giochi, notizie sui progetti e dibattiti su giochi, storia e politica.',
+      ],
+      ['Testare', 'Versioni in lavorazione, playtest e feedback strutturati.'],
+      ['Leggere', 'Gruppi di lettura e bibliografie condivise su marxismo, storia e game design.'],
+      ['Costruire', 'Risorse, traduzioni, ricerche ed eventi creati insieme ai membri.'],
+    ],
+    charterKicker: 'Carta breve',
+    charterTitle: 'Critica rigorosa. Accoglienza solidale.',
+    charter: [
+      'Discutiamo idee e opere senza umiliare le persone. Razzismo, sessismo, LGBTfobia, abilismo, molestie e promozione di movimenti reazionari non hanno posto nella comunità.',
+      'I feedback dei playtest devono descrivere un’esperienza concreta: ciò che hai capito, provato o tentato. Il dissenso è benvenuto quando aiuta il lavoro.',
+      'Una carta di moderazione completa e i contatti del gruppo devono essere approvati prima dell’apertura pubblica.',
+    ],
+    newsletterTitle: 'Seguici senza entrare su Discord.',
+    newsletterText:
+      'La newsletter è la via più tranquilla: notizie importanti, uscite e inviti ai playtest.',
+  },
+};
+const copy = pageTranslations[locale] ?? pageTranslations.en!;
+const { title, description, activities } = copy;
 ---
 
 <BaseLayout {title} {description} {locale} translationLinks={translations}>
   <header class="page-hero">
     <div class="container page-hero__inner">
-      <p class="section-kicker">Discord · Tests · Lecture</p><h1>{title}</h1><p>
+      <p class="section-kicker">{copy.kicker}</p><h1>{title}</h1><p>
         {description}
       </p><div class="button-row">
-        <a class="button button--cream" href="https://discord.gg/placeholder"
-          >{fr ? 'Rejoindre le Discord' : 'Join Discord'} ↗</a
-        ><a class="button button--ghost" href="#charte"
-          >{fr ? 'Lire la charte' : 'Read the charter'} ↓</a
+        <a class="button button--cream" href="https://discord.gg/placeholder">{copy.join} ↗</a><a
+          class="button button--ghost"
+          href="#charte">{copy.charterLink} ↓</a
         >
       </div>
     </div>
@@ -59,9 +175,7 @@ const activities = fr
   <section class="section">
     <div class="container">
       <header class="section-heading">
-        <p class="section-kicker">{fr ? 'Ce qu’on y fait' : 'What happens there'}</p><h2>
-          {fr ? 'Un atelier public, pas un flux de plus.' : 'A public workshop, not another feed.'}
-        </h2>
+        <p class="section-kicker">{copy.activitiesKicker}</p><h2>{copy.activitiesTitle}</h2>
       </header><div class="activity-grid">
         {
           activities.map(([title, text], index) => (
@@ -80,32 +194,10 @@ const activities = fr
   <section id="charte" class="section section--dark">
     <div class="container charter">
       <header>
-        <p class="section-kicker">{fr ? 'Charte courte' : 'Short charter'}</p><h2>
-          {
-            fr
-              ? 'Critique exigeante. Accueil solidaire.'
-              : 'Rigorous criticism. Supportive welcome.'
-          }
-        </h2>
+        <p class="section-kicker">{copy.charterKicker}</p><h2>{copy.charterTitle}</h2>
       </header><div class="prose">
-        <p>
-          {
-            fr
-              ? 'Nous discutons les idées et les œuvres sans humilier les personnes. Racisme, sexisme, LGBTphobies, validisme, harcèlement et promotion de mouvements réactionnaires n’ont pas leur place dans la communauté.'
-              : 'We discuss ideas and works without humiliating people. Racism, sexism, LGBTphobia, ableism, harassment and the promotion of reactionary movements have no place in the community.'
-          }
-        </p><p>
-          {
-            fr
-              ? 'Les retours de test portent sur une expérience concrète : ce que vous avez compris, ressenti ou tenté. La contradiction est bienvenue lorsqu’elle aide à travailler.'
-              : 'Playtest feedback should describe a concrete experience: what you understood, felt or tried. Disagreement is welcome when it helps the work.'
-          }
-        </p><p class="notice">
-          {
-            fr
-              ? 'Une charte de modération complète et les coordonnées de l’équipe sont à valider avant l’ouverture publique.'
-              : 'A full moderation charter and team contacts must be approved before public launch.'
-          }
+        <p>{copy.charter[0]}</p><p>{copy.charter[1]}</p><p class="notice">
+          {copy.charter[2]}
         </p>
       </div>
     </div>
@@ -114,14 +206,8 @@ const activities = fr
   <section class="section">
     <div class="container newsletter-grid">
       <div>
-        <p class="section-kicker">Newsletter</p><h2>
-          {fr ? 'Suivre sans rejoindre Discord.' : 'Follow without joining Discord.'}
-        </h2><p>
-          {
-            fr
-              ? 'La newsletter est la voie calme : nouvelles importantes, sorties et appels à test.'
-              : 'The newsletter is the quieter route: important news, releases and playtests.'
-          }
+        <p class="section-kicker">Newsletter</p><h2>{copy.newsletterTitle}</h2><p>
+          {copy.newsletterText}
         </p>
       </div><NewsletterForm {locale} />
     </div>

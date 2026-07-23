@@ -1,7 +1,7 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const locale = z.enum(['fr', 'en', 'es', 'de']);
+const locale = z.enum(['fr', 'en', 'es', 'de', 'nl', 'it']);
 const category = z.enum([
   'devlog',
   'marxist-games',

@@ -6,22 +6,48 @@ export function getStaticPaths() {
   return locales.map((locale) => ({ params: { locale } }));
 }
 const locale = Astro.params.locale as Locale;
-const fr = locale === 'fr';
+const translations: Partial<
+  Record<Locale, { title: string; kicker: string; heading: string; text: string; home: string }>
+> = {
+  fr: {
+    title: 'Page introuvable',
+    kicker: 'Le chemin s’arrête ici',
+    heading: 'Page introuvable.',
+    text: 'Cette page a été déplacée, traduite ailleurs ou n’existe pas encore.',
+    home: 'Retour à l’accueil',
+  },
+  en: {
+    title: 'Page not found',
+    kicker: 'The path ends here',
+    heading: 'Page not found.',
+    text: 'This page has moved, exists in another language or is not published yet.',
+    home: 'Back home',
+  },
+  nl: {
+    title: 'Pagina niet gevonden',
+    kicker: 'Het pad eindigt hier',
+    heading: 'Pagina niet gevonden.',
+    text: 'Deze pagina is verplaatst, bestaat in een andere taal of is nog niet gepubliceerd.',
+    home: 'Terug naar home',
+  },
+  it: {
+    title: 'Pagina non trovata',
+    kicker: 'Il percorso finisce qui',
+    heading: 'Pagina non trovata.',
+    text: 'Questa pagina è stata spostata, esiste in un’altra lingua o non è ancora pubblicata.',
+    home: 'Torna alla home',
+  },
+};
+const copy = translations[locale] ?? translations.en!;
 ---
 
-<BaseLayout title={fr ? 'Page introuvable' : 'Page not found'} description="Erreur 404" {locale}>
+<BaseLayout title={copy.title} description="Erreur 404" {locale}>
   <section class="not-found">
     <div class="container">
-      <span>404</span><p class="section-kicker">
-        {fr ? 'Le chemin s’arrête ici' : 'The path ends here'}
-      </p><h1>{fr ? 'Page introuvable.' : 'Page not found.'}</h1><p>
-        {
-          fr
-            ? 'Cette page a été déplacée, traduite ailleurs ou n’existe pas encore.'
-            : 'This page has moved, exists in another language or is not published yet.'
-        }
+      <span>404</span><p class="section-kicker">{copy.kicker}</p><h1>{copy.heading}</h1><p>
+        {copy.text}
       </p><div class="button-row">
-        <a class="button" href={`/${locale}/`}>{fr ? 'Retour à l’accueil' : 'Back home'}</a><a
+        <a class="button" href={`/${locale}/`}>{copy.home}</a><a
           class="button button--ghost"
           href={`/${locale}/articles/`}>Articles</a
         >

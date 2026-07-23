@@ -8,61 +8,216 @@ interface Props {
 }
 
 const { locale } = Astro.props;
+const text: Record<
+  Locale,
+  {
+    games: string;
+    singSing: string;
+    allGames: string;
+    studio: string;
+    commissions: string;
+    method: string;
+    articles: string;
+    devlogs: string;
+    marxistGames: string;
+    essays: string;
+    community: string;
+    resources: string;
+    about: string;
+    who: string;
+    values: string;
+    legal: string;
+    privacy: string;
+    languages: string;
+    manifesto: string;
+    mainLanguage: string;
+    association: string;
+  }
+> = {
+  fr: {
+    games: 'Jeux',
+    singSing: 'La vallée de Sing Sing',
+    allGames: 'Tous les jeux',
+    studio: 'Studio',
+    commissions: 'Commandes',
+    method: 'Méthode',
+    articles: 'Articles',
+    devlogs: 'Journaux de développement',
+    marxistGames: 'Jeux marxistes',
+    essays: 'Réflexions',
+    community: 'Communauté',
+    resources: 'Ressources',
+    about: 'À propos',
+    who: 'Qui sommes-nous ?',
+    values: 'Valeurs',
+    legal: 'Mentions légales',
+    privacy: 'Confidentialité',
+    languages: 'Langues',
+    manifesto: 'Jeux · Histoire · Politique · Création collective',
+    mainLanguage: 'Français, langue principale',
+    association: 'Association',
+  },
+  en: {
+    games: 'Games',
+    singSing: 'Sing Sing Valley',
+    allGames: 'All games',
+    studio: 'Studio',
+    commissions: 'Commissions',
+    method: 'Method',
+    articles: 'Articles',
+    devlogs: 'Development journals',
+    marxistGames: 'Marxist games',
+    essays: 'Essays',
+    community: 'Community',
+    resources: 'Resources',
+    about: 'About',
+    who: 'Who we are',
+    values: 'Values',
+    legal: 'Legal notice',
+    privacy: 'Privacy',
+    languages: 'Languages',
+    manifesto: 'Games · History · Politics · Collective creation',
+    mainLanguage: 'French, main language',
+    association: 'Association',
+  },
+  es: {
+    games: 'Juegos',
+    singSing: 'El valle de Sing Sing',
+    allGames: 'Todos los juegos',
+    studio: 'Estudio',
+    commissions: 'Encargos',
+    method: 'Método',
+    articles: 'Artículos',
+    devlogs: 'Diarios de desarrollo',
+    marxistGames: 'Juegos marxistas',
+    essays: 'Reflexiones',
+    community: 'Comunidad',
+    resources: 'Recursos',
+    about: 'Quiénes somos',
+    who: 'Quiénes somos',
+    values: 'Valores',
+    legal: 'Aviso legal',
+    privacy: 'Privacidad',
+    languages: 'Idiomas',
+    manifesto: 'Juegos · Historia · Política · Creación colectiva',
+    mainLanguage: 'Francés, idioma principal',
+    association: 'Asociación',
+  },
+  de: {
+    games: 'Spiele',
+    singSing: 'Das Tal von Sing Sing',
+    allGames: 'Alle Spiele',
+    studio: 'Studio',
+    commissions: 'Aufträge',
+    method: 'Methode',
+    articles: 'Artikel',
+    devlogs: 'Entwicklungstagebücher',
+    marxistGames: 'Marxistische Spiele',
+    essays: 'Reflexionen',
+    community: 'Community',
+    resources: 'Ressourcen',
+    about: 'Über uns',
+    who: 'Wer wir sind',
+    values: 'Werte',
+    legal: 'Impressum',
+    privacy: 'Datenschutz',
+    languages: 'Sprachen',
+    manifesto: 'Spiele · Geschichte · Politik · Kollektive Gestaltung',
+    mainLanguage: 'Französisch, Hauptsprache',
+    association: 'Verein',
+  },
+  nl: {
+    games: 'Spellen',
+    singSing: 'De vallei van Sing Sing',
+    allGames: 'Alle spellen',
+    studio: 'Studio',
+    commissions: 'Opdrachten',
+    method: 'Methode',
+    articles: 'Artikelen',
+    devlogs: 'Ontwikkelingsdagboeken',
+    marxistGames: 'Marxistische spellen',
+    essays: 'Beschouwingen',
+    community: 'Gemeenschap',
+    resources: 'Bronnen',
+    about: 'Over ons',
+    who: 'Wie zijn wij?',
+    values: 'Waarden',
+    legal: 'Juridische informatie',
+    privacy: 'Privacy',
+    languages: 'Talen',
+    manifesto: 'Spellen · Geschiedenis · Politiek · Collectieve creatie',
+    mainLanguage: 'Frans, hoofdtaal',
+    association: 'Vereniging',
+  },
+  it: {
+    games: 'Giochi',
+    singSing: 'La valle di Sing Sing',
+    allGames: 'Tutti i giochi',
+    studio: 'Studio',
+    commissions: 'Commissioni',
+    method: 'Metodo',
+    articles: 'Articoli',
+    devlogs: 'Diari di sviluppo',
+    marxistGames: 'Giochi marxisti',
+    essays: 'Riflessioni',
+    community: 'Comunità',
+    resources: 'Risorse',
+    about: 'Chi siamo',
+    who: 'Chi siamo?',
+    values: 'Valori',
+    legal: 'Note legali',
+    privacy: 'Privacy',
+    languages: 'Lingue',
+    manifesto: 'Giochi · Storia · Politica · Creazione collettiva',
+    mainLanguage: 'Francese, lingua principale',
+    association: 'Associazione',
+  },
+};
+const t = text[locale];
 const columns = [
   {
-    title: locale === 'fr' ? 'Jeux' : 'Games',
+    title: t.games,
     links: [
       ['Russia 1917', `/${locale}/jeux/russia-1917/`],
-      [locale === 'en' ? 'Sing Sing Valley' : 'La vallée de Sing Sing', `/${locale}/jeux/`],
-      [locale === 'fr' ? 'Tous les jeux' : 'All games', `/${locale}/jeux/`],
+      [t.singSing, `/${locale}/jeux/`],
+      [t.allGames, `/${locale}/jeux/`],
     ],
   },
   {
-    title: locale === 'fr' ? 'Studio' : 'Studio',
+    title: t.studio,
     links: [
-      [locale === 'fr' ? 'Commandes' : 'Commissions', `/${locale}/commander-un-jeu/`],
-      [locale === 'fr' ? 'Méthode' : 'Method', `/${locale}/commander-un-jeu/#methode`],
+      [t.commissions, `/${locale}/commander-un-jeu/`],
+      [t.method, `/${locale}/commander-un-jeu/#methode`],
       ['Contact', `/${locale}/contact/`],
     ],
   },
   {
-    title: locale === 'fr' ? 'Articles' : 'Articles',
+    title: t.articles,
     links: [
-      [
-        locale === 'fr' ? 'Journaux de développement' : 'Development journals',
-        `/${locale}/articles/categories/devlog/`,
-      ],
-      [
-        locale === 'fr' ? 'Jeux marxistes' : 'Marxist games',
-        `/${locale}/articles/categories/marxist-games/`,
-      ],
-      [locale === 'fr' ? 'Réflexions' : 'Essays', `/${locale}/articles/categories/marxism-games/`],
+      [t.devlogs, `/${locale}/articles/categories/devlog/`],
+      [t.marxistGames, `/${locale}/articles/categories/marxist-games/`],
+      [t.essays, `/${locale}/articles/categories/marxism-games/`],
     ],
   },
   {
-    title: locale === 'fr' ? 'Communauté' : 'Community',
+    title: t.community,
     links: [
       ['Discord', 'https://discord.gg/placeholder'],
       ['Newsletter', `/${locale}/newsletter/`],
-      [locale === 'fr' ? 'Ressources' : 'Resources', `/${locale}/communaute/`],
+      [t.resources, `/${locale}/communaute/`],
     ],
   },
   {
-    title: locale === 'fr' ? 'À propos' : 'About',
+    title: t.about,
     links: [
-      [locale === 'fr' ? 'Qui sommes-nous ?' : 'Who we are', `/${locale}/a-propos/`],
-      [locale === 'fr' ? 'Valeurs' : 'Values', `/${locale}/a-propos/#valeurs`],
-      [locale === 'fr' ? 'Mentions légales' : 'Legal notice', `/${locale}/mentions-legales/`],
-      [locale === 'fr' ? 'Confidentialité' : 'Privacy', `/${locale}/confidentialite/`],
+      [t.who, `/${locale}/a-propos/`],
+      [t.values, `/${locale}/a-propos/#valeurs`],
+      [t.legal, `/${locale}/mentions-legales/`],
+      [t.privacy, `/${locale}/confidentialite/`],
     ],
   },
   {
-    title: {
-      fr: 'Langues',
-      en: 'Languages',
-      es: 'Idiomas',
-      de: 'Sprachen',
-    }[locale],
+    title: t.languages,
     links: locales.map((item) => [localeNames[item], `/${item}/`]),
   },
 ];
@@ -72,8 +227,8 @@ const columnIcons = ['gamepad', 'tools', 'article', 'community', 'info', 'globe'
 <footer class="site-footer">
   <div class="site-footer__top container">
     <div class="site-footer__manifesto">
-      <Logo />
-      <p>Jeux · Histoire · Politique · Création collective</p>
+      <Logo {locale} />
+      <p>{t.manifesto}</p>
     </div>
     <div class="site-footer__columns">
       {
@@ -96,8 +251,8 @@ const columnIcons = ['gamepad', 'tools', 'article', 'community', 'info', 'globe'
     </div>
   </div>
   <div class="site-footer__bottom container">
-    <p>© {new Date().getFullYear()} Marxists Games · Association</p>
-    <a href="/fr/">Français langue principale</a>
+    <p>© {new Date().getFullYear()} Marxists Games · {t.association}</p>
+    <a href="/fr/">{t.mainLanguage}</a>
   </div>
 </footer>
 

@@ -52,7 +52,7 @@ test('content frontmatter includes shared localisation and publication fields', 
     ]) {
       assert.match(frontmatter, new RegExp(`^${field}:`, 'm'), `${file}: missing ${field}`);
     }
-    assert.match(frontmatter, /^locale: ['"](fr|en|es|de)['"]$/m, `${file}: invalid locale`);
+    assert.match(frontmatter, /^locale: ['"](fr|en|es|de|nl|it)['"]$/m, `${file}: invalid locale`);
   }
 });
 

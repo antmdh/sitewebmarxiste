@@ -8,35 +8,84 @@ export function getStaticPaths() {
   return locales.map((locale) => ({ params: { locale } }));
 }
 const locale = Astro.params.locale as Locale;
-const fr = locale === 'fr';
 const title = 'Newsletter';
-const description = fr
-  ? 'Recevoir les nouvelles des jeux, des articles et des appels à test de Marxists Games.'
-  : 'Receive news about Marxists Games projects, articles and playtests.';
 const translations = locales.map((item) => ({ locale: item, href: `/${item}/newsletter/` }));
+const pageTranslations: Partial<
+  Record<
+    Locale,
+    {
+      description: string;
+      kicker: string;
+      heading: string;
+      items: string[];
+      subscribe: string;
+      notice: string;
+    }
+  >
+> = {
+  fr: {
+    description:
+      'Recevoir les nouvelles des jeux, des articles et des appels à test de Marxists Games.',
+    kicker: 'La voie calme',
+    heading: 'Des nouvelles, pas du bruit.',
+    items: [
+      'Avancement des jeux',
+      'Nouveaux articles',
+      'Appels à test',
+      'Événements de la communauté',
+    ],
+    subscribe: 'S’inscrire',
+    notice:
+      'Le prestataire d’envoi et la fréquence définitive restent à valider. Aucune adresse ne sera transmise à un tiers à des fins commerciales.',
+  },
+  en: {
+    description: 'Receive news about Marxists Games projects, articles and playtests.',
+    kicker: 'The quieter route',
+    heading: 'News, not noise.',
+    items: ['Game development', 'New articles', 'Playtest calls', 'Community events'],
+    subscribe: 'Subscribe',
+    notice:
+      'The sending provider and final frequency still need approval. Addresses will never be sold for commercial use.',
+  },
+  nl: {
+    description: 'Ontvang nieuws over de spellen, artikelen en speeltests van Marxists Games.',
+    kicker: 'De rustige route',
+    heading: 'Nieuws, geen ruis.',
+    items: [
+      'Ontwikkeling van spellen',
+      'Nieuwe artikelen',
+      'Oproepen voor speeltests',
+      'Gemeenschapsevenementen',
+    ],
+    subscribe: 'Inschrijven',
+    notice:
+      'De verzenddienst en de definitieve frequentie moeten nog worden bevestigd. Adressen worden nooit voor commerciële doeleinden doorgegeven.',
+  },
+  it: {
+    description: 'Ricevi notizie sui giochi, gli articoli e i playtest di Marxists Games.',
+    kicker: 'La via più tranquilla',
+    heading: 'Notizie, non rumore.',
+    items: ['Sviluppo dei giochi', 'Nuovi articoli', 'Inviti ai playtest', 'Eventi della comunità'],
+    subscribe: 'Iscriviti',
+    notice:
+      'Il servizio di invio e la frequenza definitiva devono ancora essere confermati. Gli indirizzi non saranno mai ceduti per fini commerciali.',
+  },
+};
+const copy = pageTranslations[locale] ?? pageTranslations.en!;
+const { description } = copy;
 ---
 
 <BaseLayout {title} {description} {locale} translationLinks={translations}>
   <section class="newsletter-page">
     <div class="container newsletter-page__grid">
       <div>
-        <p class="section-kicker">{fr ? 'La voie calme' : 'The quieter route'}</p><h1>
-          {fr ? 'Des nouvelles, pas du bruit.' : 'News, not noise.'}
-        </h1><p>{description}</p><ul>
-          <li>{fr ? 'Avancement des jeux' : 'Game development'}</li><li>
-            {fr ? 'Nouveaux articles' : 'New articles'}
-          </li><li>{fr ? 'Appels à test' : 'Playtest calls'}</li><li>
-            {fr ? 'Événements de la communauté' : 'Community events'}
-          </li>
+        <p class="section-kicker">{copy.kicker}</p><h1>{copy.heading}</h1><p>
+          {description}
+        </p><ul>
+          {copy.items.map((item) => <li>{item}</li>)}
         </ul>
       </div><div class="newsletter-page__form">
-        <h2>{fr ? 'S’inscrire' : 'Subscribe'}</h2><NewsletterForm {locale} /><p class="notice">
-          {
-            fr
-              ? 'Le prestataire d’envoi et la fréquence définitive restent à valider. Aucune adresse ne sera transmise à un tiers à des fins commerciales.'
-              : 'The sending provider and final frequency still need approval. Addresses will never be sold for commercial use.'
-          }
-        </p>
+        <h2>{copy.subscribe}</h2><NewsletterForm {locale} /><p class="notice">{copy.notice}</p>
       </div>
     </div>
   </section>

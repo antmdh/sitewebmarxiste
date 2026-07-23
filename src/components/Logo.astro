@@ -1,15 +1,25 @@
 ---
 import { Image } from 'astro:assets';
+import type { Locale } from '../lib/i18n';
 import icon from '../assets/images/marxists-games-icon.png';
 
 interface Props {
   compact?: boolean;
+  locale?: Locale;
 }
 
-const { compact = false } = Astro.props;
+const { compact = false, locale = 'fr' } = Astro.props;
+const homeLabel: Record<Locale, string> = {
+  fr: 'accueil',
+  en: 'home',
+  es: 'inicio',
+  de: 'Startseite',
+  nl: 'home',
+  it: 'home',
+};
 ---
 
-<a class="logo" href="/fr/" aria-label="Marxists Games — accueil">
+<a class="logo" href={`/${locale}/`} aria-label={`Marxists Games — ${homeLabel[locale]}`}>
   <span class="logo__mark" aria-hidden="true">
     <Image src={icon} alt="" width={50} height={65} format="png" loading="eager" />
   </span>

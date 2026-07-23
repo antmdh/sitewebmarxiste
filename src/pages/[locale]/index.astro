@@ -10,6 +10,12 @@ import ServiceCard from '../../components/ServiceCard.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { locales, localeNames, type Locale } from '../../lib/i18n';
 import brandBackground from '../../assets/images/marxists-games-background.webp';
+import gameDesignIcon from '../../assets/images/services/icone_gamedesign_blanc.png';
+import militantIcon from '../../assets/images/services/icone_militant_blanc.png';
+import pedagogicalIcon from '../../assets/images/services/icone_pedagogique_blanc.png';
+import prototypeIcon from '../../assets/images/services/icone_prototype_blanc.png';
+import scenarioIcon from '../../assets/images/services/icone_scenario_blanc.png';
+import technicalIcon from '../../assets/images/services/icone_technique_blanc.png';
 
 export const prerender = true;
 
@@ -133,46 +139,258 @@ const copy = {
     newsletterTitle: 'Neuigkeiten, kein Lärm.',
     newsletterText: 'Ein gelegentlicher Brief über Spiele, Artikel und Tests.',
   },
+  nl: {
+    eyebrow: 'Marxists Games · Vereniging · Onafhankelijke studio',
+    title: 'Marxistische spellen, een betrokken studio, een levende gemeenschap.',
+    intro:
+      'We maken spellen die macht, geschiedenis en samenleving bevragen.\nWe schrijven over marxisme en videogames.\nWe brengen een kritische en solidaire gemeenschap samen.',
+    gamesKicker: 'Producties van de studio',
+    gamesTitle: 'Spelen met geschiedenis. Nadenken over het heden.',
+    gamesText:
+      'Strategie, verhaal en onderzoek komen samen in toegankelijke projecten die tegenstellingen niet uitwissen.',
+    allGames: 'Alle spellen ontdekken',
+    commissionKicker: 'Een studio voor jouw ideeën',
+    commissionTitle: 'Jouw onderwerp verdient meer dan een quiz.',
+    commissionText:
+      'Verenigingen, vakbonden, musea en onderwijsteams: wij maken complexe vragen speelbaar.',
+    commissionButton: 'Vertel ons over je project',
+    articleKicker: 'Ons nieuws',
+    articleTitle: 'Ontwikkeling, kritiek, geschiedenis.',
+    articleText:
+      'We documenteren onze keuzes, delen hulpmiddelen en lezen de spellen om ons heen politiek.',
+    allArticles: 'Alle artikelen bekijken',
+    langKicker: 'Meerdere talen zijn noodzakelijk voor internationalisme',
+    langTitle: 'Kies de taal die bij je past.',
+    langText:
+      'Vertalingen worden geleidelijk gepubliceerd. De taalkiezer toont welke versies echt beschikbaar zijn.',
+    newsletterTitle: 'Nieuws, geen ruis.',
+    newsletterText: 'Af en toe een brief over spellen, nieuwe artikelen en speeltests.',
+  },
+  it: {
+    eyebrow: 'Marxists Games · Associazione · Studio indipendente',
+    title: 'Giochi marxisti, uno studio impegnato, una comunità viva.',
+    intro:
+      'Creiamo giochi che interrogano il potere, la storia e la società.\nScriviamo di marxismo e videogiochi.\nRiuniamo una comunità critica e solidale.',
+    gamesKicker: 'Le produzioni dello studio',
+    gamesTitle: 'Giocare con la storia. Pensare il presente.',
+    gamesText:
+      'Strategia, narrazione e ricerca si incontrano in progetti accessibili che non cancellano le contraddizioni.',
+    allGames: 'Scopri tutti i giochi',
+    commissionKicker: 'Uno studio per le tue idee',
+    commissionTitle: 'Il tuo argomento merita più di un quiz.',
+    commissionText:
+      'Associazioni, sindacati, musei e gruppi educativi: trasformiamo domande complesse in esperienze giocabili.',
+    commissionButton: 'Parlaci del tuo progetto',
+    articleKicker: 'Le nostre notizie',
+    articleTitle: 'Sviluppo, critica, storia.',
+    articleText:
+      'Documentiamo le nostre scelte, condividiamo strumenti e leggiamo politicamente i giochi che ci circondano.',
+    allArticles: 'Vedi tutti gli articoli',
+    langKicker: 'Più lingue sono necessarie per l’internazionalismo',
+    langTitle: 'Scegli la lingua più adatta a te.',
+    langText:
+      'Le traduzioni vengono pubblicate progressivamente. Il selettore mostra le versioni realmente disponibili.',
+    newsletterTitle: 'Notizie, non rumore.',
+    newsletterText: 'Una lettera occasionale su giochi, nuovi articoli e playtest.',
+  },
 }[locale];
 
-const serviceTitles =
-  locale === 'fr'
-    ? [
-        'Game design',
-        'Scénario & recherche',
-        'Prototype',
-        'Jeu pédagogique',
-        'Jeu militant',
-        'Accompagnement technique',
-      ]
-    : [
-        'Game design',
-        'Writing & research',
-        'Prototype',
-        'Educational game',
-        'Campaign game',
-        'Technical support',
-      ];
-const serviceDescriptions =
-  locale === 'fr'
-    ? [
-        'Transformer un objectif en règles lisibles et engageantes.',
-        'Documenter une époque, construire un récit et relire ses biais.',
-        'Tester vite la boucle centrale avant d’investir dans la production.',
-        'Faire manipuler un concept plutôt que le réciter.',
-        'Mettre l’action collective au cœur de l’expérience.',
-        'Choisir les bons outils et rendre votre équipe autonome.',
-      ]
-    : [
-        'Turn an objective into clear, engaging rules.',
-        'Research a period, build a narrative and examine its assumptions.',
-        'Test the central loop before full production.',
-        'Let players handle a concept rather than recite it.',
-        'Put collective action at the centre of the experience.',
-        'Choose the right tools and help your team become autonomous.',
-      ];
+const services: Record<Locale, { titles: string[]; descriptions: string[] }> = {
+  fr: {
+    titles: [
+      'Game design',
+      'Scénario & recherche',
+      'Prototype',
+      'Jeu pédagogique',
+      'Jeu militant',
+      'Accompagnement technique',
+    ],
+    descriptions: [
+      'Transformer un objectif en règles lisibles et engageantes.',
+      'Documenter une époque, construire un récit et relire ses biais.',
+      'Tester vite la boucle centrale avant d’investir dans la production.',
+      'Faire manipuler un concept plutôt que le réciter.',
+      'Mettre l’action collective au cœur de l’expérience.',
+      'Choisir les bons outils et rendre votre équipe autonome.',
+    ],
+  },
+  en: {
+    titles: [
+      'Game design',
+      'Writing & research',
+      'Prototype',
+      'Educational game',
+      'Campaign game',
+      'Technical support',
+    ],
+    descriptions: [
+      'Turn an objective into clear, engaging rules.',
+      'Research a period, build a narrative and examine its assumptions.',
+      'Test the central loop before full production.',
+      'Let players handle a concept rather than recite it.',
+      'Put collective action at the centre of the experience.',
+      'Choose the right tools and help your team become autonomous.',
+    ],
+  },
+  es: {
+    titles: [
+      'Diseño de juegos',
+      'Guion e investigación',
+      'Prototipo',
+      'Juego educativo',
+      'Juego militante',
+      'Asistencia técnica',
+    ],
+    descriptions: [
+      'Convertir un objetivo en reglas claras y atractivas.',
+      'Investigar una época, construir un relato y revisar sus sesgos.',
+      'Probar pronto el bucle central antes de invertir en la producción.',
+      'Permitir que el público manipule un concepto en lugar de recitarlo.',
+      'Situar la acción colectiva en el centro de la experiencia.',
+      'Elegir las herramientas adecuadas y dar autonomía a tu equipo.',
+    ],
+  },
+  de: {
+    titles: [
+      'Game Design',
+      'Drehbuch & Recherche',
+      'Prototyp',
+      'Lernspiel',
+      'Aktionsspiel',
+      'Technische Begleitung',
+    ],
+    descriptions: [
+      'Ein Ziel in klare und spannende Regeln übersetzen.',
+      'Eine Epoche erforschen, eine Erzählung entwickeln und ihre Annahmen prüfen.',
+      'Die zentrale Spielschleife früh testen, bevor die Produktion beginnt.',
+      'Ein Konzept erfahrbar machen, statt es nur abzufragen.',
+      'Kollektives Handeln in den Mittelpunkt der Erfahrung stellen.',
+      'Die passenden Werkzeuge wählen und das Team selbstständig machen.',
+    ],
+  },
+  nl: {
+    titles: [
+      'Game design',
+      'Scenario & onderzoek',
+      'Prototype',
+      'Educatief spel',
+      'Actiespel',
+      'Technische begeleiding',
+    ],
+    descriptions: [
+      'Een doel omzetten in duidelijke en boeiende spelregels.',
+      'Een periode onderzoeken, een verhaal opbouwen en aannames bevragen.',
+      'De centrale spelcyclus vroeg testen voordat de productie begint.',
+      'Een concept laten ervaren in plaats van het te laten opzeggen.',
+      'Collectieve actie centraal stellen in de ervaring.',
+      'De juiste hulpmiddelen kiezen en je team zelfstandig maken.',
+    ],
+  },
+  it: {
+    titles: [
+      'Game design',
+      'Sceneggiatura e ricerca',
+      'Prototipo',
+      'Gioco educativo',
+      'Gioco militante',
+      'Supporto tecnico',
+    ],
+    descriptions: [
+      'Trasformare un obiettivo in regole chiare e coinvolgenti.',
+      'Studiare un’epoca, costruire un racconto e riesaminarne i pregiudizi.',
+      'Testare presto il ciclo centrale prima di investire nella produzione.',
+      'Far sperimentare un concetto invece di farlo ripetere.',
+      'Mettere l’azione collettiva al centro dell’esperienza.',
+      'Scegliere gli strumenti giusti e rendere autonomo il tuo gruppo.',
+    ],
+  },
+};
+const { titles: serviceTitles, descriptions: serviceDescriptions } = services[locale];
+const homeLabels: Record<
+  Locale,
+  {
+    imageAlt: string;
+    caption: string;
+    primary: string;
+    secondary: string;
+    noGames: string;
+    noArticles: string;
+    languages: string;
+  }
+> = {
+  fr: {
+    imageAlt: 'Personnage pixel art inspiré de Marx sautant au-dessus de livres et de plateformes',
+    caption: 'Marxists Games · Jeux, théorie et création',
+    primary: 'Découvrir nos jeux',
+    secondary: 'Commander un jeu',
+    noGames: 'Les traductions des autres jeux sont en préparation.',
+    noArticles: 'Les articles dans cette langue arrivent bientôt.',
+    languages: 'Langues disponibles',
+  },
+  en: {
+    imageAlt: 'Pixel-art character inspired by Marx jumping over books and platforms',
+    caption: 'Marxists Games · Games, theory and creation',
+    primary: 'Discover our games',
+    secondary: 'Commission a game',
+    noGames: 'Translations of the other games are in progress.',
+    noArticles: 'Articles in this language are coming soon.',
+    languages: 'Available languages',
+  },
+  es: {
+    imageAlt: 'Personaje pixel art inspirado en Marx que salta sobre libros y plataformas',
+    caption: 'Marxists Games · Juegos, teoría y creación',
+    primary: 'Descubrir nuestros juegos',
+    secondary: 'Encargar un juego',
+    noGames: 'Las traducciones de los demás juegos están en preparación.',
+    noArticles: 'Los artículos en este idioma llegarán pronto.',
+    languages: 'Idiomas disponibles',
+  },
+  de: {
+    imageAlt: 'Von Marx inspirierte Pixel-Art-Figur springt über Bücher und Plattformen',
+    caption: 'Marxists Games · Spiele, Theorie und Gestaltung',
+    primary: 'Unsere Spiele entdecken',
+    secondary: 'Spiel beauftragen',
+    noGames: 'Die Übersetzungen der anderen Spiele sind in Arbeit.',
+    noArticles: 'Artikel in dieser Sprache folgen bald.',
+    languages: 'Verfügbare Sprachen',
+  },
+  nl: {
+    imageAlt: 'Door Marx geïnspireerd pixelpersonage springt over boeken en platformen',
+    caption: 'Marxists Games · Spellen, theorie en creatie',
+    primary: 'Ontdek onze spellen',
+    secondary: 'Laat een spel maken',
+    noGames: 'De vertalingen van de andere spellen zijn in voorbereiding.',
+    noArticles: 'Artikelen in deze taal verschijnen binnenkort.',
+    languages: 'Beschikbare talen',
+  },
+  it: {
+    imageAlt: 'Personaggio in pixel art ispirato a Marx che salta sopra libri e piattaforme',
+    caption: 'Marxists Games · Giochi, teoria e creazione',
+    primary: 'Scopri i nostri giochi',
+    secondary: 'Commissiona un gioco',
+    noGames: 'Le traduzioni degli altri giochi sono in preparazione.',
+    noArticles: 'Gli articoli in questa lingua arriveranno presto.',
+    languages: 'Lingue disponibili',
+  },
+};
+const labels = homeLabels[locale];
+const heroTicker: Record<Locale, string[]> = {
+  fr: ['JEUX', 'HISTOIRE', 'MARXISME', 'CRÉATION'],
+  en: ['GAMES', 'HISTORY', 'MARXISM', 'CREATION'],
+  es: ['JUEGOS', 'HISTORIA', 'MARXISMO', 'CREACIÓN'],
+  de: ['SPIELE', 'GESCHICHTE', 'MARXISMUS', 'GESTALTUNG'],
+  nl: ['SPELLEN', 'GESCHIEDENIS', 'MARXISME', 'CREATIE'],
+  it: ['GIOCHI', 'STORIA', 'MARXISMO', 'CREAZIONE'],
+};
 
-const serviceIcons = ['gamepad', 'quill', 'tools', 'book', 'community', 'gear'] as const;
+const serviceIcons = [
+  gameDesignIcon,
+  scenarioIcon,
+  prototypeIcon,
+  pedagogicalIcon,
+  militantIcon,
+  technicalIcon,
+];
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -196,12 +414,13 @@ const structuredData = {
     title={copy.title}
     intro={copy.intro}
     image={brandBackground}
-    imageAlt="Personnage pixel art inspiré de Marx sautant au-dessus de livres et de plateformes"
-    caption="Marxists Games · Jeux, théorie et création"
+    imageAlt={labels.imageAlt}
+    caption={labels.caption}
     primaryHref={`/${locale}/jeux/`}
-    primaryLabel={locale === 'fr' ? 'Découvrir nos jeux' : 'Discover our games'}
+    primaryLabel={labels.primary}
     secondaryHref={`/${locale}/commander-un-jeu/`}
-    secondaryLabel={locale === 'fr' ? 'Commander un jeu' : 'Commission a game'}
+    secondaryLabel={labels.secondary}
+    ticker={heroTicker[locale]}
   />
 
   <section class="section">
@@ -219,7 +438,7 @@ const structuredData = {
             ))}
           </div>
         ) : (
-          <p class="notice">Les traductions des autres jeux sont en préparation.</p>
+          <p class="notice">{labels.noGames}</p>
         )
       }
       <div class="section-cta">
@@ -271,7 +490,7 @@ const structuredData = {
             ))}
           </div>
         ) : (
-          <p class="notice">Les articles dans cette langue arrivent bientôt.</p>
+          <p class="notice">{labels.noArticles}</p>
         )
       }
       <div class="section-cta">
@@ -292,7 +511,7 @@ const structuredData = {
           {copy.langText}
         </p>
       </div>
-      <nav aria-label="Langues disponibles">
+      <nav aria-label={labels.languages}>
         <ul class="no-list">
           {
             locales.map((item, index) => (

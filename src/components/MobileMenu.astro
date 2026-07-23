@@ -10,6 +10,14 @@ interface Props {
 const { locale } = Astro.props;
 const t = ui[locale];
 const navIcons = ['gamepad', 'gear', 'article', 'community', 'info'] as const;
+const navigationLabel: Record<Locale, string> = {
+  fr: 'Navigation mobile',
+  en: 'Mobile navigation',
+  es: 'Navegación móvil',
+  de: 'Mobile Navigation',
+  nl: 'Mobiele navigatie',
+  it: 'Navigazione mobile',
+};
 ---
 
 <details class="mobile-menu">
@@ -17,7 +25,7 @@ const navIcons = ['gamepad', 'gear', 'article', 'community', 'info'] as const;
     <span class="mobile-menu__icon" aria-hidden="true"><i></i></span>
     <span>{t.menu}</span>
   </summary>
-  <nav aria-label="Navigation mobile">
+  <nav aria-label={navigationLabel[locale]}>
     <ul class="no-list">
       {
         t.nav.map((label, index) => (

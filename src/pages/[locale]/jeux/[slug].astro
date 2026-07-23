@@ -42,6 +42,103 @@ const structuredData = {
   image: new URL(game.data.heroImage.src, Astro.site).href,
   author: { '@type': 'Organization', name: 'Marxists Games' },
 };
+const detailTranslations: Partial<
+  Record<
+    Locale,
+    {
+      home: string;
+      games: string;
+      status: string;
+      platforms: string;
+      period: string;
+      updated: string;
+      project: string;
+      projectTitle: string;
+      gallery: string;
+      galleryTitle: string;
+      ctaKicker: string;
+      ctaTitle: string;
+      joinDiscord: string;
+      readJournal: string;
+      updates: string;
+      journalTitle: string;
+    }
+  >
+> = {
+  fr: {
+    home: 'Accueil',
+    games: 'Jeux',
+    status: 'Statut',
+    platforms: 'Plateformes',
+    period: 'Période',
+    updated: 'Mise à jour',
+    project: 'Le projet',
+    projectTitle: 'Stratégie, contexte et choix.',
+    gallery: 'Galerie',
+    galleryTitle: 'Le jeu en images.',
+    ctaKicker: 'Tests · discussions · histoire',
+    ctaTitle: 'Suivez le développement avec nous.',
+    joinDiscord: 'Rejoindre le Discord',
+    readJournal: 'Lire le journal',
+    updates: 'Dernières mises à jour',
+    journalTitle: 'Dans le journal.',
+  },
+  en: {
+    home: 'Home',
+    games: 'Games',
+    status: 'Status',
+    platforms: 'Platforms',
+    period: 'Period',
+    updated: 'Updated',
+    project: 'The project',
+    projectTitle: 'Strategy, context and choices.',
+    gallery: 'Gallery',
+    galleryTitle: 'The game in images.',
+    ctaKicker: 'Tests · discussions · history',
+    ctaTitle: 'Follow development with us.',
+    joinDiscord: 'Join Discord',
+    readJournal: 'Read the journal',
+    updates: 'Latest updates',
+    journalTitle: 'From the journal.',
+  },
+  nl: {
+    home: 'Home',
+    games: 'Spellen',
+    status: 'Status',
+    platforms: 'Platformen',
+    period: 'Periode',
+    updated: 'Bijgewerkt',
+    project: 'Het project',
+    projectTitle: 'Strategie, context en keuzes.',
+    gallery: 'Galerij',
+    galleryTitle: 'Het spel in beeld.',
+    ctaKicker: 'Tests · gesprekken · geschiedenis',
+    ctaTitle: 'Volg de ontwikkeling samen met ons.',
+    joinDiscord: 'Naar Discord',
+    readJournal: 'Lees het dagboek',
+    updates: 'Laatste updates',
+    journalTitle: 'Uit het dagboek.',
+  },
+  it: {
+    home: 'Home',
+    games: 'Giochi',
+    status: 'Stato',
+    platforms: 'Piattaforme',
+    period: 'Periodo',
+    updated: 'Aggiornato',
+    project: 'Il progetto',
+    projectTitle: 'Strategia, contesto e scelte.',
+    gallery: 'Galleria',
+    galleryTitle: 'Il gioco in immagini.',
+    ctaKicker: 'Test · discussioni · storia',
+    ctaTitle: 'Segui lo sviluppo insieme a noi.',
+    joinDiscord: 'Unisciti a Discord',
+    readJournal: 'Leggi il diario',
+    updates: 'Ultimi aggiornamenti',
+    journalTitle: 'Dal diario.',
+  },
+};
+const detail = detailTranslations[locale] ?? detailTranslations.en!;
 ---
 
 <BaseLayout
@@ -54,8 +151,8 @@ const structuredData = {
 >
   <Breadcrumbs
     items={[
-      { label: locale === 'fr' ? 'Accueil' : 'Home', href: `/${locale}/` },
-      { label: locale === 'fr' ? 'Jeux' : 'Games', href: `/${locale}/jeux/` },
+      { label: detail.home, href: `/${locale}/` },
+      { label: detail.games, href: `/${locale}/jeux/` },
       { label: game.data.title },
     ]}
   />
@@ -97,24 +194,16 @@ const structuredData = {
     <section class="game-facts">
       <div class="container game-facts__grid">
         <div>
-          <span>{locale === 'fr' ? 'Statut' : 'Status'}</span><strong
-            >{game.data.developmentStatus}</strong
-          >
+          <span>{detail.status}</span><strong>{game.data.developmentStatus}</strong>
         </div>
         <div>
-          <span>{locale === 'fr' ? 'Plateformes' : 'Platforms'}</span><strong
-            >{game.data.platforms.join(' · ')}</strong
-          >
+          <span>{detail.platforms}</span><strong>{game.data.platforms.join(' · ')}</strong>
         </div>
         <div>
-          <span>{locale === 'fr' ? 'Période' : 'Period'}</span><strong
-            >{game.data.historicalPeriod}</strong
-          >
+          <span>{detail.period}</span><strong>{game.data.historicalPeriod}</strong>
         </div>
         <div>
-          <span>{locale === 'fr' ? 'Mise à jour' : 'Updated'}</span><strong
-            >{localizedDate(game.data.updatedAt, locale)}</strong
-          >
+          <span>{detail.updated}</span><strong>{localizedDate(game.data.updatedAt, locale)}</strong>
         </div>
       </div>
     </section>
@@ -122,9 +211,7 @@ const structuredData = {
     <section class="section">
       <div class="container content-grid">
         <aside>
-          <p class="section-kicker">{locale === 'fr' ? 'Le projet' : 'The project'}</p><h2>
-            {locale === 'fr' ? 'Stratégie, contexte et choix.' : 'Strategy, context and choices.'}
-          </h2>
+          <p class="section-kicker">{detail.project}</p><h2>{detail.projectTitle}</h2>
         </aside><div class="prose"><Content /></div>
       </div>
     </section>
@@ -136,8 +223,8 @@ const structuredData = {
             <>
               <header class="section-heading">
                 <>
-                  <p class="section-kicker">Galerie</p>
-                  <h2>{locale === 'fr' ? 'Le jeu en images.' : 'The game in images.'}</h2>
+                  <p class="section-kicker">{detail.gallery}</p>
+                  <h2>{detail.galleryTitle}</h2>
                 </>
               </header>
               <div class="gallery__grid">
@@ -163,15 +250,15 @@ const structuredData = {
 
     <section class="game-cta section section--red">
       <div class="container">
-        <p class="section-kicker">Tests · discussions · histoire</p><h2>
-          {locale === 'fr' ? 'Suivez le développement avec nous.' : 'Follow development with us.'}
-        </h2><div class="button-row">
+        <p class="section-kicker">{detail.ctaKicker}</p><h2>{detail.ctaTitle}</h2><div
+          class="button-row"
+        >
           <a class="button button--cream" href="https://discord.gg/placeholder"
-            >{locale === 'fr' ? 'Rejoindre le Discord' : 'Join Discord'} ↗</a
+            >{detail.joinDiscord} ↗</a
           >{
             game.data.devlogUrl && (
               <a class="button button--ghost" href={game.data.devlogUrl}>
-                {locale === 'fr' ? 'Lire le journal' : 'Read the journal'} →
+                {detail.readJournal} →
               </a>
             )
           }
@@ -186,10 +273,8 @@ const structuredData = {
             <>
               <header class="section-heading">
                 <>
-                  <p class="section-kicker">
-                    {locale === 'fr' ? 'Dernières mises à jour' : 'Latest updates'}
-                  </p>
-                  <h2>{locale === 'fr' ? 'Dans le journal.' : 'From the journal.'}</h2>
+                  <p class="section-kicker">{detail.updates}</p>
+                  <h2>{detail.journalTitle}</h2>
                 </>
               </header>
               <div class="grid-3">

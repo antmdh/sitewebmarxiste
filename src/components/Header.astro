@@ -15,12 +15,20 @@ const { locale, translationLinks = locales.map((item) => ({ locale: item, href: 
   Astro.props;
 const t = ui[locale];
 const navIcons = ['gamepad', 'gear', 'article', 'community', 'info'] as const;
+const navigationLabel: Record<Locale, string> = {
+  fr: 'Navigation principale',
+  en: 'Main navigation',
+  es: 'Navegación principal',
+  de: 'Hauptnavigation',
+  nl: 'Hoofdnavigatie',
+  it: 'Navigazione principale',
+};
 ---
 
 <header class="site-header">
   <div class="site-header__inner container">
-    <Logo compact />
-    <nav class="desktop-nav" aria-label="Navigation principale">
+    <Logo compact {locale} />
+    <nav class="desktop-nav" aria-label={navigationLabel[locale]}>
       <ul class="no-list">
         {
           t.nav.map((label, index) => (

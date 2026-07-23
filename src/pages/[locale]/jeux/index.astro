@@ -13,25 +13,67 @@ const locale = Astro.params.locale as Locale;
 const games = (
   await getCollection('games', ({ data }) => data.locale === locale && !data.draft)
 ).sort((a, b) => b.data.updatedAt.valueOf() - a.data.updatedAt.valueOf());
-const title =
-  locale === 'fr'
-    ? 'Nos jeux'
-    : locale === 'en'
-      ? 'Our games'
-      : locale === 'es'
-        ? 'Nuestros juegos'
-        : 'Unsere Spiele';
-const description =
-  locale === 'fr'
-    ? 'Des jeux de stratégie et de narration pour comprendre l’histoire, interroger le pouvoir et explorer des possibles.'
-    : 'Strategy and narrative games for understanding history, questioning power and exploring possibilities.';
+const copy: Record<
+  Locale,
+  { kicker: string; title: string; description: string; empty: string; french: string }
+> = {
+  fr: {
+    kicker: 'Catalogue',
+    title: 'Nos jeux',
+    description:
+      'Des jeux de stratégie et de narration pour comprendre l’histoire, interroger le pouvoir et explorer des possibles.',
+    empty: 'Aucun jeu n’est encore traduit dans cette langue.',
+    french: 'Voir la version française',
+  },
+  en: {
+    kicker: 'Catalogue',
+    title: 'Our games',
+    description:
+      'Strategy and narrative games for understanding history, questioning power and exploring possibilities.',
+    empty: 'No game is translated into this language yet.',
+    french: 'View the French version',
+  },
+  es: {
+    kicker: 'Catálogo',
+    title: 'Nuestros juegos',
+    description:
+      'Juegos de estrategia y narración para comprender la historia, cuestionar el poder y explorar posibilidades.',
+    empty: 'Todavía no hay juegos traducidos a este idioma.',
+    french: 'Ver la versión francesa',
+  },
+  de: {
+    kicker: 'Katalog',
+    title: 'Unsere Spiele',
+    description:
+      'Strategie- und Erzählspiele, um Geschichte zu verstehen, Macht zu hinterfragen und Möglichkeiten zu erkunden.',
+    empty: 'Noch ist kein Spiel in diese Sprache übersetzt.',
+    french: 'Französische Version ansehen',
+  },
+  nl: {
+    kicker: 'Catalogus',
+    title: 'Onze spellen',
+    description:
+      'Strategie- en verhaalspellen om geschiedenis te begrijpen, macht te bevragen en mogelijkheden te verkennen.',
+    empty: 'Er is nog geen spel in deze taal vertaald.',
+    french: 'Bekijk de Franse versie',
+  },
+  it: {
+    kicker: 'Catalogo',
+    title: 'I nostri giochi',
+    description:
+      'Giochi strategici e narrativi per comprendere la storia, interrogare il potere ed esplorare possibilità.',
+    empty: 'Nessun gioco è ancora tradotto in questa lingua.',
+    french: 'Vedi la versione francese',
+  },
+};
+const { kicker, title, description, empty, french } = copy[locale];
 const translations = locales.map((item) => ({ locale: item, href: `/${item}/jeux/` }));
 ---
 
 <BaseLayout {title} {description} {locale} translationLinks={translations}>
   <header class="page-hero">
     <div class="container page-hero__inner">
-      <p class="section-kicker">Catalogue</p><h1>{title}</h1><p>{description}</p>
+      <p class="section-kicker">{kicker}</p><h1>{title}</h1><p>{description}</p>
     </div>
   </header>
   <section class="section">
@@ -46,12 +88,8 @@ const translations = locales.map((item) => ({ locale: item, href: `/${item}/jeux
         ) : (
           <div class="notice">
             <>
-              <p>
-                {locale === 'fr'
-                  ? 'Aucun jeu n’est encore traduit dans cette langue.'
-                  : 'No game is translated into this language yet.'}
-              </p>
-              <a href="/fr/jeux/">Voir la version française →</a>
+              <p>{empty}</p>
+              <a href="/fr/jeux/">{french} →</a>
             </>
           </div>
         )

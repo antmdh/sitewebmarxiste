@@ -7,51 +7,168 @@ export function getStaticPaths() {
   return locales.map((locale) => ({ params: { locale } }));
 }
 const locale = Astro.params.locale as Locale;
-const fr = locale === 'fr';
-const title = fr ? 'À propos' : 'About Marxists Games';
-const description = fr
-  ? 'Une association de développeur·ses, scénaristes, artistes et passionné·es qui créent des jeux à partir d’une lecture matérialiste de l’histoire.'
-  : 'An association of developers, writers, artists and players making games from a materialist reading of history.';
 const translations = locales.map((item) => ({ locale: item, href: `/${item}/a-propos/` }));
+const pageTranslations: Partial<
+  Record<
+    Locale,
+    {
+      title: string;
+      description: string;
+      kicker: string;
+      heading: string;
+      who: string;
+      practice: string;
+      paragraphs: string[];
+      notice: string;
+      valuesKicker: string;
+      valuesTitle: string;
+      values: string[][];
+      work: string;
+      callout: string;
+      commission: string;
+    }
+  >
+> = {
+  fr: {
+    title: 'À propos',
+    description:
+      'Une association de développeur·ses, scénaristes, artistes et passionné·es qui créent des jeux à partir d’une lecture matérialiste de l’histoire.',
+    kicker: 'Association · Studio · Revue',
+    heading: 'Créer des jeux qui prennent les idées au sérieux.',
+    who: 'Qui sommes-nous ?',
+    practice: 'Une pratique collective en construction.',
+    paragraphs: [
+      'Marxists Games réunit création, recherche historique et discussion politique. Nous partons d’une conviction simple : les classes sociales existent, leurs intérêts entrent en conflit, et le jeu peut rendre ces rapports sensibles sans sacrifier le plaisir de jouer.',
+      'Le site devient notre atelier public. Il présente les jeux, documente leur fabrication, accueille des analyses et permet à des organisations de nous confier un projet sur mesure.',
+    ],
+    notice:
+      'La composition complète de l’association, ses statuts et ses partenaires restent à documenter avant la publication finale.',
+    valuesKicker: 'Nos valeurs',
+    valuesTitle: 'Ce qui guide le travail.',
+    values: [
+      ['Matérialisme', 'Partir des rapports sociaux concrets, des ressources et des institutions.'],
+      [
+        'Accessibilité',
+        'Rendre les systèmes lisibles et les contenus utilisables par le plus grand nombre.',
+      ],
+      [
+        'Esprit critique',
+        'Documenter les sources, montrer les choix de conception et accepter la contradiction.',
+      ],
+      ['Solidarité', 'Créer avec les personnes concernées et privilégier l’action collective.'],
+    ],
+    work: 'Travailler ensemble',
+    callout: 'Une idée, une source, un projet ?',
+    commission: 'Commander un jeu',
+  },
+  en: {
+    title: 'About Marxists Games',
+    description:
+      'An association of developers, writers, artists and players making games from a materialist reading of history.',
+    kicker: 'Association · Studio · Review',
+    heading: 'Making games that take ideas seriously.',
+    who: 'Who are we?',
+    practice: 'A collective practice in progress.',
+    paragraphs: [
+      'Marxists Games brings together creation, historical research and political discussion. We begin from a simple premise: social classes exist, their interests conflict, and games can make these relations tangible without sacrificing play.',
+      'This site is our public workshop: a place for games, development notes, analysis and custom commissions.',
+    ],
+    notice:
+      'The full association team, statutes and partners still need to be documented before final publication.',
+    valuesKicker: 'Our values',
+    valuesTitle: 'What guides the work.',
+    values: [
+      ['Materialism', 'Begin with concrete social relations, resources and institutions.'],
+      [
+        'Accessibility',
+        'Make systems understandable and content usable by as many people as possible.',
+      ],
+      ['Critical thinking', 'Document sources, expose design choices and welcome disagreement.'],
+      ['Solidarity', 'Create with the people concerned and centre collective action.'],
+    ],
+    work: 'Work together',
+    callout: 'An idea, a source, a project?',
+    commission: 'Commission a game',
+  },
+  nl: {
+    title: 'Over Marxists Games',
+    description:
+      'Een vereniging van ontwikkelaars, schrijvers, kunstenaars en spelers die spellen maakt vanuit een materialistische lezing van de geschiedenis.',
+    kicker: 'Vereniging · Studio · Tijdschrift',
+    heading: 'Spellen maken die ideeën serieus nemen.',
+    who: 'Wie zijn wij?',
+    practice: 'Een collectieve praktijk in ontwikkeling.',
+    paragraphs: [
+      'Marxists Games brengt creatie, historisch onderzoek en politieke discussie samen. We vertrekken van een eenvoudige overtuiging: sociale klassen bestaan, hun belangen botsen en spellen kunnen die verhoudingen voelbaar maken zonder het spelplezier op te offeren.',
+      'Deze site is ons openbare atelier: een plek voor spellen, ontwikkelingsnotities, analyses en projecten op maat.',
+    ],
+    notice:
+      'De volledige samenstelling van de vereniging, haar statuten en partners moeten vóór de definitieve publicatie nog worden gedocumenteerd.',
+    valuesKicker: 'Onze waarden',
+    valuesTitle: 'Wat ons werk richting geeft.',
+    values: [
+      ['Materialisme', 'Vertrekken van concrete sociale verhoudingen, middelen en instellingen.'],
+      [
+        'Toegankelijkheid',
+        'Systemen begrijpelijk en inhoud bruikbaar maken voor zoveel mogelijk mensen.',
+      ],
+      ['Kritisch denken', 'Bronnen documenteren, ontwerpkeuzes tonen en tegenspraak verwelkomen.'],
+      ['Solidariteit', 'Creëren met de betrokken mensen en collectieve actie centraal stellen.'],
+    ],
+    work: 'Samenwerken',
+    callout: 'Een idee, een bron, een project?',
+    commission: 'Laat een spel maken',
+  },
+  it: {
+    title: 'Chi è Marxists Games',
+    description:
+      'Un’associazione di sviluppatori, autori, artisti e giocatori che crea giochi a partire da una lettura materialista della storia.',
+    kicker: 'Associazione · Studio · Rivista',
+    heading: 'Creare giochi che prendono sul serio le idee.',
+    who: 'Chi siamo?',
+    practice: 'Una pratica collettiva in costruzione.',
+    paragraphs: [
+      'Marxists Games riunisce creazione, ricerca storica e discussione politica. Partiamo da una convinzione semplice: le classi sociali esistono, i loro interessi entrano in conflitto e il gioco può rendere sensibili questi rapporti senza sacrificare il piacere di giocare.',
+      'Questo sito è il nostro laboratorio pubblico: uno spazio per i giochi, i diari di sviluppo, le analisi e i progetti su misura.',
+    ],
+    notice:
+      'La composizione completa dell’associazione, il suo statuto e i suoi partner devono ancora essere documentati prima della pubblicazione definitiva.',
+    valuesKicker: 'I nostri valori',
+    valuesTitle: 'Ciò che guida il lavoro.',
+    values: [
+      ['Materialismo', 'Partire dai rapporti sociali concreti, dalle risorse e dalle istituzioni.'],
+      [
+        'Accessibilità',
+        'Rendere i sistemi comprensibili e i contenuti utilizzabili da più persone possibile.',
+      ],
+      [
+        'Spirito critico',
+        'Documentare le fonti, mostrare le scelte progettuali e accogliere il dissenso.',
+      ],
+      ['Solidarietà', 'Creare con le persone coinvolte e mettere al centro l’azione collettiva.'],
+    ],
+    work: 'Lavorare insieme',
+    callout: 'Un’idea, una fonte, un progetto?',
+    commission: 'Commissiona un gioco',
+  },
+};
+const copy = pageTranslations[locale] ?? pageTranslations.en!;
+const { title, description } = copy;
 ---
 
 <BaseLayout {title} {description} {locale} translationLinks={translations}>
   <header class="about-hero">
     <div class="container">
-      <p class="section-kicker">Association · Studio · Revue</p><h1>
-        {
-          fr
-            ? 'Créer des jeux qui prennent les idées au sérieux.'
-            : 'Making games that take ideas seriously.'
-        }
-      </h1><p>{description}</p>
+      <p class="section-kicker">{copy.kicker}</p><h1>{copy.heading}</h1><p>{description}</p>
     </div>
   </header>
   <section class="section">
     <div class="container about-grid">
       <aside>
-        <p class="section-kicker">{fr ? 'Qui sommes-nous ?' : 'Who are we?'}</p><h2>
-          {fr ? 'Une pratique collective en construction.' : 'A collective practice in progress.'}
-        </h2>
+        <p class="section-kicker">{copy.who}</p><h2>{copy.practice}</h2>
       </aside><div class="prose">
-        <p>
-          {
-            fr
-              ? 'Marxists Games réunit création, recherche historique et discussion politique. Nous partons d’une conviction simple : les classes sociales existent, leurs intérêts entrent en conflit, et le jeu peut rendre ces rapports sensibles sans sacrifier le plaisir de jouer.'
-              : 'Marxists Games brings together creation, historical research and political discussion. We begin from a simple premise: social classes exist, their interests conflict, and games can make these relations tangible without sacrificing play.'
-          }
-        </p><p>
-          {
-            fr
-              ? 'Le site devient notre atelier public. Il présente les jeux, documente leur fabrication, accueille des analyses et permet à des organisations de nous confier un projet sur mesure.'
-              : 'This site is our public workshop: a place for games, development notes, analysis and custom commissions.'
-          }
-        </p><div class="notice">
-          {
-            fr
-              ? 'La composition complète de l’association, ses statuts et ses partenaires restent à documenter avant la publication finale.'
-              : 'The full association team, statutes and partners still need to be documented before final publication.'
-          }
+        <p>{copy.paragraphs[0]}</p><p>{copy.paragraphs[1]}</p><div class="notice">
+          {copy.notice}
         </div>
       </div>
     </div>
@@ -59,37 +176,10 @@ const translations = locales.map((item) => ({ locale: item, href: `/${item}/a-pr
   <section id="valeurs" class="section values section--dark">
     <div class="container">
       <header class="section-heading">
-        <p class="section-kicker">{fr ? 'Nos valeurs' : 'Our values'}</p><h2>
-          {fr ? 'Ce qui guide le travail.' : 'What guides the work.'}
-        </h2>
+        <p class="section-kicker">{copy.valuesKicker}</p><h2>{copy.valuesTitle}</h2>
       </header><div class="values__grid">
         {
-          [
-            [
-              fr ? 'Matérialisme' : 'Materialism',
-              fr
-                ? 'Partir des rapports sociaux concrets, des ressources et des institutions.'
-                : 'Begin with concrete social relations, resources and institutions.',
-            ],
-            [
-              fr ? 'Accessibilité' : 'Accessibility',
-              fr
-                ? 'Rendre les systèmes lisibles et les contenus utilisables par le plus grand nombre.'
-                : 'Make systems understandable and content usable by as many people as possible.',
-            ],
-            [
-              fr ? 'Esprit critique' : 'Critical thinking',
-              fr
-                ? 'Documenter les sources, montrer les choix de conception et accepter la contradiction.'
-                : 'Document sources, expose design choices and welcome disagreement.',
-            ],
-            [
-              fr ? 'Solidarité' : 'Solidarity',
-              fr
-                ? 'Créer avec les personnes concernées et privilégier l’action collective.'
-                : 'Create with the people concerned and centre collective action.',
-            ],
-          ].map(([name, text], index) => (
+          copy.values.map(([name, text], index) => (
             <article>
               <>
                 <span>0{index + 1}</span>
@@ -105,13 +195,11 @@ const translations = locales.map((item) => ({ locale: item, href: `/${item}/a-pr
   <section class="section">
     <div class="container contact-callout">
       <div>
-        <p class="section-kicker">{fr ? 'Travailler ensemble' : 'Work together'}</p><h2>
-          {fr ? 'Une idée, une source, un projet ?' : 'An idea, a source, a project?'}
-        </h2>
+        <p class="section-kicker">{copy.work}</p><h2>{copy.callout}</h2>
       </div><div class="button-row">
         <a class="button" href={`/${locale}/contact/`}>Contact →</a><a
           class="button button--ghost"
-          href={`/${locale}/commander-un-jeu/`}>{fr ? 'Commander un jeu' : 'Commission a game'} →</a
+          href={`/${locale}/commander-un-jeu/`}>{copy.commission} →</a
         >
       </div>
     </div>

@@ -8,18 +8,72 @@ export function getStaticPaths() {
   return locales.map((locale) => ({ params: { locale } }));
 }
 const locale = Astro.params.locale as Locale;
-const fr = locale === 'fr';
 const title = 'Contact';
-const description = fr
-  ? 'Contacter l’association Marxists Games pour une question, une proposition ou une collaboration.'
-  : 'Contact Marxists Games with a question, proposal or collaboration.';
 const translations = locales.map((item) => ({ locale: item, href: `/${item}/contact/` }));
+const pageTranslations: Partial<
+  Record<
+    Locale,
+    {
+      description: string;
+      kicker: string;
+      write: string;
+      commission: string;
+      project: string;
+      validate: string;
+      address: string;
+    }
+  >
+> = {
+  fr: {
+    description:
+      'Contacter l’association Marxists Games pour une question, une proposition ou une collaboration.',
+    kicker: 'Une question ?',
+    write: 'Écrivez-nous.',
+    commission:
+      'Pour un jeu sur mesure, utilisez de préférence le formulaire détaillé de la page Commander un jeu.',
+    project: 'Présenter un projet',
+    validate: 'Coordonnées à valider',
+    address: 'Adresse postale de l’association à compléter.',
+  },
+  en: {
+    description: 'Contact Marxists Games with a question, proposal or collaboration.',
+    kicker: 'A question?',
+    write: 'Write to us.',
+    commission:
+      'For a custom commission, please use the detailed form on the Commission a game page.',
+    project: 'Present a project',
+    validate: 'Contact details to validate',
+    address: 'Association postal address to be added.',
+  },
+  nl: {
+    description: 'Neem contact op met Marxists Games met een vraag, voorstel of samenwerking.',
+    kicker: 'Een vraag?',
+    write: 'Schrijf ons.',
+    commission:
+      'Gebruik voor een spel op maat bij voorkeur het uitgebreide formulier op de projectpagina.',
+    project: 'Stel een project voor',
+    validate: 'Contactgegevens nog te bevestigen',
+    address: 'Het postadres van de vereniging moet nog worden toegevoegd.',
+  },
+  it: {
+    description: 'Contatta Marxists Games per una domanda, una proposta o una collaborazione.',
+    kicker: 'Una domanda?',
+    write: 'Scrivici.',
+    commission:
+      'Per un gioco su misura, utilizza preferibilmente il modulo dettagliato nella pagina dedicata.',
+    project: 'Presenta un progetto',
+    validate: 'Contatti da confermare',
+    address: 'L’indirizzo postale dell’associazione deve essere aggiunto.',
+  },
+};
+const copy = pageTranslations[locale] ?? pageTranslations.en!;
+const { description } = copy;
 ---
 
 <BaseLayout {title} {description} {locale} translationLinks={translations}>
   <header class="page-hero">
     <div class="container page-hero__inner">
-      <p class="section-kicker">{fr ? 'Une question ?' : 'A question?'}</p><h1>Contact</h1><p>
+      <p class="section-kicker">{copy.kicker}</p><h1>Contact</h1><p>
         {description}
       </p>
     </div>
@@ -27,26 +81,10 @@ const translations = locales.map((item) => ({ locale: item, href: `/${item}/cont
   <section class="section">
     <div class="container contact-grid">
       <aside>
-        <p class="section-kicker">Marxists Games</p><h2>
-          {fr ? 'Écrivez-nous.' : 'Write to us.'}
-        </h2><p>
-          {
-            fr
-              ? 'Pour un jeu sur mesure, utilisez de préférence le formulaire détaillé de la page Commander un jeu.'
-              : 'For a custom commission, please use the detailed form on the Commission a game page.'
-          }
-        </p><a href={`/${locale}/commander-un-jeu/`}
-          >{fr ? 'Présenter un projet' : 'Present a project'} →</a
-        ><div class="notice">
-          <strong>{fr ? 'Coordonnées à valider' : 'Contact details to validate'}</strong><p>
-            marxismepourdebutant@gmail.com
-          </p><p>
-            {
-              fr
-                ? 'Adresse postale de l’association à compléter.'
-                : 'Association postal address to be added.'
-            }
-          </p>
+        <p class="section-kicker">Marxists Games</p><h2>{copy.write}</h2><p>
+          {copy.commission}
+        </p><a href={`/${locale}/commander-un-jeu/`}>{copy.project} →</a><div class="notice">
+          <strong>{copy.validate}</strong><p>marxismepourdebutant@gmail.com</p><p>{copy.address}</p>
         </div>
       </aside><ContactForm {locale} variant="contact" />
     </div>

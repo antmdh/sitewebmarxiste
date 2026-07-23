@@ -1,4 +1,4 @@
-export const locales = ['fr', 'en', 'es', 'de'] as const;
+export const locales = ['fr', 'en', 'es', 'de', 'nl', 'it'] as const;
 export type Locale = (typeof locales)[number];
 
 export const localeNames: Record<Locale, string> = {
@@ -6,6 +6,8 @@ export const localeNames: Record<Locale, string> = {
   en: 'English',
   es: 'Español',
   de: 'Deutsch',
+  nl: 'Nederlands',
+  it: 'Italiano',
 };
 
 export const ui = {
@@ -69,6 +71,36 @@ export const ui = {
     devlog: 'Entwicklungstagebuch',
     unavailable: 'Diese Übersetzung ist noch nicht verfügbar.',
   },
+  nl: {
+    nav: ['Spellen', 'Een spel op maat', 'Artikelen', 'Gemeenschap', 'Over ons'],
+    paths: ['jeux', 'commander-un-jeu', 'articles', 'communaute', 'a-propos'],
+    newsletter: 'Nieuwsbrief',
+    discord: 'Discord',
+    menu: 'Menu',
+    close: 'Sluiten',
+    skip: 'Naar de inhoud',
+    allGames: 'Alle spellen',
+    allArticles: 'Alle artikelen',
+    read: 'Artikel lezen',
+    viewGame: 'Spel bekijken',
+    devlog: 'Ontwikkelingsdagboek',
+    unavailable: 'Deze vertaling is nog niet beschikbaar.',
+  },
+  it: {
+    nav: ['Giochi', 'Commissiona un gioco', 'Articoli', 'Comunità', 'Chi siamo'],
+    paths: ['jeux', 'commander-un-jeu', 'articles', 'communaute', 'a-propos'],
+    newsletter: 'Newsletter',
+    discord: 'Discord',
+    menu: 'Menu',
+    close: 'Chiudi',
+    skip: 'Vai al contenuto',
+    allGames: 'Tutti i giochi',
+    allArticles: 'Tutti gli articoli',
+    read: 'Leggi l’articolo',
+    viewGame: 'Scopri il gioco',
+    devlog: 'Diario di sviluppo',
+    unavailable: 'Questa traduzione non è ancora disponibile.',
+  },
 } satisfies Record<Locale, Record<string, string | string[]>>;
 
 export function isLocale(value: string | undefined): value is Locale {
@@ -107,6 +139,22 @@ export const categoryLabels: Record<Locale, Record<string, string>> = {
     history: 'Geschichte',
     tutorials: 'Tutorials',
     'association-news': 'Vereinsnachrichten',
+  },
+  nl: {
+    devlog: 'Ontwikkelingsdagboek',
+    'marxist-games': 'Marxistische spellen om te ontdekken',
+    'marxism-games': 'Marxisme en videogames',
+    history: 'Geschiedenis',
+    tutorials: 'Handleidingen',
+    'association-news': 'Verenigingsnieuws',
+  },
+  it: {
+    devlog: 'Diario di sviluppo',
+    'marxist-games': 'Giochi marxisti da scoprire',
+    'marxism-games': 'Marxismo e videogiochi',
+    history: 'Storia',
+    tutorials: 'Tutorial',
+    'association-news': 'Notizie dell’associazione',
   },
 };
 

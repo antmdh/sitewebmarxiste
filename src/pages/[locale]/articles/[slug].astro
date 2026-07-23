@@ -34,6 +34,35 @@ const structuredData = {
     ? { image: new URL(article.data.heroImage.src, Astro.site).href }
     : {}),
 };
+const articleTranslations: Partial<
+  Record<Locale, { home: string; by: string; discussion: string; question: string }>
+> = {
+  fr: {
+    home: 'Accueil',
+    by: 'Par',
+    discussion: 'Continuer la discussion',
+    question: 'Une remarque ? Une source ?',
+  },
+  en: {
+    home: 'Home',
+    by: 'By',
+    discussion: 'Continue the discussion',
+    question: 'A comment? A source?',
+  },
+  nl: {
+    home: 'Home',
+    by: 'Door',
+    discussion: 'Praat verder',
+    question: 'Een opmerking? Een bron?',
+  },
+  it: {
+    home: 'Home',
+    by: 'Di',
+    discussion: 'Continua la discussione',
+    question: 'Un’osservazione? Una fonte?',
+  },
+};
+const labels = articleTranslations[locale] ?? articleTranslations.en!;
 ---
 
 <BaseLayout
@@ -48,7 +77,7 @@ const structuredData = {
 >
   <Breadcrumbs
     items={[
-      { label: locale === 'fr' ? 'Accueil' : 'Home', href: `/${locale}/` },
+      { label: labels.home, href: `/${locale}/` },
       { label: 'Articles', href: `/${locale}/articles/` },
       { label: article.data.title },
     ]}
@@ -60,7 +89,7 @@ const structuredData = {
           >{categoryLabels[locale][article.data.category]}</a
         ><time datetime={article.data.publishedAt.toISOString()}
           >{localizedDate(article.data.publishedAt, locale)}</time
-        ><span>{locale === 'fr' ? 'Par' : 'By'} Antoine Moens</span>
+        ><span>{labels.by} Antoine Moens</span>
       </div>
       <h1>{article.data.title}</h1><p>{article.data.description}</p>
     </header>
@@ -81,12 +110,10 @@ const structuredData = {
         </figure>
       )
     }
-    <div class="article__body section"><div class="prose"><Content /></div></div>
+    <div class="article__body section"><div class="prose container"><Content /></div></div>
     <footer class="article__footer container">
       <div>
-        <p class="eyebrow">
-          {locale === 'fr' ? 'Continuer la discussion' : 'Continue the discussion'}
-        </p><h2>{locale === 'fr' ? 'Une remarque ? Une source ?' : 'A comment? A source?'}</h2>
+        <p class="eyebrow">{labels.discussion}</p><h2>{labels.question}</h2>
       </div><a class="button" href="https://discord.gg/placeholder">Discord ↗</a>
     </footer>
   </article>

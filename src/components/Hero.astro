@@ -14,6 +14,7 @@ interface Props {
   secondaryLabel: string;
   eyebrow?: string;
   caption?: string;
+  ticker?: string[];
 }
 
 const {
@@ -27,6 +28,7 @@ const {
   secondaryLabel,
   eyebrow = 'Marxists Games · Association · Studio Indépendant',
   caption = 'Marxists Games · Illustration d’accueil',
+  ticker = ['JEUX', 'HISTOIRE', 'MARXISME', 'CRÉATION'],
 } = Astro.props;
 ---
 
@@ -60,9 +62,14 @@ const {
     </figure>
   </div>
   <div class="hero__ticker" aria-hidden="true">
-    <span>JEUX</span><i></i><span>HISTOIRE</span><i></i><span>MARXISME</span><i></i><span
-      >CRÉATION</span
-    >
+    {
+      ticker.map((item, index) => (
+        <>
+          <span>{item}</span>
+          {index < ticker.length - 1 && <i />}
+        </>
+      ))
+    }
   </div>
 </section>
 

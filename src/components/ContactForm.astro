@@ -7,17 +7,90 @@ interface Props {
 }
 
 const { locale, variant = 'project' } = Astro.props;
-const fr = locale === 'fr';
+const translations: Partial<Record<Locale, Record<string, string>>> = {
+  fr: {
+    name: 'Nom',
+    organization: 'Organisation',
+    projectType: 'Type de projet',
+    audience: 'Public visé',
+    platform: 'Plateforme',
+    undefined: 'À définir',
+    budget: 'Budget indicatif',
+    discuss: 'À discuter',
+    timeline: 'Calendrier souhaité',
+    timelineExample: 'Ex. septembre 2027',
+    description: 'Description du projet',
+    hint: 'Contexte, objectif, contenu envisagé et contraintes connues — 30 caractères minimum.',
+    consent:
+      'J’accepte que Marxists Games utilise ces informations pour me recontacter au sujet de ma demande.',
+    send: 'Envoyer la demande',
+    required: 'Les champs marqués d’un astérisque sont obligatoires.',
+  },
+  en: {
+    name: 'Name',
+    organization: 'Organisation',
+    projectType: 'Project type',
+    audience: 'Target audience',
+    platform: 'Platform',
+    undefined: 'To be defined',
+    budget: 'Indicative budget',
+    discuss: 'To discuss',
+    timeline: 'Desired timeline',
+    timelineExample: 'E.g. September 2027',
+    description: 'Project description',
+    hint: 'Context, objective, expected content and known constraints — 30 characters minimum.',
+    consent: 'I agree that Marxists Games may use this information to contact me about my request.',
+    send: 'Send request',
+    required: 'Fields marked with an asterisk are required.',
+  },
+  nl: {
+    name: 'Naam',
+    organization: 'Organisatie',
+    projectType: 'Projecttype',
+    audience: 'Doelgroep',
+    platform: 'Platform',
+    undefined: 'Nog te bepalen',
+    budget: 'Indicatief budget',
+    discuss: 'Te bespreken',
+    timeline: 'Gewenste planning',
+    timelineExample: 'Bijv. september 2027',
+    description: 'Projectbeschrijving',
+    hint: 'Context, doel, verwachte inhoud en bekende beperkingen — minimaal 30 tekens.',
+    consent:
+      'Ik ga ermee akkoord dat Marxists Games deze gegevens gebruikt om contact met mij op te nemen over mijn aanvraag.',
+    send: 'Aanvraag versturen',
+    required: 'Velden met een sterretje zijn verplicht.',
+  },
+  it: {
+    name: 'Nome',
+    organization: 'Organizzazione',
+    projectType: 'Tipo di progetto',
+    audience: 'Pubblico di riferimento',
+    platform: 'Piattaforma',
+    undefined: 'Da definire',
+    budget: 'Budget indicativo',
+    discuss: 'Da discutere',
+    timeline: 'Tempistica desiderata',
+    timelineExample: 'Es. settembre 2027',
+    description: 'Descrizione del progetto',
+    hint: 'Contesto, obiettivo, contenuto previsto e vincoli noti — minimo 30 caratteri.',
+    consent:
+      'Accetto che Marxists Games utilizzi queste informazioni per ricontattarmi in merito alla mia richiesta.',
+    send: 'Invia la richiesta',
+    required: 'I campi contrassegnati da un asterisco sono obbligatori.',
+  },
+};
+const labels = translations[locale] ?? translations.en!;
 ---
 
 <form class="contact-form" action="/api/contact" method="post" data-contact-form>
   <div class="form-grid">
     <div class="field">
-      <label for="name">{fr ? 'Nom' : 'Name'} <span aria-hidden="true">*</span></label>
+      <label for="name">{labels.name} <span aria-hidden="true">*</span></label>
       <input id="name" name="name" type="text" autocomplete="name" required minlength="2" />
     </div>
     <div class="field">
-      <label for="organization">{fr ? 'Organisation' : 'Organisation'}</label>
+      <label for="organization">{labels.organization}</label>
       <input id="organization" name="organization" type="text" autocomplete="organization" />
     </div>
     <div class="field">
@@ -28,18 +101,9 @@ const fr = locale === 'fr';
       variant === 'project' && (
         <div class="field">
           <label for="projectType">
-            {fr ? 'Type de projet' : 'Project type'} <span aria-hidden="true">*</span>
+            {labels.projectType} <span aria-hidden="true">*</span>
           </label>
-          <select id="projectType" name="projectType" required>
-            <option value="">{fr ? 'Choisir…' : 'Choose…'}</option>
-            <option value="educational">{fr ? 'Jeu pédagogique' : 'Educational game'}</option>
-            <option value="activist">{fr ? 'Jeu militant' : 'Campaign game'}</option>
-            <option value="cultural">
-              {fr ? 'Projet culturel ou historique' : 'Cultural or historical project'}
-            </option>
-            <option value="prototype">Prototype</option>
-            <option value="other">{fr ? 'Autre' : 'Other'}</option>
-          </select>
+          <input id="projectType" name="projectType" type="text" required maxlength="80" />
         </div>
       )
     }
@@ -47,13 +111,13 @@ const fr = locale === 'fr';
       variant === 'project' && (
         <>
           <div class="field">
-            <label for="audience">{fr ? 'Public visé' : 'Target audience'}</label>
+            <label for="audience">{labels.audience}</label>
             <input id="audience" name="audience" type="text" />
           </div>
           <div class="field">
-            <label for="platform">{fr ? 'Plateforme' : 'Platform'}</label>
+            <label for="platform">{labels.platform}</label>
             <select id="platform" name="platform">
-              <option value="">{fr ? 'À définir' : 'To be defined'}</option>
+              <option value="">{labels.undefined}</option>
               <option>Web</option>
               <option>PC</option>
               <option>Android / iOS</option>
@@ -61,9 +125,9 @@ const fr = locale === 'fr';
             </select>
           </div>
           <div class="field">
-            <label for="budget">{fr ? 'Budget indicatif' : 'Indicative budget'}</label>
+            <label for="budget">{labels.budget}</label>
             <select id="budget" name="budget">
-              <option value="">{fr ? 'À discuter' : 'To discuss'}</option>
+              <option value="">{labels.discuss}</option>
               <option value="under-5k">&lt; 5 000 €</option>
               <option value="5-15k">5 000–15 000 €</option>
               <option value="15-40k">15 000–40 000 €</option>
@@ -71,20 +135,15 @@ const fr = locale === 'fr';
             </select>
           </div>
           <div class="field">
-            <label for="timeline">{fr ? 'Calendrier souhaité' : 'Desired timeline'}</label>
-            <input
-              id="timeline"
-              name="timeline"
-              type="text"
-              placeholder={fr ? 'Ex. septembre 2027' : 'E.g. September 2027'}
-            />
+            <label for="timeline">{labels.timeline}</label>
+            <input id="timeline" name="timeline" type="text" placeholder={labels.timelineExample} />
           </div>
         </>
       )
     }
     <div class="field field--wide">
       <label for="description"
-        >{fr ? 'Description du projet' : 'Project description'}
+        >{labels.description}
         <span aria-hidden="true">*</span></label
       >
       <textarea
@@ -94,13 +153,7 @@ const fr = locale === 'fr';
         required
         minlength="30"
         aria-describedby="description-hint"></textarea>
-      <small id="description-hint"
-        >{
-          fr
-            ? 'Contexte, objectif, contenu envisagé et contraintes connues — 30 caractères minimum.'
-            : 'Context, objective, expected content and known constraints — 30 characters minimum.'
-        }</small
-      >
+      <small id="description-hint">{labels.hint}</small>
     </div>
   </div>
   <div class="field honeypot" aria-hidden="true">
@@ -115,24 +168,16 @@ const fr = locale === 'fr';
   <label class="consent">
     <input type="checkbox" name="consent" value="yes" required />
     <span
-      >{
-        fr
-          ? 'J’accepte que Marxists Games utilise ces informations pour me recontacter au sujet de ma demande.'
-          : 'I agree that Marxists Games may use this information to contact me about my request.'
-      }
+      >{labels.consent}
       <span aria-hidden="true">*</span></span
     >
   </label>
   <input type="hidden" name="locale" value={locale} />
   <input type="hidden" name="formStartedAt" value={Date.now()} />
   <div class="form-actions">
-    <button class="button" type="submit">{fr ? 'Envoyer la demande' : 'Send request'}</button>
+    <button class="button" type="submit">{labels.send}</button>
     <p class="form-status" data-form-status aria-live="polite">
-      {
-        fr
-          ? 'Les champs marqués d’un astérisque sont obligatoires.'
-          : 'Fields marked with an asterisk are required.'
-      }
+      {labels.required}
     </p>
   </div>
 </form>
