@@ -1,5 +1,5 @@
 ---
-title: 'Russia 1917 : Journal de développement - Juin 2025'
+title: "Russia 1917 : Recherche d'une double esthétique révolutionnaire"
 slug: 'russia-1917-journal-juin-2025'
 locale: 'fr'
 translationKey: 'russia-devlog-2025-06'

@@ -1,6 +1,6 @@
 ---
 title: 'Russia 1917'
-subtitle: 'Gagner la guerre ne suffit pas. Quel pays construirez-vous ?'
+subtitle: 'Stratégie, Histoire et Art révolutionnaire dans un jeu mobile engagé'
 slug: 'russia-1917'
 locale: 'fr'
 translationKey: 'russia-1917'
@@ -8,7 +8,8 @@ developmentStatus: 'En développement · alpha jouable'
 platforms: ['Android', 'iOS']
 genre: 'Stratégie historique et politique'
 historicalPeriod: 'Révolution et guerre civile russes, 1917–1922'
-description: 'Dirigez le camp bolchevik au milieu de la guerre civile et confrontez vos décisions militaires aux choix politiques et économiques de la révolution.'
+description: 'Développé par Marxists Games, Russia 1917 est bien plus qu’un simple jeu de stratégie : c’est une expérience immersive qui vous plonge au cœur de la Révolution bolchevique, mêlant tactique militaire, dilemmes politiques et découvertes artistiques. Prenez les commandes des Rouges, affrontez vos ennemis et tentez d’écrire votre propre version de l’Histoire.'
+cardDescription: 'Au cœur de la Révolution bolchevique, mêlez stratégie militaire, choix politiques et art révolutionnaire pour écrire votre version de l’Histoire.'
 category: 'game'
 publishedAt: '2025-06-04'
 heroImage: '../../assets/images/russia-1917-avant-garde.png'
@@ -30,24 +31,40 @@ featured: true
 draft: false
 ---
 
-## Une révolution sur plusieurs fronts
+## Un jeu où la stratégie épouse l’Histoire
 
-Russia 1917 est un jeu de stratégie mobile consacré à la guerre civile russe. Vous prenez le contrôle du camp bolchevik à partir de novembre 1917. Les armées blanches, les interventions étrangères, les conflits nationaux et l’effondrement économique transforment chaque mois en arbitrage.
+À la veille de la Révolution d’Octobre, chaque décision compte. Dirigez les troupes bolcheviques dans une guerre civile impitoyable, où vous devrez :
 
-### Les choix militaires
+- **Contrôler les nœuds ferroviaires** pour déplacer vos troupes : les batailles se gagnent — ou se perdent — le long du Transsibérien et des voies stratégiques, conformément à la réalité historique.
+- **Négocier ou combattre** : signerez-vous le traité de Brest-Litovsk pour sauver la révolution au prix de territoires ? Ou préférerez-vous l’affrontement total avec l’Allemagne ?
+- **Exporter la révolution** en marchant sur Varsovie, ou consolider votre emprise sur la Russie ?
 
-La carte met les villes et les lignes ferroviaires au centre du jeu. Il faut déplacer les unités, défendre Moscou et Petrograd, organiser les renforts et réagir à l’apparition historique de nouvelles factions. Le terrain n’est pas un simple décor : les rails structurent vos possibilités.
+Inspiré par des événements réels, le jeu intègre des tournants historiques — comme la chute de l’Empire allemand en 1918 — qui rebattront les cartes de votre stratégie.
 
-### Les choix politiques
+## Un hommage visuel à l’art révolutionnaire
 
-Quarante-trois débats historiques sont prévus, du décret sur la paix à la création de l’URSS. Ils ne sont pas des quiz : chaque position ouvre et ferme des possibilités sur la carte, dans l’économie et dans le récit final.
+Russia 1917 ne se contente pas de raconter l’Histoire : il la montre.
 
-### Les choix économiques
+- Découvrez des affiches de propagande bolchevique authentiques, restaurées et intégrées dans le jeu pour immerger le joueur dans l’esthétique et l’idéologie de l’époque.
+- Une galerie artistique dynamique : les illustrations évoluent en fonction de vos victoires ou de vos défaites, créant une narration visuelle unique à chaque partie.
+- Un style inspiré de l’avant-garde soviétique, notamment du célèbre _Battre les Blancs avec le coin rouge_ d’El Lissitzky, avec des couleurs vives, des formes géométriques et une typographie percutante.
 
-Production, ravitaillement et adhésion populaire sont liés. Une victoire territoriale peut cacher un pays ruiné ; une retraite peut préserver des ressources essentielles. Le bilan de fin de partie raconte l’État que vos décisions ont produit.
+## Un gameplay rapide, mais profond
 
-## Apprendre en jouant
+Conçu pour être accessible sans sacrifier la profondeur, Russia 1917 mise sur :
 
-Le projet cherche à rendre lisibles des contradictions historiques sans transformer le jeu en manuel. Les journaux, rapports et débats donnent accès aux sources et aux points de vue de l’époque. Le joueur reste libre de les consulter — le monde, lui, continue d’avancer.
+- Un système de déplacement réaliste : les troupes progressent le long des voies ferrées, reproduisant les défis logistiques de l’époque.
+- Des choix politiques impactants qui déterminent l’issue de la guerre civile.
+- Plusieurs fins alternatives, selon que vous priorisez l’expansion révolutionnaire ou la survie du régime.
 
-> Le contenu historique, les mécaniques et les captures présentés ici correspondent à un projet en développement et seront mis à jour au fil des versions.
+## Un projet pédagogique et artistique
+
+Au-delà du divertissement, Russia 1917 a pour ambition de :
+
+- ✔️ Faire découvrir une période clé de l’Histoire à travers ses enjeux militaires et politiques.
+- ✔️ Exposer les œuvres artistiques méconnues de la guerre civile.
+- ✔️ Stimuler la réflexion sur les dilemmes stratégiques des bolcheviques.
+
+## Prêt à prendre le contrôle de la révolution ?
+
+Russia 1917 arrive bientôt sur mobile : une aventure où chaque décision forge l’avenir.

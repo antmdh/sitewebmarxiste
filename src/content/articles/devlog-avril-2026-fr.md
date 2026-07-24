@@ -1,5 +1,5 @@
 ---
-title: 'RUSSIA 1917 : Journal de développement — avril 2026'
+title: 'Russia 1917 : Penser mobile et pas PC'
 slug: 'russia-1917-journal-avril-2026'
 locale: 'fr'
 translationKey: 'russia-devlog-2026-04'

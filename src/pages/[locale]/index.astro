@@ -25,9 +25,18 @@ export function getStaticPaths() {
 }
 
 const locale = Astro.params.locale as Locale;
+const homeGameOrder: Record<string, number> = {
+  'russia-1917': 0,
+  'sing-sing-valley': 1,
+  'florida-1865': 2,
+};
 const games = (await getCollection('games', ({ data }) => data.locale === locale && !data.draft))
   .filter(({ data }) => data.featured)
-  .sort((a, b) => b.data.updatedAt.valueOf() - a.data.updatedAt.valueOf());
+  .sort(
+    (a, b) =>
+      (homeGameOrder[a.data.translationKey] ?? Number.MAX_SAFE_INTEGER) -
+      (homeGameOrder[b.data.translationKey] ?? Number.MAX_SAFE_INTEGER),
+  );
 const featuredMobileGameId =
   games.find(({ data }) => data.translationKey === 'russia-1917')?.id ?? games[0]?.id;
 const articles = (

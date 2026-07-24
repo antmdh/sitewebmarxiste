@@ -23,6 +23,8 @@ const text: Record<
     essays: string;
     community: string;
     resources: string;
+    volunteerTester: string;
+    donate: string;
     about: string;
     who: string;
     values: string;
@@ -47,6 +49,8 @@ const text: Record<
     essays: 'Réflexions',
     community: 'Communauté',
     resources: 'Ressources',
+    volunteerTester: 'Devenir testeur bénévole',
+    donate: 'Faire un don',
     about: 'À propos',
     who: 'Qui sommes-nous ?',
     values: 'Valeurs',
@@ -70,6 +74,8 @@ const text: Record<
     essays: 'Essays',
     community: 'Community',
     resources: 'Resources',
+    volunteerTester: 'Become a volunteer playtester',
+    donate: 'Make a donation',
     about: 'About',
     who: 'Who we are',
     values: 'Values',
@@ -93,6 +99,8 @@ const text: Record<
     essays: 'Reflexiones',
     community: 'Comunidad',
     resources: 'Recursos',
+    volunteerTester: 'Hazte tester voluntario',
+    donate: 'Hacer una donación',
     about: 'Quiénes somos',
     who: 'Quiénes somos',
     values: 'Valores',
@@ -116,6 +124,8 @@ const text: Record<
     essays: 'Reflexionen',
     community: 'Community',
     resources: 'Ressourcen',
+    volunteerTester: 'Ehrenamtlich Spiele testen',
+    donate: 'Spenden',
     about: 'Über uns',
     who: 'Wer wir sind',
     values: 'Werte',
@@ -139,6 +149,8 @@ const text: Record<
     essays: 'Beschouwingen',
     community: 'Gemeenschap',
     resources: 'Bronnen',
+    volunteerTester: 'Vrijwillige speltester worden',
+    donate: 'Een donatie doen',
     about: 'Over ons',
     who: 'Wie zijn wij?',
     values: 'Waarden',
@@ -162,6 +174,8 @@ const text: Record<
     essays: 'Riflessioni',
     community: 'Comunità',
     resources: 'Risorse',
+    volunteerTester: 'Diventa playtester volontario',
+    donate: 'Fare una donazione',
     about: 'Chi siamo',
     who: 'Chi siamo?',
     values: 'Valori',
@@ -204,6 +218,8 @@ const columns = [
     links: [
       ['Discord', 'https://discord.gg/placeholder'],
       ['Newsletter', `/${locale}/newsletter/`],
+      [t.volunteerTester, `/${locale}/devenir-testeur-benevole/`],
+      [t.donate, `/${locale}/faire-un-don/`],
       [t.resources, `/${locale}/communaute/`],
     ],
   },

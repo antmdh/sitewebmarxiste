@@ -26,6 +26,7 @@ const games = defineCollection({
       genre: z.string(),
       historicalPeriod: z.string(),
       description: z.string(),
+      cardDescription: z.string().optional(),
       category: z.literal('game'),
       publishedAt: z.coerce.date(),
       heroImage: image(),

@@ -1,5 +1,5 @@
 ---
-title: 'RUSSIA 1917 : Journal de développement — juillet 2026'
+title: 'Russia 1917 : Le gameplay de la carte stratégique'
 slug: 'russia-1917-journal-juillet-2026'
 locale: 'fr'
 translationKey: 'russia-devlog-2026-07'

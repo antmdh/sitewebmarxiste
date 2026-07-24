@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Locale } from '../lib/i18n';
+import PixelIcon from './PixelIcon.astro';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  kicker: string;
+  heading: string;
+  primaryLabel: string;
+  primaryHref: string;
+  secondaryLabel: string;
+  secondaryHref: string;
+  pointsKicker: string;
+  pointsTitle: string;
+  points: { title: string; text: string }[];
+  detailsKicker: string;
+  detailsTitle: string;
+  details: string[];
+  notice: string;
+  translationLinks: { locale: Locale; href: string }[];
+}
+
+const {
+  locale,
+  title,
+  description,
+  kicker,
+  heading,
+  primaryLabel,
+  primaryHref,
+  secondaryLabel,
+  secondaryHref,
+  pointsKicker,
+  pointsTitle,
+  points,
+  detailsKicker,
+  detailsTitle,
+  details,
+  notice,
+  translationLinks,
+} = Astro.props;
+const pointIcons = ['gamepad', 'article', 'tools', 'community'] as const;
+---
+
+<BaseLayout {title} {description} {locale} {translationLinks}>
+  <header class="support-hero">
+    <div class="container support-hero__inner">
+      <p class="section-kicker">{kicker}</p>
+      <h1>{heading}</h1>
+      <p>{description}</p>
+      <div class="button-row">
+        <a class="button" href={primaryHref}>{primaryLabel}<PixelIcon name="arrow" size={17} /></a>
+        <a class="button button--ghost" href={secondaryHref}
+          >{secondaryLabel}<PixelIcon name="arrow" size={17} /></a
+        >
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <header class="section-heading">
+        <p class="section-kicker">{pointsKicker}</p>
+        <h2>{pointsTitle}</h2>
+      </header>
+      <div class="support-points">
+        {
+          points.map((point, index) => (
+            <article class="card">
+              <PixelIcon name={pointIcons[index] ?? 'star'} size={28} />
+              <span>0{index + 1}</span>
+              <h3>{point.title}</h3>
+              <p>{point.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container support-details">
+      <header>
+        <p class="section-kicker">{detailsKicker}</p>
+        <h2>{detailsTitle}</h2>
+      </header>
+      <div class="prose">
+        {details.map((paragraph) => <p>{paragraph}</p>)}
+        <p class="notice">{notice}</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .support-hero {
+    border-bottom: 0.35rem solid var(--color-black);
+    background-color: var(--color-paper);
+    background-image: var(--texture-staggered-mosaic);
+    background-size: var(--texture-mosaic-size);
+  }
+
+  .support-hero__inner {
+    display: grid;
+    gap: var(--space-4);
+    padding-block: var(--space-7);
+  }
+
+  .support-hero h1 {
+    max-width: 16ch;
+  }
+
+  .support-hero__inner > p:not(.section-kicker) {
+    max-width: 50rem;
+    color: var(--color-gray);
+    font-size: var(--step-1);
+  }
+
+  .support-hero .button--ghost {
+    border-color: var(--color-dark-red);
+    color: var(--color-dark-red);
+    background: var(--color-cream);
+  }
+
+  .support-points {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .support-points article {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-3);
+    padding: var(--space-4);
+  }
+
+  .support-points article :global(.pixel-icon) {
+    color: var(--color-red);
+  }
+
+  .support-points span {
+    justify-self: end;
+    color: var(--color-red);
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .support-points h3,
+  .support-points p {
+    grid-column: 1 / -1;
+  }
+
+  .support-points p {
+    color: var(--color-gray);
+  }
+
+  .support-details {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .support-details header {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+  }
+
+  @media (min-width: 48rem) {
+    .support-points {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .support-details {
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+  }
+</style>

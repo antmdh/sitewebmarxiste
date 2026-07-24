@@ -1,0 +1,261 @@
+---
+import SupportPage from '../../components/SupportPage.astro';
+import { locales, type Locale } from '../../lib/i18n';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const locale = Astro.params.locale as Locale;
+const translationLinks = locales.map((item) => ({
+  locale: item,
+  href: `/${item}/faire-un-don/`,
+}));
+const copies = {
+  fr: {
+    title: 'Faire un don',
+    description:
+      'Nous voulons rendre nos jeux principalement gratuits. Les dons nous donnent les moyens de produire, traduire et diffuser des jeux engagés sans réserver leur accès à celles et ceux qui peuvent payer.',
+    kicker: 'Soutenir · Produire · Partager',
+    heading: 'Aidez-nous à gagner la lutte culturelle.',
+    primaryLabel: 'Nous contacter pour donner',
+    secondaryLabel: 'Découvrir les jeux',
+    pointsKicker: 'À quoi servent les dons ?',
+    pointsTitle: 'Financer ce qui rend les jeux possibles.',
+    points: [
+      {
+        title: 'Outils et hébergement',
+        text: 'Financer les logiciels, les services en ligne et la diffusion des jeux.',
+      },
+      {
+        title: 'Création artistique',
+        text: 'Produire les images, les sons et les interfaces qui donnent vie aux projets.',
+      },
+      {
+        title: 'Traduction et accessibilité',
+        text: 'Rendre les jeux disponibles dans plusieurs langues et utilisables par davantage de personnes.',
+      },
+      {
+        title: 'Tests et documentation',
+        text: 'Améliorer les prototypes, vérifier les contenus historiques et partager notre travail.',
+      },
+    ],
+    detailsKicker: 'Une culture accessible',
+    detailsTitle: 'Des jeux gratuits, mais pas sans moyens.',
+    details: [
+      'Rendre un jeu gratuit ne rend pas sa production gratuite. Les dons permettent de réduire la dépendance aux modèles publicitaires, aux achats intégrés et aux logiques commerciales qui limitent les sujets abordés.',
+      'Soutenir Marxists Games, c’est contribuer à une production culturelle qui parle d’histoire, de rapports sociaux et d’action collective. Chaque contribution renforce notre capacité à faire circuler ces récits et ces outils.',
+    ],
+    notice:
+      'Le module de don en ligne n’est pas encore activé. Pour proposer un don ou demander les modalités disponibles, contactez directement l’association.',
+  },
+  en: {
+    title: 'Make a donation',
+    description:
+      'We want to keep our games mostly free. Donations help us produce, translate and distribute committed games without restricting access to those who can pay.',
+    kicker: 'Support · Produce · Share',
+    heading: 'Help us win the cultural struggle.',
+    primaryLabel: 'Contact us to donate',
+    secondaryLabel: 'Discover the games',
+    pointsKicker: 'What do donations fund?',
+    pointsTitle: 'Support what makes the games possible.',
+    points: [
+      {
+        title: 'Tools and hosting',
+        text: 'Fund software, online services and game distribution.',
+      },
+      {
+        title: 'Artistic creation',
+        text: 'Produce the images, sound and interfaces that bring projects to life.',
+      },
+      {
+        title: 'Translation and accessibility',
+        text: 'Make games available in several languages and usable by more people.',
+      },
+      {
+        title: 'Testing and documentation',
+        text: 'Improve prototypes, verify historical content and share our work.',
+      },
+    ],
+    detailsKicker: 'Accessible culture',
+    detailsTitle: 'Free games still require resources.',
+    details: [
+      'Making a game free does not make production free. Donations reduce our dependence on advertising, in-app purchases and commercial models that limit the subjects games can address.',
+      'Supporting Marxists Games means helping cultural work about history, social relations and collective action reach a wider audience.',
+    ],
+    notice:
+      'Online donations are not active yet. To offer support or ask about available methods, please contact the association directly.',
+  },
+  es: {
+    title: 'Hacer una donación',
+    description:
+      'Queremos que nuestros juegos sean principalmente gratuitos. Las donaciones nos ayudan a producir, traducir y difundir juegos comprometidos sin limitar el acceso a quienes pueden pagar.',
+    kicker: 'Apoyar · Producir · Compartir',
+    heading: 'Ayúdanos a ganar la lucha cultural.',
+    primaryLabel: 'Contactar para donar',
+    secondaryLabel: 'Descubrir los juegos',
+    pointsKicker: '¿Para qué sirven las donaciones?',
+    pointsTitle: 'Financiar lo que hace posibles los juegos.',
+    points: [
+      {
+        title: 'Herramientas y alojamiento',
+        text: 'Financiar programas, servicios en línea y distribución.',
+      },
+      {
+        title: 'Creación artística',
+        text: 'Producir imágenes, sonidos e interfaces para dar vida a los proyectos.',
+      },
+      {
+        title: 'Traducción y accesibilidad',
+        text: 'Ofrecer los juegos en varios idiomas y hacerlos accesibles a más personas.',
+      },
+      {
+        title: 'Pruebas y documentación',
+        text: 'Mejorar prototipos, verificar contenidos históricos y compartir nuestro trabajo.',
+      },
+    ],
+    detailsKicker: 'Una cultura accesible',
+    detailsTitle: 'Juegos gratuitos, pero no sin recursos.',
+    details: [
+      'Que un juego sea gratuito no significa que producirlo no cueste. Las donaciones reducen nuestra dependencia de la publicidad, las compras integradas y los modelos comerciales.',
+      'Apoyar a Marxists Games es contribuir a una producción cultural sobre historia, relaciones sociales y acción colectiva.',
+    ],
+    notice:
+      'El módulo de donación en línea aún no está activo. Para proponer una donación o conocer las modalidades disponibles, contacta directamente con la asociación.',
+  },
+  de: {
+    title: 'Spenden',
+    description:
+      'Unsere Spiele sollen überwiegend kostenlos bleiben. Spenden helfen uns, engagierte Spiele zu produzieren, zu übersetzen und zu verbreiten, ohne den Zugang vom Geldbeutel abhängig zu machen.',
+    kicker: 'Unterstützen · Produzieren · Teilen',
+    heading: 'Hilf uns, den kulturellen Kampf zu gewinnen.',
+    primaryLabel: 'Zum Spenden Kontakt aufnehmen',
+    secondaryLabel: 'Spiele entdecken',
+    pointsKicker: 'Wofür werden Spenden genutzt?',
+    pointsTitle: 'Finanziere, was Spiele möglich macht.',
+    points: [
+      {
+        title: 'Werkzeuge und Hosting',
+        text: 'Software, Onlinedienste und Verbreitung finanzieren.',
+      },
+      {
+        title: 'Künstlerische Gestaltung',
+        text: 'Bilder, Ton und Benutzeroberflächen für unsere Projekte produzieren.',
+      },
+      {
+        title: 'Übersetzung und Zugänglichkeit',
+        text: 'Spiele in mehreren Sprachen und für mehr Menschen zugänglich machen.',
+      },
+      {
+        title: 'Tests und Dokumentation',
+        text: 'Prototypen verbessern, historische Inhalte prüfen und unsere Arbeit teilen.',
+      },
+    ],
+    detailsKicker: 'Zugängliche Kultur',
+    detailsTitle: 'Kostenlose Spiele brauchen trotzdem Mittel.',
+    details: [
+      'Ein kostenloses Spiel ist nicht kostenlos zu produzieren. Spenden verringern unsere Abhängigkeit von Werbung, In-App-Käufen und kommerziellen Modellen.',
+      'Marxists Games zu unterstützen heißt, Kultur über Geschichte, soziale Verhältnisse und kollektives Handeln zu verbreiten.',
+    ],
+    notice:
+      'Online-Spenden sind noch nicht aktiviert. Kontaktiere den Verein direkt, um Unterstützung anzubieten oder verfügbare Möglichkeiten zu erfragen.',
+  },
+  nl: {
+    title: 'Een donatie doen',
+    description:
+      'We willen onze spellen vooral gratis houden. Donaties helpen ons geëngageerde spellen te maken, vertalen en verspreiden zonder de toegang te beperken tot wie kan betalen.',
+    kicker: 'Steunen · Produceren · Delen',
+    heading: 'Help ons de culturele strijd te winnen.',
+    primaryLabel: 'Contact opnemen om te doneren',
+    secondaryLabel: 'Ontdek de spellen',
+    pointsKicker: 'Waarvoor dienen donaties?',
+    pointsTitle: 'Financier wat spellen mogelijk maakt.',
+    points: [
+      {
+        title: 'Hulpmiddelen en hosting',
+        text: 'Software, onlinediensten en verspreiding financieren.',
+      },
+      {
+        title: 'Artistieke creatie',
+        text: 'Beelden, geluid en interfaces maken die projecten tot leven brengen.',
+      },
+      {
+        title: 'Vertaling en toegankelijkheid',
+        text: 'Spellen in meerdere talen aanbieden en voor meer mensen bruikbaar maken.',
+      },
+      {
+        title: 'Tests en documentatie',
+        text: 'Prototypes verbeteren, historische inhoud controleren en ons werk delen.',
+      },
+    ],
+    detailsKicker: 'Toegankelijke cultuur',
+    detailsTitle: 'Gratis spellen hebben nog steeds middelen nodig.',
+    details: [
+      'Een gratis spel maken is niet gratis. Donaties verminderen onze afhankelijkheid van reclame, in-appaankopen en commerciële modellen.',
+      'Marxists Games steunen betekent cultuur over geschiedenis, sociale verhoudingen en collectieve actie helpen verspreiden.',
+    ],
+    notice:
+      'Online doneren is nog niet geactiveerd. Neem rechtstreeks contact op met de vereniging om steun aan te bieden of naar de mogelijkheden te vragen.',
+  },
+  it: {
+    title: 'Fare una donazione',
+    description:
+      'Vogliamo mantenere i nostri giochi principalmente gratuiti. Le donazioni ci aiutano a produrre, tradurre e diffondere giochi impegnati senza limitare l’accesso a chi può pagare.',
+    kicker: 'Sostenere · Produrre · Condividere',
+    heading: 'Aiutaci a vincere la lotta culturale.',
+    primaryLabel: 'Contattaci per donare',
+    secondaryLabel: 'Scoprire i giochi',
+    pointsKicker: 'A cosa servono le donazioni?',
+    pointsTitle: 'Finanziare ciò che rende possibili i giochi.',
+    points: [
+      {
+        title: 'Strumenti e hosting',
+        text: 'Finanziare software, servizi online e distribuzione.',
+      },
+      {
+        title: 'Creazione artistica',
+        text: 'Produrre immagini, suoni e interfacce che danno vita ai progetti.',
+      },
+      {
+        title: 'Traduzione e accessibilità',
+        text: 'Offrire i giochi in più lingue e renderli accessibili a più persone.',
+      },
+      {
+        title: 'Test e documentazione',
+        text: 'Migliorare i prototipi, verificare i contenuti storici e condividere il lavoro.',
+      },
+    ],
+    detailsKicker: 'Una cultura accessibile',
+    detailsTitle: 'Giochi gratuiti, ma non senza risorse.',
+    details: [
+      'Rendere gratuito un gioco non rende gratuita la produzione. Le donazioni riducono la dipendenza da pubblicità, acquisti in-app e modelli commerciali.',
+      'Sostenere Marxists Games significa contribuire a una produzione culturale sulla storia, i rapporti sociali e l’azione collettiva.',
+    ],
+    notice:
+      'Le donazioni online non sono ancora attive. Per proporre una donazione o conoscere le modalità disponibili, contatta direttamente l’associazione.',
+  },
+} satisfies Record<Locale, Record<string, unknown>>;
+
+const copy = copies[locale] as (typeof copies)[Locale];
+---
+
+<SupportPage
+  {locale}
+  title={copy.title}
+  description={copy.description}
+  kicker={copy.kicker}
+  heading={copy.heading}
+  primaryLabel={copy.primaryLabel}
+  primaryHref={`/${locale}/contact/`}
+  secondaryLabel={copy.secondaryLabel}
+  secondaryHref={`/${locale}/jeux/`}
+  pointsKicker={copy.pointsKicker}
+  pointsTitle={copy.pointsTitle}
+  points={copy.points}
+  detailsKicker={copy.detailsKicker}
+  detailsTitle={copy.detailsTitle}
+  details={copy.details}
+  notice={copy.notice}
+  {translationLinks}
+/>

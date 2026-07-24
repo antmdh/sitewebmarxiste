@@ -1,5 +1,5 @@
 ---
-title: 'RUSSIA 1917 : Journal de développement — décembre 2025'
+title: "Russia 1917 : À la recherche de l'équilibre"
 slug: 'russia-1917-journal-decembre-2025'
 locale: 'fr'
 translationKey: 'russia-devlog-2025-12'

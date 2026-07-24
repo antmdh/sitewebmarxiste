@@ -1,0 +1,258 @@
+---
+import SupportPage from '../../components/SupportPage.astro';
+import { locales, type Locale } from '../../lib/i18n';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const locale = Astro.params.locale as Locale;
+const translationLinks = locales.map((item) => ({
+  locale: item,
+  href: `/${item}/devenir-testeur-benevole/`,
+}));
+const copies = {
+  fr: {
+    title: 'Devenir testeur bénévole',
+    description:
+      'Nous cherchons des bénévoles pour tester nos jeux, repérer les problèmes et nous aider à rendre chaque expérience plus claire, équilibrée et accessible.',
+    kicker: 'Jouer · Observer · Partager',
+    heading: 'Aidez-nous à construire de meilleurs jeux.',
+    primaryLabel: 'Proposer mon aide',
+    secondaryLabel: 'Découvrir les jeux',
+    pointsKicker: 'Participer aux tests',
+    pointsTitle: 'Votre expérience de joueur compte.',
+    points: [
+      {
+        title: 'Tester les versions de travail',
+        text: 'Jouez à des prototypes ou à des versions encore incomplètes sur mobile.',
+      },
+      {
+        title: 'Décrire votre expérience',
+        text: 'Dites-nous ce que vous avez compris, apprécié ou trouvé difficile.',
+      },
+      {
+        title: 'Repérer les problèmes',
+        text: 'Signalez les bugs, les textes peu lisibles et les mécaniques qui manquent de clarté.',
+      },
+      {
+        title: 'Soutenir un projet collectif',
+        text: 'Vos retours nous aident à garder des jeux gratuits, exigeants et accessibles.',
+      },
+    ],
+    detailsKicker: 'Un engagement libre',
+    detailsTitle: 'Du temps donné, sans obligation.',
+    details: [
+      'Le test est bénévole et non rémunéré, car nos jeux sont destinés à être principalement gratuits. Il ne demande aucune qualification professionnelle : la sincérité et la précision de vos retours sont ce qui nous aide le plus.',
+      'Vous choisissez les appels à test auxquels vous souhaitez participer, selon vos disponibilités. Nous indiquerons toujours la plateforme, la durée estimée et le type de retour recherché.',
+    ],
+    notice:
+      'La participation à un test ne constitue ni un emploi ni une prestation professionnelle. Elle reste libre et peut être interrompue à tout moment.',
+  },
+  en: {
+    title: 'Become a volunteer playtester',
+    description:
+      'We are looking for volunteers to test our games, spot problems and help us make each experience clearer, better balanced and more accessible.',
+    kicker: 'Play · Observe · Share',
+    heading: 'Help us build better games.',
+    primaryLabel: 'Volunteer to help',
+    secondaryLabel: 'Discover the games',
+    pointsKicker: 'Join the playtests',
+    pointsTitle: 'Your experience as a player matters.',
+    points: [
+      {
+        title: 'Test work-in-progress builds',
+        text: 'Play prototypes and unfinished mobile builds.',
+      },
+      {
+        title: 'Describe your experience',
+        text: 'Tell us what you understood, enjoyed or found difficult.',
+      },
+      {
+        title: 'Spot problems',
+        text: 'Report bugs, hard-to-read text and mechanics that lack clarity.',
+      },
+      {
+        title: 'Support a collective project',
+        text: 'Your feedback helps us keep our games free, ambitious and accessible.',
+      },
+    ],
+    detailsKicker: 'A flexible commitment',
+    detailsTitle: 'Give time without obligations.',
+    details: [
+      'Playtesting is voluntary and unpaid because our games are intended to remain mostly free. No professional qualification is required: honest, precise feedback helps us most.',
+      'You choose which playtests to join according to your availability. We will always state the platform, estimated duration and type of feedback requested.',
+    ],
+    notice:
+      'Taking part in a playtest is neither employment nor a professional service. Participation is voluntary and may end at any time.',
+  },
+  es: {
+    title: 'Hazte tester voluntario',
+    description:
+      'Buscamos personas voluntarias para probar nuestros juegos, detectar problemas y ayudarnos a crear experiencias más claras, equilibradas y accesibles.',
+    kicker: 'Jugar · Observar · Compartir',
+    heading: 'Ayúdanos a crear mejores juegos.',
+    primaryLabel: 'Ofrecer mi ayuda',
+    secondaryLabel: 'Descubrir los juegos',
+    pointsKicker: 'Participar en las pruebas',
+    pointsTitle: 'Tu experiencia como jugador importa.',
+    points: [
+      {
+        title: 'Probar versiones de trabajo',
+        text: 'Juega a prototipos y versiones móviles aún incompletas.',
+      },
+      {
+        title: 'Describir tu experiencia',
+        text: 'Cuéntanos qué entendiste, disfrutaste o encontraste difícil.',
+      },
+      {
+        title: 'Detectar problemas',
+        text: 'Señala errores, textos poco legibles y mecánicas que no estén claras.',
+      },
+      {
+        title: 'Apoyar un proyecto colectivo',
+        text: 'Tus comentarios nos ayudan a mantener juegos gratuitos, exigentes y accesibles.',
+      },
+    ],
+    detailsKicker: 'Un compromiso libre',
+    detailsTitle: 'Tiempo aportado, sin obligaciones.',
+    details: [
+      'Las pruebas son voluntarias y no remuneradas porque nuestros juegos quieren ser principalmente gratuitos. No se requiere experiencia profesional.',
+      'Eliges las pruebas en las que quieres participar según tu disponibilidad. Siempre indicaremos la plataforma, la duración estimada y el tipo de comentarios buscado.',
+    ],
+    notice:
+      'Participar en una prueba no constituye un empleo ni un servicio profesional. La participación es libre y puede terminar en cualquier momento.',
+  },
+  de: {
+    title: 'Ehrenamtlich Spiele testen',
+    description:
+      'Wir suchen Freiwillige, die unsere Spiele testen, Probleme finden und uns helfen, sie verständlicher, ausgewogener und zugänglicher zu machen.',
+    kicker: 'Spielen · Beobachten · Teilen',
+    heading: 'Hilf uns, bessere Spiele zu entwickeln.',
+    primaryLabel: 'Hilfe anbieten',
+    secondaryLabel: 'Spiele entdecken',
+    pointsKicker: 'An Tests teilnehmen',
+    pointsTitle: 'Deine Spielerfahrung zählt.',
+    points: [
+      {
+        title: 'Arbeitsversionen testen',
+        text: 'Spiele Prototypen und unfertige mobile Versionen.',
+      },
+      {
+        title: 'Erfahrungen beschreiben',
+        text: 'Sag uns, was verständlich, gelungen oder schwierig war.',
+      },
+      {
+        title: 'Probleme finden',
+        text: 'Melde Fehler, unleserliche Texte und unklare Mechaniken.',
+      },
+      {
+        title: 'Ein kollektives Projekt stärken',
+        text: 'Dein Feedback hilft uns, Spiele kostenlos, anspruchsvoll und zugänglich zu halten.',
+      },
+    ],
+    detailsKicker: 'Freies Engagement',
+    detailsTitle: 'Zeit schenken, ohne Verpflichtung.',
+    details: [
+      'Die Tests sind freiwillig und unbezahlt, weil unsere Spiele überwiegend kostenlos bleiben sollen. Berufliche Vorkenntnisse sind nicht erforderlich.',
+      'Du entscheidest je nach Zeit selbst, an welchen Tests du teilnimmst. Plattform, geschätzte Dauer und gewünschtes Feedback werden immer angegeben.',
+    ],
+    notice:
+      'Die Teilnahme an einem Test ist weder ein Arbeitsverhältnis noch eine professionelle Dienstleistung. Sie ist freiwillig und kann jederzeit beendet werden.',
+  },
+  nl: {
+    title: 'Vrijwillige speltester worden',
+    description:
+      'We zoeken vrijwilligers om onze spellen te testen, problemen te vinden en elke ervaring duidelijker, evenwichtiger en toegankelijker te maken.',
+    kicker: 'Spelen · Observeren · Delen',
+    heading: 'Help ons betere spellen te maken.',
+    primaryLabel: 'Mijn hulp aanbieden',
+    secondaryLabel: 'Ontdek de spellen',
+    pointsKicker: 'Meedoen aan tests',
+    pointsTitle: 'Jouw ervaring als speler telt.',
+    points: [
+      { title: 'Werkversies testen', text: 'Speel prototypes en onvoltooide mobiele versies.' },
+      {
+        title: 'Je ervaring beschrijven',
+        text: 'Vertel wat je begreep, leuk vond of moeilijk vond.',
+      },
+      {
+        title: 'Problemen opsporen',
+        text: 'Meld bugs, slecht leesbare teksten en onduidelijke spelmechanieken.',
+      },
+      {
+        title: 'Een collectief project steunen',
+        text: 'Jouw feedback helpt ons spellen gratis, ambitieus en toegankelijk te houden.',
+      },
+    ],
+    detailsKicker: 'Vrij engagement',
+    detailsTitle: 'Tijd geven zonder verplichting.',
+    details: [
+      'Speltesten is vrijwillig en onbetaald omdat onze spellen vooral gratis moeten blijven. Professionele ervaring is niet nodig.',
+      'Je kiest zelf aan welke tests je deelneemt. We vermelden altijd het platform, de geschatte duur en het soort feedback dat we zoeken.',
+    ],
+    notice:
+      'Deelname aan een test is geen dienstverband of professionele opdracht. Ze is vrijwillig en kan op elk moment worden stopgezet.',
+  },
+  it: {
+    title: 'Diventa playtester volontario',
+    description:
+      'Cerchiamo volontari per testare i nostri giochi, individuare problemi e aiutarci a rendere ogni esperienza più chiara, equilibrata e accessibile.',
+    kicker: 'Giocare · Osservare · Condividere',
+    heading: 'Aiutaci a costruire giochi migliori.',
+    primaryLabel: 'Offrire il mio aiuto',
+    secondaryLabel: 'Scoprire i giochi',
+    pointsKicker: 'Partecipare ai test',
+    pointsTitle: 'La tua esperienza di giocatore conta.',
+    points: [
+      {
+        title: 'Testare versioni di lavoro',
+        text: 'Gioca prototipi e versioni mobili ancora incomplete.',
+      },
+      {
+        title: 'Descrivere l’esperienza',
+        text: 'Raccontaci cosa hai capito, apprezzato o trovato difficile.',
+      },
+      {
+        title: 'Individuare problemi',
+        text: 'Segnala bug, testi poco leggibili e meccaniche poco chiare.',
+      },
+      {
+        title: 'Sostenere un progetto collettivo',
+        text: 'I tuoi feedback ci aiutano a mantenere giochi gratuiti, ambiziosi e accessibili.',
+      },
+    ],
+    detailsKicker: 'Un impegno libero',
+    detailsTitle: 'Tempo donato, senza obblighi.',
+    details: [
+      'I test sono volontari e non retribuiti perché i nostri giochi vogliono restare principalmente gratuiti. Non è richiesta esperienza professionale.',
+      'Scegli tu a quali test partecipare. Indicheremo sempre piattaforma, durata stimata e tipo di feedback richiesto.',
+    ],
+    notice:
+      'La partecipazione a un test non costituisce un rapporto di lavoro né una prestazione professionale. È libera e può terminare in qualsiasi momento.',
+  },
+} satisfies Record<Locale, Record<string, unknown>>;
+
+const copy = copies[locale] as (typeof copies)[Locale];
+---
+
+<SupportPage
+  {locale}
+  title={copy.title}
+  description={copy.description}
+  kicker={copy.kicker}
+  heading={copy.heading}
+  primaryLabel={copy.primaryLabel}
+  primaryHref={`/${locale}/contact/`}
+  secondaryLabel={copy.secondaryLabel}
+  secondaryHref={`/${locale}/jeux/`}
+  pointsKicker={copy.pointsKicker}
+  pointsTitle={copy.pointsTitle}
+  points={copy.points}
+  detailsKicker={copy.detailsKicker}
+  detailsTitle={copy.detailsTitle}
+  details={copy.details}
+  notice={copy.notice}
+  {translationLinks}
+/>

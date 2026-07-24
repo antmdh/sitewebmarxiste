@@ -1,5 +1,5 @@
 ---
-title: 'Russia 1917 : Journal de développement février 2025'
+title: "Russia 1917 : Construire l'IA des ennemis - les blancs"
 slug: 'russia-1917-journal-fevrier-2025'
 locale: 'fr'
 translationKey: 'russia-devlog-2025-02'

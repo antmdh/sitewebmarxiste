@@ -1,5 +1,5 @@
 ---
-title: 'Russia 1917 : Journal de développement janvier 2025'
+title: 'Russia 1917 : Montrer les pertes dans le style avant-garde russe'
 slug: 'russia-1917-journal-janvier-2025'
 locale: 'fr'
 translationKey: 'russia-devlog-2025-01'

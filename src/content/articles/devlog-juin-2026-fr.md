@@ -1,5 +1,5 @@
 ---
-title: 'RUSSIA 1917 : Journal de développement — juin 2026'
+title: "Russia 1917 : Lire la Pravda pour augmenter l'immersion dans le jeu"
 slug: 'russia-1917-journal-juin-2026'
 locale: 'fr'
 translationKey: 'russia-devlog-2026-06'

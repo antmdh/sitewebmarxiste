@@ -1,5 +1,5 @@
 ---
-title: 'RUSSIA 1917 : Journal de développement — novembre 2025'
+title: 'Russia 1917 : Futures fonctionnalités'
 slug: 'russia-1917-journal-novembre-2025'
 locale: 'fr'
 translationKey: 'russia-devlog-2025-11'

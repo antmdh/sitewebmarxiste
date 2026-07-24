@@ -31,7 +31,7 @@ const t = ui[locale];
   <div class="game-card__body">
     <p class="eyebrow">{game.data.genre}</p>
     <h3>{game.data.title}</h3>
-    <p>{game.data.description}</p>
+    <p>{game.data.cardDescription ?? game.data.description}</p>
     <div class="game-card__meta">
       <span>{game.data.platforms.join(' · ')}</span>
       <span>{game.data.historicalPeriod}</span>

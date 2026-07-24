@@ -1,5 +1,5 @@
 ---
-title: 'RUSSIA 1917 : Journal de développement — mai 2026'
+title: 'Russia 1917 : La recherche du Gameplay'
 slug: 'russia-1917-journal-mai-2026'
 locale: 'fr'
 translationKey: 'russia-devlog-2026-05'
