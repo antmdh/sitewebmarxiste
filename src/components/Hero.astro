@@ -8,6 +8,7 @@ import ButtonImageIcon from './ButtonImageIcon.astro';
 interface Props {
   title: string;
   intro: string;
+  mobileIntro?: string;
   image: ImageMetadata;
   imageAlt: string;
   primaryHref: string;
@@ -22,6 +23,7 @@ interface Props {
 const {
   title,
   intro,
+  mobileIntro = intro,
   image,
   imageAlt,
   primaryHref,
@@ -39,7 +41,8 @@ const {
     <div class="hero__copy">
       <p class="section-kicker">{eyebrow}</p>
       <h1>{title}</h1>
-      <p class="hero__intro">{intro}</p>
+      <p class="hero__intro hero__intro--full">{intro}</p>
+      <p class="hero__intro hero__intro--compact">{mobileIntro}</p>
       <div class="button-row">
         <a class="button" href={primaryHref}>
           <ButtonImageIcon src={gameDesignIcon} />
@@ -63,7 +66,7 @@ const {
       <figcaption>{caption}</figcaption>
     </figure>
   </div>
-  <div class="hero__ticker" aria-hidden="true">
+  <div class="hero__ticker hero__ticker--desktop" aria-hidden="true">
     {
       ticker.map((item, index) => (
         <>
@@ -154,6 +157,10 @@ const {
     white-space: pre-line;
   }
 
+  .hero__intro--full {
+    display: none;
+  }
+
   .hero .button--ghost {
     border-color: var(--color-dark-red);
     color: var(--color-dark-red);
@@ -163,7 +170,7 @@ const {
   .hero__visual {
     position: relative;
     align-self: end;
-    margin: 0.4rem 0 var(--space-5);
+    margin: 0.4rem 0 var(--space-4);
     border: 0.28rem solid var(--color-black);
     background: var(--color-red);
     box-shadow:
@@ -185,7 +192,7 @@ const {
 
   .hero__visual :global(img) {
     width: 100%;
-    height: clamp(17rem, 58vw, 23rem);
+    height: 13.5rem;
     object-fit: cover;
     object-position: center;
     filter: contrast(1.16) saturate(0.8);
@@ -211,7 +218,6 @@ const {
   .hero__ticker {
     position: relative;
     z-index: 2;
-    display: flex;
     min-width: max-content;
     gap: 1.2rem;
     align-items: center;
@@ -225,11 +231,37 @@ const {
     letter-spacing: 0.14em;
   }
 
+  .hero__ticker--desktop {
+    display: none;
+  }
+
   .hero__ticker i {
     width: 0.8rem;
     height: 0.8rem;
     background: var(--color-red-bright);
     rotate: 45deg;
+  }
+
+  @media (min-width: 44rem) {
+    .hero__intro--full {
+      display: block;
+    }
+
+    .hero__intro--compact {
+      display: none;
+    }
+
+    .hero__visual {
+      margin-bottom: var(--space-5);
+    }
+
+    .hero__visual :global(img) {
+      height: clamp(17rem, 58vw, 23rem);
+    }
+
+    .hero__ticker--desktop {
+      display: flex;
+    }
   }
 
   @media (min-width: 64rem) {

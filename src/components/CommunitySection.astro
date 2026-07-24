@@ -13,6 +13,7 @@ const content = {
     kicker: 'Une communauté vivante',
     title: 'On ne joue jamais seul.',
     text: 'Le Discord est notre espace de discussion, de test et de travail collectif. Venez avec une question, une critique ou simplement l’envie de découvrir.',
+    mobileText: 'Discutez des jeux, participez aux tests et partagez vos critiques sur Discord.',
     items: [
       'Discussions autour des jeux',
       'Retours et tests',
@@ -26,6 +27,7 @@ const content = {
     kicker: 'A living community',
     title: 'No one plays alone.',
     text: 'Discord is our space for discussion, testing and collective work.',
+    mobileText: 'Discuss games, join playtests and share your feedback on Discord.',
     items: [
       'Game discussions',
       'Feedback and playtests',
@@ -39,6 +41,7 @@ const content = {
     kicker: 'Una comunidad viva',
     title: 'Nadie juega solo.',
     text: 'Discord es nuestro espacio de debate, pruebas y trabajo colectivo.',
+    mobileText: 'Debate sobre juegos, participa en pruebas y comparte tus críticas en Discord.',
     items: [
       'Debates sobre juegos',
       'Pruebas y comentarios',
@@ -52,6 +55,7 @@ const content = {
     kicker: 'Eine lebendige Community',
     title: 'Niemand spielt allein.',
     text: 'Discord ist unser Ort für Diskussion, Tests und gemeinsame Arbeit.',
+    mobileText: 'Diskutiere über Spiele, nimm an Tests teil und teile dein Feedback auf Discord.',
     items: [
       'Gespräche über Spiele',
       'Feedback und Tests',
@@ -65,6 +69,7 @@ const content = {
     kicker: 'Een levende gemeenschap',
     title: 'Niemand speelt alleen.',
     text: 'Discord is onze plek voor discussie, tests en collectief werk.',
+    mobileText: 'Bespreek spellen, doe mee aan tests en deel je feedback op Discord.',
     items: [
       'Gesprekken over spellen',
       'Feedback en speeltests',
@@ -78,6 +83,7 @@ const content = {
     kicker: 'Una comunità viva',
     title: 'Nessuno gioca da solo.',
     text: 'Discord è il nostro spazio di discussione, test e lavoro collettivo.',
+    mobileText: 'Parla di giochi, partecipa ai test e condividi le tue critiche su Discord.',
     items: [
       'Discussioni sui giochi',
       'Feedback e playtest',
@@ -99,12 +105,13 @@ const itemIcons = ['community', 'gamepad', 'book', 'globe', 'calendar'] as const
     <div class="community__copy">
       <p class="section-kicker">{content.kicker}</p>
       <h2>{content.title}</h2>
-      <p>{content.text}</p>
+      <p class="community__text community__text--full">{content.text}</p>
+      <p class="community__text community__text--compact">{content.mobileText}</p>
       <a class="button button--cream" href="https://discord.gg/placeholder" rel="external"
         ><PixelIcon name="community" size={18} />{content.button} ↗</a
       >
     </div>
-    <ul class="community__list no-list">
+    <ul class="community__list community__list--desktop no-list">
       {
         content.items.map((item, index) => (
           <li>
@@ -120,7 +127,7 @@ const itemIcons = ['community', 'gamepad', 'book', 'globe', 'calendar'] as const
 
 <style>
   .community {
-    padding-block: var(--space-7);
+    padding-block: var(--space-6);
     overflow: hidden;
     background-image:
       linear-gradient(100deg, rgb(16 27 28 / 0.98), rgb(16 27 28 / 0.78)), var(--community-art);
@@ -132,7 +139,7 @@ const itemIcons = ['community', 'gamepad', 'book', 'globe', 'calendar'] as const
 
   .community__inner {
     display: grid;
-    gap: var(--space-6);
+    gap: var(--space-4);
   }
 
   .community__copy {
@@ -147,6 +154,10 @@ const itemIcons = ['community', 'gamepad', 'book', 'globe', 'calendar'] as const
     font-size: var(--step-1);
   }
 
+  .community__text--full {
+    display: none;
+  }
+
   .community__copy .button {
     width: fit-content;
   }
@@ -155,6 +166,10 @@ const itemIcons = ['community', 'gamepad', 'book', 'globe', 'calendar'] as const
     border: 0.19rem solid var(--color-cream);
     background: rgb(16 27 28 / 0.75);
     box-shadow: 0.35rem 0.35rem 0 var(--color-red);
+  }
+
+  .community__list--desktop {
+    display: none;
   }
 
   .community__list li {
@@ -187,9 +202,31 @@ const itemIcons = ['community', 'gamepad', 'book', 'globe', 'calendar'] as const
     filter: drop-shadow(0.12rem 0.12rem 0 var(--color-red));
   }
 
+  @media (min-width: 44rem) {
+    .community {
+      padding-block: var(--space-7);
+    }
+
+    .community__inner {
+      gap: var(--space-6);
+    }
+
+    .community__text--full {
+      display: block;
+    }
+
+    .community__text--compact {
+      display: none;
+    }
+  }
+
   @media (min-width: 52rem) {
     .community__inner {
       grid-template-columns: 0.9fr 1.1fr;
+    }
+
+    .community__list--desktop {
+      display: block;
     }
   }
 </style>

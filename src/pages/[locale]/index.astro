@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import ArticleCard from '../../components/ArticleCard.astro';
+import ButtonImageIcon from '../../components/ButtonImageIcon.astro';
 import CommunitySection from '../../components/CommunitySection.astro';
 import GameCard from '../../components/GameCard.astro';
 import Hero from '../../components/Hero.astro';
@@ -27,6 +28,8 @@ const locale = Astro.params.locale as Locale;
 const games = (await getCollection('games', ({ data }) => data.locale === locale && !data.draft))
   .filter(({ data }) => data.featured)
   .sort((a, b) => b.data.updatedAt.valueOf() - a.data.updatedAt.valueOf());
+const featuredMobileGameId =
+  games.find(({ data }) => data.translationKey === 'russia-1917')?.id ?? games[0]?.id;
 const articles = (
   await getCollection('articles', ({ data }) => data.locale === locale && !data.draft)
 )
@@ -40,6 +43,8 @@ const copy = {
     title: 'Des jeux marxistes, un studio engagé, une communauté vivante.',
     intro:
       'Nous créons des jeux qui interrogent le pouvoir, l’histoire et la société.\nNous écrivons sur le marxisme et le jeu vidéo.\nNous rassemblons une communauté critique et solidaire.',
+    mobileIntro:
+      'Nous créons des jeux marxistes qui interrogent le pouvoir, l’histoire et la société.',
     gamesKicker: 'Les productions du studio',
     gamesTitle: 'Jouer avec l’histoire. Penser le présent.',
     gamesText:
@@ -50,6 +55,9 @@ const copy = {
     commissionText:
       'Associations, syndicats, musées, équipes pédagogiques : nous transformons une question complexe en expérience jouable, de la recherche au prototype.',
     commissionButton: 'Parler de votre projet',
+    studioSummaryTitle: 'Une offre sur mesure.',
+    studioSummaryText:
+      'Game design, scénario, recherche, prototypage et accompagnement technique selon vos besoins.',
     articleKicker: 'Nos actualités',
     articleTitle: 'Développement, critique, histoire.',
     articleText:
@@ -62,12 +70,14 @@ const copy = {
     newsletterTitle: 'Recevoir des nouvelles, pas du bruit.',
     newsletterText:
       'Une lettre occasionnelle sur les jeux, les nouveaux articles et les appels à test.',
+    chooseLanguage: 'Choisir une langue',
   },
   en: {
     eyebrow: 'Marxists Games · Association · Independent Studio',
     title: 'Marxist games, a committed studio, a living community.',
     intro:
       'We make games that question power, history and society.\nWe write about Marxism and video games.\nWe bring together a critical, supportive community.',
+    mobileIntro: 'We create Marxist games that question power, history and society.',
     gamesKicker: 'Studio productions',
     gamesTitle: 'Play with history. Think about the present.',
     gamesText:
@@ -78,6 +88,9 @@ const copy = {
     commissionText:
       'Associations, unions, museums and educators: we turn complex questions into playable experiences.',
     commissionButton: 'Tell us about your project',
+    studioSummaryTitle: 'A tailored offer.',
+    studioSummaryText:
+      'Game design, writing, research, prototyping and technical support shaped around your needs.',
     articleKicker: 'Our news',
     articleTitle: 'Development, criticism, history.',
     articleText: 'We document our choices, share tools and read the games around us politically.',
@@ -88,12 +101,14 @@ const copy = {
       'Translations are published progressively. The selector only shows versions that truly exist.',
     newsletterTitle: 'News, not noise.',
     newsletterText: 'An occasional letter about games, new articles and playtests.',
+    chooseLanguage: 'Choose a language',
   },
   es: {
     eyebrow: 'Marxists Games · Asociación · Estudio Independiente',
     title: 'Juegos marxistas, un estudio comprometido, una comunidad viva.',
     intro:
       'Creamos juegos que cuestionan el poder, la historia y la sociedad.\nEscribimos sobre marxismo y videojuegos.\nReunimos una comunidad crítica y solidaria.',
+    mobileIntro: 'Creamos juegos marxistas que cuestionan el poder, la historia y la sociedad.',
     gamesKicker: 'Producciones del estudio',
     gamesTitle: 'Jugar con la historia. Pensar el presente.',
     gamesText:
@@ -104,6 +119,9 @@ const copy = {
     commissionText:
       'Asociaciones, sindicatos, museos y docentes: convertimos preguntas complejas en experiencias jugables.',
     commissionButton: 'Cuéntanos tu proyecto',
+    studioSummaryTitle: 'Una propuesta a medida.',
+    studioSummaryText:
+      'Diseño, guion, investigación, prototipado y asistencia técnica según tus necesidades.',
     articleKicker: 'Nuestras noticias',
     articleTitle: 'Desarrollo, crítica, historia.',
     articleText:
@@ -114,12 +132,14 @@ const copy = {
     langText: 'Las traducciones se publican progresivamente.',
     newsletterTitle: 'Noticias, no ruido.',
     newsletterText: 'Una carta ocasional sobre juegos, artículos y pruebas.',
+    chooseLanguage: 'Elegir un idioma',
   },
   de: {
     eyebrow: 'Marxists Games · Verein · Unabhängiges Studio',
     title: 'Marxistische Spiele, ein engagiertes Studio, eine lebendige Community.',
     intro:
       'Wir entwickeln Spiele über Macht, Geschichte und Gesellschaft.\nWir schreiben über Marxismus und Videospiele.\nWir schaffen eine kritische, solidarische Community.',
+    mobileIntro: 'Wir entwickeln marxistische Spiele über Macht, Geschichte und Gesellschaft.',
     gamesKicker: 'Produktionen des Studios',
     gamesTitle: 'Mit Geschichte spielen. Die Gegenwart denken.',
     gamesText: 'Strategie, Erzählung und Forschung treffen in zugänglichen Projekten aufeinander.',
@@ -129,6 +149,9 @@ const copy = {
     commissionText:
       'Vereine, Gewerkschaften, Museen und Bildungsteams: Wir machen komplexe Fragen spielbar.',
     commissionButton: 'Projekt besprechen',
+    studioSummaryTitle: 'Ein maßgeschneidertes Angebot.',
+    studioSummaryText:
+      'Game Design, Drehbuch, Recherche, Prototyping und technische Begleitung nach Bedarf.',
     articleKicker: 'Unsere Neuigkeiten',
     articleTitle: 'Entwicklung, Kritik, Geschichte.',
     articleText: 'Wir dokumentieren Entscheidungen, teilen Werkzeuge und lesen Spiele politisch.',
@@ -138,12 +161,14 @@ const copy = {
     langText: 'Übersetzungen erscheinen schrittweise.',
     newsletterTitle: 'Neuigkeiten, kein Lärm.',
     newsletterText: 'Ein gelegentlicher Brief über Spiele, Artikel und Tests.',
+    chooseLanguage: 'Sprache wählen',
   },
   nl: {
     eyebrow: 'Marxists Games · Vereniging · Onafhankelijke studio',
     title: 'Marxistische spellen, een betrokken studio, een levende gemeenschap.',
     intro:
       'We maken spellen die macht, geschiedenis en samenleving bevragen.\nWe schrijven over marxisme en videogames.\nWe brengen een kritische en solidaire gemeenschap samen.',
+    mobileIntro: 'We maken marxistische spellen die macht, geschiedenis en samenleving bevragen.',
     gamesKicker: 'Producties van de studio',
     gamesTitle: 'Spelen met geschiedenis. Nadenken over het heden.',
     gamesText:
@@ -154,6 +179,9 @@ const copy = {
     commissionText:
       'Verenigingen, vakbonden, musea en onderwijsteams: wij maken complexe vragen speelbaar.',
     commissionButton: 'Vertel ons over je project',
+    studioSummaryTitle: 'Een aanbod op maat.',
+    studioSummaryText:
+      'Game design, scenario, onderzoek, prototyping en technische begeleiding volgens jouw behoeften.',
     articleKicker: 'Ons nieuws',
     articleTitle: 'Ontwikkeling, kritiek, geschiedenis.',
     articleText:
@@ -165,12 +193,14 @@ const copy = {
       'Vertalingen worden geleidelijk gepubliceerd. De taalkiezer toont welke versies echt beschikbaar zijn.',
     newsletterTitle: 'Nieuws, geen ruis.',
     newsletterText: 'Af en toe een brief over spellen, nieuwe artikelen en speeltests.',
+    chooseLanguage: 'Kies een taal',
   },
   it: {
     eyebrow: 'Marxists Games · Associazione · Studio indipendente',
     title: 'Giochi marxisti, uno studio impegnato, una comunità viva.',
     intro:
       'Creiamo giochi che interrogano il potere, la storia e la società.\nScriviamo di marxismo e videogiochi.\nRiuniamo una comunità critica e solidale.',
+    mobileIntro: 'Creiamo giochi marxisti che interrogano il potere, la storia e la società.',
     gamesKicker: 'Le produzioni dello studio',
     gamesTitle: 'Giocare con la storia. Pensare il presente.',
     gamesText:
@@ -181,6 +211,9 @@ const copy = {
     commissionText:
       'Associazioni, sindacati, musei e gruppi educativi: trasformiamo domande complesse in esperienze giocabili.',
     commissionButton: 'Parlaci del tuo progetto',
+    studioSummaryTitle: 'Un’offerta su misura.',
+    studioSummaryText:
+      'Game design, sceneggiatura, ricerca, prototipazione e supporto tecnico secondo le tue esigenze.',
     articleKicker: 'Le nostre notizie',
     articleTitle: 'Sviluppo, critica, storia.',
     articleText:
@@ -192,6 +225,7 @@ const copy = {
       'Le traduzioni vengono pubblicate progressivamente. Il selettore mostra le versioni realmente disponibili.',
     newsletterTitle: 'Notizie, non rumore.',
     newsletterText: 'Una lettera occasionale su giochi, nuovi articoli e playtest.',
+    chooseLanguage: 'Scegli una lingua',
   },
 }[locale];
 
@@ -413,6 +447,7 @@ const structuredData = {
     eyebrow={copy.eyebrow}
     title={copy.title}
     intro={copy.intro}
+    mobileIntro={copy.mobileIntro}
     image={brandBackground}
     imageAlt={labels.imageAlt}
     caption={labels.caption}
@@ -423,7 +458,7 @@ const structuredData = {
     ticker={heroTicker[locale]}
   />
 
-  <section class="section">
+  <section class="section home-games">
     <div class="container">
       <header class="section-heading">
         <p class="section-kicker">{copy.gamesKicker}</p><h2>{copy.gamesTitle}</h2><p>
@@ -432,9 +467,16 @@ const structuredData = {
       </header>
       {
         games.length > 0 ? (
-          <div class="grid-3">
+          <div class="grid-3 home-games__grid">
             {games.map((game) => (
-              <GameCard {game} {locale} />
+              <div
+                class:list={[
+                  'home-game',
+                  { 'home-game--mobile-featured': game.id === featuredMobileGameId },
+                ]}
+              >
+                <GameCard {game} {locale} />
+              </div>
             ))}
           </div>
         ) : (
@@ -457,7 +499,7 @@ const structuredData = {
           {copy.commissionText}
         </p>
       </header>
-      <div class="grid-3">
+      <div class="grid-3 commission__services">
         {
           serviceTitles.map((title, index) => (
             <ServiceCard
@@ -469,13 +511,25 @@ const structuredData = {
           ))
         }
       </div>
-      <a class="button button--cream commission__button" href={`/${locale}/commander-un-jeu/`}
+      <article class="commission-summary card">
+        <ButtonImageIcon src={prototypeIcon} />
+        <div>
+          <h3>{copy.studioSummaryTitle}</h3>
+          <p>{copy.studioSummaryText}</p>
+        </div>
+        <a class="button button--cream" href={`/${locale}/commander-un-jeu/`}
+          >{copy.commissionButton}<PixelIcon name="arrow" size={17} /></a
+        >
+      </article>
+      <a
+        class="button button--cream commission__button commission__button--desktop"
+        href={`/${locale}/commander-un-jeu/`}
         >{copy.commissionButton}<PixelIcon name="arrow" size={17} /></a
       >
     </div>
   </section>
 
-  <section class="section">
+  <section class="section home-articles">
     <div class="container">
       <header class="section-heading">
         <p class="section-kicker">{copy.articleKicker}</p><h2>{copy.articleTitle}</h2><p>
@@ -484,9 +538,11 @@ const structuredData = {
       </header>
       {
         articles.length > 0 ? (
-          <div class="grid-3">
+          <div class="grid-3 home-articles__grid">
             {articles.map((article) => (
-              <ArticleCard {article} {locale} />
+              <div class="home-article">
+                <ArticleCard {article} {locale} />
+              </div>
             ))}
           </div>
         ) : (
@@ -511,7 +567,7 @@ const structuredData = {
           {copy.langText}
         </p>
       </div>
-      <nav aria-label={labels.languages}>
+      <nav class="language-band__desktop" aria-label={labels.languages}>
         <ul class="no-list">
           {
             locales.map((item, index) => (
@@ -526,6 +582,24 @@ const structuredData = {
           }
         </ul>
       </nav>
+      <details class="language-band__mobile">
+        <summary>{copy.chooseLanguage}</summary>
+        <nav aria-label={labels.languages}>
+          <ul class="no-list">
+            {
+              locales.map((item, index) => (
+                <li>
+                  <a href={`/${item}/`} hreflang={item}>
+                    <PixelIcon name="globe" size={21} />
+                    <span>0{index + 1}</span>
+                    {localeNames[item]} <PixelIcon name="arrow" size={15} />
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </details>
     </div>
   </section>
 
@@ -541,8 +615,38 @@ const structuredData = {
 </BaseLayout>
 
 <style>
+  :global(.hero__intro--full),
+  :global(.community__text--full),
+  :global(.community__list--desktop) {
+    display: none;
+  }
   .section-cta {
-    margin-top: var(--space-6);
+    margin-top: var(--space-4);
+  }
+  .home-games,
+  .home-articles,
+  .commission,
+  .language-band,
+  .newsletter-band {
+    padding-block: var(--space-6);
+  }
+  .home-games .section-heading > p:last-child,
+  .home-articles .section-heading > p:last-child,
+  .commission .section-heading > p:last-child {
+    display: none;
+  }
+  .home-game,
+  .home-article {
+    display: flex;
+    min-width: 0;
+  }
+  .home-game:not(.home-game--mobile-featured),
+  .home-article:nth-child(n + 2) {
+    display: none;
+  }
+  .home-game :global(.game-card),
+  .home-article :global(.article-card) {
+    width: 100%;
   }
   .commission {
     position: relative;
@@ -584,6 +688,30 @@ const structuredData = {
     z-index: 1;
     margin-top: var(--space-6);
   }
+  .commission__services,
+  .commission__button--desktop {
+    display: none;
+  }
+  .commission-summary {
+    z-index: 1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: start;
+    padding: var(--space-4);
+  }
+  .commission-summary h3 {
+    font-size: var(--step-2);
+  }
+  .commission-summary p {
+    margin-top: var(--space-2);
+    color: var(--color-gray);
+    font-size: var(--step--1);
+  }
+  .commission-summary .button {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
   .language-band {
     background-color: var(--color-cream);
     background-image: var(--texture-staggered-mosaic);
@@ -600,6 +728,7 @@ const structuredData = {
     align-content: start;
   }
   .language-band__grid > div > p:last-child {
+    display: none;
     max-width: 36rem;
     color: var(--color-gray);
     font-size: var(--step-1);
@@ -607,6 +736,28 @@ const structuredData = {
   .language-band ul {
     display: grid;
     gap: var(--space-3);
+  }
+  .language-band__desktop {
+    display: none;
+  }
+  .language-band__mobile {
+    border: 0.19rem solid var(--color-black);
+    background: var(--color-paper);
+    box-shadow: 0.24rem 0.24rem 0 var(--color-dark-red);
+  }
+  .language-band__mobile summary {
+    padding: var(--space-3);
+    color: var(--color-white);
+    background: var(--color-red);
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    line-height: 1;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .language-band__mobile nav {
+    padding: var(--space-3);
+    border-top: 0.16rem solid var(--color-black);
   }
   .language-band li {
     border: 0.16rem solid var(--color-black);
@@ -646,7 +797,59 @@ const structuredData = {
     gap: var(--space-3);
   }
   .newsletter-band__grid > div > p:last-child {
+    display: none;
     color: var(--color-gray);
+  }
+  @media (min-width: 44rem) {
+    :global(.hero__intro--full),
+    :global(.community__text--full) {
+      display: block;
+    }
+    :global(.hero__intro--compact),
+    :global(.community__text--compact) {
+      display: none;
+    }
+    :global(.hero__ticker--desktop) {
+      display: flex;
+    }
+    .section-cta {
+      margin-top: var(--space-6);
+    }
+    .home-games,
+    .home-articles,
+    .commission,
+    .language-band,
+    .newsletter-band {
+      padding-block: var(--space-7);
+    }
+    .home-games .section-heading > p:last-child,
+    .home-articles .section-heading > p:last-child,
+    .commission .section-heading > p:last-child,
+    .language-band__grid > div > p:last-child,
+    .newsletter-band__grid > div > p:last-child {
+      display: block;
+    }
+    .home-game,
+    .home-game:not(.home-game--mobile-featured),
+    .home-article,
+    .home-article:nth-child(n + 2) {
+      display: flex;
+    }
+    .commission__services {
+      display: grid;
+    }
+    .commission-summary {
+      display: none;
+    }
+    .commission__button--desktop {
+      display: inline-flex;
+    }
+    .language-band__desktop {
+      display: block;
+    }
+    .language-band__mobile {
+      display: none;
+    }
   }
   @media (min-width: 54rem) {
     .language-band__grid,
@@ -656,6 +859,11 @@ const structuredData = {
     }
     .language-band ul {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 52rem) {
+    :global(.community__list--desktop) {
+      display: block;
     }
   }
 </style>
