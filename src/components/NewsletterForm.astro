@@ -8,42 +8,57 @@ interface Props {
 }
 
 const { locale, compact = false } = Astro.props;
+const configuredTurnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim();
+const turnstileSiteKey =
+  configuredTurnstileSiteKey || (import.meta.env.DEV ? '1x00000000000000000000AA' : '');
 const labels = {
   fr: {
     email: 'Votre adresse e-mail',
     button: 'S’inscrire',
     consent: 'J’accepte de recevoir les nouvelles de Marxists Games.',
-    status: 'Le service d’envoi sera connecté avant la mise en ligne.',
+    privacy: 'Lire la politique de confidentialité.',
+    status: 'Votre adresse ne sera pas vendue ni utilisée à des fins commerciales.',
+    unavailable: 'Les inscriptions sont temporairement indisponibles.',
   },
   en: {
     email: 'Your email address',
     button: 'Subscribe',
     consent: 'I agree to receive news from Marxists Games.',
-    status: 'The sending service will be connected before launch.',
+    privacy: 'Read the privacy policy.',
+    status: 'Your address will not be sold or used for commercial purposes.',
+    unavailable: 'Subscriptions are temporarily unavailable.',
   },
   es: {
     email: 'Tu correo electrónico',
     button: 'Suscribirse',
     consent: 'Acepto recibir noticias de Marxists Games.',
-    status: 'El servicio de envío se conectará antes del lanzamiento.',
+    privacy: 'Leer la política de privacidad.',
+    status: 'Tu dirección no se venderá ni se utilizará con fines comerciales.',
+    unavailable: 'Las suscripciones no están disponibles temporalmente.',
   },
   de: {
     email: 'Deine E-Mail-Adresse',
     button: 'Anmelden',
     consent: 'Ich möchte Neuigkeiten von Marxists Games erhalten.',
-    status: 'Der Versanddienst wird vor dem Start angeschlossen.',
+    privacy: 'Datenschutzerklärung lesen.',
+    status: 'Deine Adresse wird weder verkauft noch für kommerzielle Zwecke verwendet.',
+    unavailable: 'Anmeldungen sind vorübergehend nicht verfügbar.',
   },
   nl: {
     email: 'Je e-mailadres',
     button: 'Inschrijven',
     consent: 'Ik ga ermee akkoord nieuws van Marxists Games te ontvangen.',
-    status: 'De verzenddienst wordt voor de lancering aangesloten.',
+    privacy: 'Lees het privacybeleid.',
+    status: 'Je adres wordt niet verkocht of voor commerciële doeleinden gebruikt.',
+    unavailable: 'Inschrijvingen zijn tijdelijk niet beschikbaar.',
   },
   it: {
     email: 'Il tuo indirizzo e-mail',
     button: 'Iscriviti',
     consent: 'Accetto di ricevere notizie da Marxists Games.',
-    status: 'Il servizio di invio sarà collegato prima del lancio.',
+    privacy: 'Leggi l’informativa sulla privacy.',
+    status: 'Il tuo indirizzo non sarà venduto né utilizzato per fini commerciali.',
+    unavailable: 'Le iscrizioni sono temporaneamente non disponibili.',
   },
 }[locale];
 ---
@@ -52,6 +67,7 @@ const labels = {
   class:list={['newsletter-form', { 'newsletter-form--compact': compact }]}
   action="/api/newsletter"
   method="post"
+  data-newsletter-form
 >
   <div class="newsletter-form__field">
     <label for={`newsletter-email-${compact ? 'compact' : 'full'}`}>{labels.email}</label>
@@ -66,7 +82,10 @@ const labels = {
   </div>
   <label class="newsletter-form__consent">
     <input type="checkbox" name="consent" value="yes" required />
-    <span>{labels.consent}</span>
+    <span>
+      {labels.consent}
+      <a href={`/${locale}/confidentialite/`}>{labels.privacy}</a>
+    </span>
   </label>
   <input
     class="honeypot"
@@ -77,12 +96,31 @@ const labels = {
     aria-hidden="true"
   />
   <input type="hidden" name="locale" value={locale} />
-  <button class="button" type="submit">
+  <input type="hidden" name="formStartedAt" value={Date.now()} />
+  {
+    turnstileSiteKey ? (
+      <div
+        class="cf-turnstile newsletter-form__turnstile"
+        data-sitekey={turnstileSiteKey}
+        data-action="newsletter"
+        data-language={locale}
+        data-size="flexible"
+      />
+    ) : (
+      <p class="newsletter-form__configuration">{labels.unavailable}</p>
+    )
+  }
+  <button class="button" type="submit" disabled={!turnstileSiteKey}>
     <PixelIcon name="mail" size={18} />
     {labels.button}
   </button>
-  <p class="newsletter-form__status">{labels.status}</p>
+  <p class="newsletter-form__status" data-newsletter-status aria-live="polite">
+    {labels.status}
+  </p>
 </form>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script is:inline src="/scripts/newsletter-form.js" defer></script>
 
 <style>
   .newsletter-form {
@@ -126,8 +164,31 @@ const labels = {
     accent-color: var(--color-red);
   }
 
+  .newsletter-form__consent a {
+    color: inherit;
+    text-decoration-thickness: 0.12rem;
+    text-underline-offset: 0.18rem;
+  }
+
+  .newsletter-form__turnstile {
+    width: min(100%, 19rem);
+  }
+
+  .newsletter-form__configuration {
+    padding: var(--space-2);
+    border: 0.12rem solid var(--color-red);
+    color: var(--color-red-dark);
+    font-weight: 800;
+    background: var(--color-paper-highlight);
+  }
+
   .newsletter-form .button {
     width: fit-content;
+  }
+
+  .newsletter-form .button:disabled {
+    cursor: wait;
+    opacity: 0.65;
   }
 
   .newsletter-form__status {
@@ -147,6 +208,8 @@ const labels = {
     }
 
     .newsletter-form--compact .newsletter-form__consent,
+    .newsletter-form--compact .newsletter-form__turnstile,
+    .newsletter-form--compact .newsletter-form__configuration,
     .newsletter-form--compact .newsletter-form__status {
       grid-column: 1 / -1;
     }

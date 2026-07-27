@@ -65,6 +65,24 @@ test('forms have explicit labels, consent and honeypot fields', async () => {
   assert.match(contact, /name="website"/);
   assert.match(newsletter, /name="consent"/);
   assert.match(newsletter, /name="website"/);
+  assert.match(newsletter, /cf-turnstile/);
+  assert.match(newsletter, /confidentialite/);
+  assert.match(newsletter, /aria-live="polite"/);
+});
+
+test('newsletter subscriptions are protected and stored by the Worker', async () => {
+  const endpoint = await read('src/pages/api/newsletter.ts');
+  const store = await read('src/lib/newsletter-store.ts');
+  const wrangler = await read('wrangler.jsonc');
+  assert.match(endpoint, /CF-Connecting-IP/);
+  assert.match(endpoint, /NEWSLETTER_RATE_LIMITER/);
+  assert.match(endpoint, /verifyNewsletterTurnstile/);
+  assert.match(store, /RSASSA-PKCS1-v1_5/);
+  assert.match(store, /valueInputOption/);
+  assert.match(store, /RAW/);
+  assert.match(store, /HMAC/);
+  assert.match(wrangler, /"ratelimits"/);
+  assert.doesNotMatch(wrangler, /GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY/);
 });
 
 test('SEO layout sets language, title, description, canonical and alternates', async () => {

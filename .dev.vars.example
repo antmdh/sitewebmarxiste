@@ -1,0 +1,8 @@
+# Clés de test officielles Cloudflare Turnstile pour le développement local.
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
+
+# Ne jamais versionner les vraies valeurs ci-dessous.
+GOOGLE_SERVICE_ACCOUNT_EMAIL=
+GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY=
+GOOGLE_SHEET_ID=
+NEWSLETTER_HASH_SECRET=
