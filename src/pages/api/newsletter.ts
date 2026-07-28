@@ -129,6 +129,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
     { email, locale, submittedAt: new Date().toISOString() },
     env,
   );
-  if (!result.stored) return json(messages.unavailable, 503);
+  if (!result.stored) {
+    console.error('newsletter_store_failed', {
+      providerStatus: result.providerStatus ?? null,
+      reason: result.reason,
+    });
+    return json(messages.unavailable, 503);
+  }
   return json(messages.success, 200);
 };

@@ -81,6 +81,9 @@ test('newsletter subscriptions are protected and stored by the Worker', async ()
   assert.match(store, /valueInputOption/);
   assert.match(store, /RAW/);
   assert.match(store, /HMAC/);
+  assert.match(store, /google-oauth-http/);
+  assert.match(store, /google-sheets-http/);
+  assert.match(endpoint, /newsletter_store_failed/);
   assert.match(wrangler, /"ratelimits"/);
   assert.doesNotMatch(wrangler, /GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY/);
 });

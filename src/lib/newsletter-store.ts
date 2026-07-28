@@ -31,7 +31,23 @@ interface TurnstileResponse {
 }
 
 export type NewsletterStoreResult =
-  { stored: true } | { stored: false; reason: 'not-configured' | 'provider-error' };
+  | { stored: true }
+  | {
+      stored: false;
+      reason:
+        | 'google-oauth-http'
+        | 'google-oauth-network'
+        | 'google-oauth-response'
+        | 'google-sheets-http'
+        | 'google-sheets-network'
+        | 'invalid-private-key'
+        | 'missing-google-email'
+        | 'missing-google-private-key'
+        | 'missing-hash-secret'
+        | 'missing-sheet-id'
+        | 'unexpected-error';
+      providerStatus?: number;
+    };
 
 const encoder = new TextEncoder();
 
@@ -94,24 +110,37 @@ async function requestGoogleAccessToken(
   privateKey: string,
   fetcher: Fetcher,
 ) {
-  const assertion = await createServiceAccountAssertion(
-    serviceAccountEmail,
-    privateKey,
-    Date.now(),
-  );
+  let assertion: string;
+  try {
+    assertion = await createServiceAccountAssertion(serviceAccountEmail, privateKey, Date.now());
+  } catch {
+    return { ok: false as const, reason: 'invalid-private-key' as const };
+  }
   const body = new URLSearchParams({
     assertion,
     grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
   });
-  const response = await fetcher(GOOGLE_TOKEN_URL, {
-    method: 'POST',
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    body,
-  });
-  if (!response.ok) throw new Error('Google OAuth token request failed');
-  const payload = (await response.json()) as { access_token?: string };
-  if (!payload.access_token) throw new Error('Google OAuth token is missing');
-  return payload.access_token;
+  try {
+    const response = await fetcher(GOOGLE_TOKEN_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      body,
+    });
+    if (!response.ok) {
+      return {
+        ok: false as const,
+        providerStatus: response.status,
+        reason: 'google-oauth-http' as const,
+      };
+    }
+    const payload = (await response.json()) as { access_token?: string };
+    if (!payload.access_token) {
+      return { ok: false as const, reason: 'google-oauth-response' as const };
+    }
+    return { ok: true as const, accessToken: payload.access_token };
+  } catch {
+    return { ok: false as const, reason: 'google-oauth-network' as const };
+  }
 }
 
 async function createSubscriberId(email: string, secret: string) {
@@ -165,14 +194,16 @@ export async function storeNewsletterSubscription(
   const privateKey = env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.trim();
   const spreadsheetId = env.GOOGLE_SHEET_ID?.trim();
   const hashSecret = env.NEWSLETTER_HASH_SECRET?.trim();
-  if (!serviceAccountEmail || !privateKey || !spreadsheetId || !hashSecret) {
-    return { stored: false, reason: 'not-configured' };
-  }
+  if (!serviceAccountEmail) return { stored: false, reason: 'missing-google-email' };
+  if (!privateKey) return { stored: false, reason: 'missing-google-private-key' };
+  if (!spreadsheetId) return { stored: false, reason: 'missing-sheet-id' };
+  if (!hashSecret) return { stored: false, reason: 'missing-hash-secret' };
 
   try {
     const email = normalizeNewsletterEmail(subscription.email);
     const subscriberId = await createSubscriberId(email, hashSecret);
-    const accessToken = await requestGoogleAccessToken(serviceAccountEmail, privateKey, fetcher);
+    const tokenResult = await requestGoogleAccessToken(serviceAccountEmail, privateKey, fetcher);
+    if (!tokenResult.ok) return { stored: false, ...tokenResult };
     const range = env.GOOGLE_SHEET_RANGE?.trim() || 'subscriptions!A:G';
     const endpoint = new URL(
       `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(
@@ -186,7 +217,7 @@ export async function storeNewsletterSubscription(
     const response = await fetcher(endpoint, {
       method: 'POST',
       headers: {
-        authorization: `Bearer ${accessToken}`,
+        authorization: `Bearer ${tokenResult.accessToken}`,
         'content-type': 'application/json',
       },
       body: JSON.stringify({
@@ -204,8 +235,14 @@ export async function storeNewsletterSubscription(
         ],
       }),
     });
-    return response.ok ? { stored: true } : { stored: false, reason: 'provider-error' };
+    return response.ok
+      ? { stored: true }
+      : {
+          stored: false,
+          providerStatus: response.status,
+          reason: 'google-sheets-http',
+        };
   } catch {
-    return { stored: false, reason: 'provider-error' };
+    return { stored: false, reason: 'google-sheets-network' };
   }
 }
