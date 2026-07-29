@@ -6,7 +6,7 @@ personnes autorisées et le compte de service.
 
 ## 1. Préparer le compte de service Google
 
-1. Dans Google Cloud Console, créer ou sélectionner un projet dédié à Marxists Games.
+1. Dans Google Cloud Console, créer ou sélectionner un projet dédié à Marxist Games.
 2. Activer **Google Sheets API** pour ce projet.
 3. Ouvrir **IAM et administration → Comptes de service** et créer un compte de service, par exemple
    `newsletter-marxists-games`.

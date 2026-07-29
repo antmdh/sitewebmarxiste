@@ -153,6 +153,6 @@ Nous travaillons donc à un comportement plus naturel et surtout changeant
 
 🤝 Communauté
 
-Un Discord dédié a été créé : “Marxists Games – Russia 1917”
+Un Discord dédié a été créé : “Marxist Games – Russia 1917”
 
 Il servira à recueillir vos retours, proposer des idées, tester des fonctionnalités et échanger sur l’histoire de la Révolution et de la guerre civile.

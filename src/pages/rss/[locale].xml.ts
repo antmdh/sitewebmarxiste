@@ -14,7 +14,7 @@ export async function GET(context: APIContext) {
     await getCollection('articles', ({ data }) => data.locale === locale && !data.draft)
   ).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
   return rss({
-    title: `Marxists Games — ${locale.toUpperCase()}`,
+    title: `Marxist Games — ${locale.toUpperCase()}`,
     description: 'Jeux, histoire, politique et création collective.',
     site: context.site!,
     items: articles.map((article) => ({

@@ -8,7 +8,7 @@ developmentStatus: 'En développement · alpha jouable'
 platforms: ['Android', 'iOS']
 genre: 'Stratégie historique et politique'
 historicalPeriod: 'Révolution et guerre civile russes, 1917–1922'
-description: 'Développé par Marxists Games, Russia 1917 est bien plus qu’un simple jeu de stratégie : c’est une expérience immersive qui vous plonge au cœur de la Révolution bolchevique, mêlant tactique militaire, dilemmes politiques et découvertes artistiques. Prenez les commandes des Rouges, affrontez vos ennemis et tentez d’écrire votre propre version de l’Histoire.'
+description: 'Développé par Marxist Games, Russia 1917 est bien plus qu’un simple jeu de stratégie : c’est une expérience immersive qui vous plonge au cœur de la Révolution bolchevique, mêlant tactique militaire, dilemmes politiques et découvertes artistiques. Prenez les commandes des Rouges, affrontez vos ennemis et tentez d’écrire votre propre version de l’Histoire.'
 cardDescription: 'Au cœur de la Révolution bolchevique, mêlez stratégie militaire, choix politiques et art révolutionnaire pour écrire votre version de l’Histoire.'
 category: 'game'
 publishedAt: '2025-06-04'

@@ -1,5 +1,5 @@
 ---
-title: 'À propos de Marxists Games'
+title: 'À propos de Marxist Games'
 slug: 'a-propos'
 locale: 'fr'
 translationKey: 'about'

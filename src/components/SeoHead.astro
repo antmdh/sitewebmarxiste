@@ -23,7 +23,7 @@ const {
   translationLinks = [],
   publishedAt,
 } = Astro.props;
-const siteName = 'Marxists Games';
+const siteName = 'Marxist Games';
 const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
 const imageUrl = image ? new URL(image.src, Astro.site) : new URL('/og-default.svg', Astro.site);
 ---

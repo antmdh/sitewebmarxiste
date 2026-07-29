@@ -28,7 +28,7 @@ const pageTranslations: Partial<
 > = {
   fr: {
     title: 'Mentions légales',
-    description: 'Informations légales relatives au site Marxists Games.',
+    description: 'Informations légales relatives au site Marxist Games.',
     warning: 'Document à compléter avant mise en production.',
     warningText:
       'Le nom légal exact, le numéro d’entreprise, l’adresse du siège et le responsable de publication doivent être confirmés.',
@@ -40,11 +40,11 @@ const pageTranslations: Partial<
       'Hébergement prévu sur Cloudflare Pages ou Cloudflare Workers. Les informations contractuelles de l’hébergeur seront ajoutées lors du déploiement.',
     copyright: 'Propriété intellectuelle',
     copyrightText:
-      'Sauf mention contraire, les textes, créations graphiques et éléments de jeu appartiennent à Marxists Games ou sont utilisés avec l’autorisation de leurs titulaires. Les crédits détaillés des œuvres historiques seront indiqués sur les contenus concernés.',
+      'Sauf mention contraire, les textes, créations graphiques et éléments de jeu appartiennent à Marxist Games ou sont utilisés avec l’autorisation de leurs titulaires. Les crédits détaillés des œuvres historiques seront indiqués sur les contenus concernés.',
   },
   en: {
     title: 'Legal notice',
-    description: 'Legal information for the Marxists Games website.',
+    description: 'Legal information for the Marxist Games website.',
     warning: 'Document to complete before production.',
     warningText:
       'The exact legal name, registration number, registered address and publishing director must be confirmed.',
@@ -56,11 +56,11 @@ const pageTranslations: Partial<
       'Hosting is planned on Cloudflare Pages or Cloudflare Workers. Contractual hosting details will be added at deployment.',
     copyright: 'Intellectual property',
     copyrightText:
-      'Unless otherwise stated, texts, graphic creations and game materials belong to Marxists Games or are used with permission. Historical artwork credits will appear with the relevant content.',
+      'Unless otherwise stated, texts, graphic creations and game materials belong to Marxist Games or are used with permission. Historical artwork credits will appear with the relevant content.',
   },
   nl: {
     title: 'Juridische informatie',
-    description: 'Juridische informatie over de website van Marxists Games.',
+    description: 'Juridische informatie over de website van Marxist Games.',
     warning: 'Dit document moet vóór de productie worden aangevuld.',
     warningText:
       'De exacte juridische naam, het ondernemingsnummer, het vestigingsadres en de verantwoordelijke uitgever moeten worden bevestigd.',
@@ -72,11 +72,11 @@ const pageTranslations: Partial<
       'Hosting is gepland via Cloudflare Pages of Cloudflare Workers. De contractuele gegevens van de host worden bij de implementatie toegevoegd.',
     copyright: 'Intellectuele eigendom',
     copyrightText:
-      'Tenzij anders vermeld, behoren teksten, grafische creaties en spelmaterialen toe aan Marxists Games of worden ze met toestemming gebruikt. Credits voor historische werken worden bij de relevante inhoud vermeld.',
+      'Tenzij anders vermeld, behoren teksten, grafische creaties en spelmaterialen toe aan Marxist Games of worden ze met toestemming gebruikt. Credits voor historische werken worden bij de relevante inhoud vermeld.',
   },
   it: {
     title: 'Note legali',
-    description: 'Informazioni legali relative al sito di Marxists Games.',
+    description: 'Informazioni legali relative al sito di Marxist Games.',
     warning: 'Documento da completare prima della messa in produzione.',
     warningText:
       'Devono essere confermati la denominazione legale esatta, il numero di registrazione, la sede e il responsabile della pubblicazione.',
@@ -88,7 +88,7 @@ const pageTranslations: Partial<
       'L’hosting è previsto su Cloudflare Pages o Cloudflare Workers. I dati contrattuali del fornitore saranno aggiunti al momento del deployment.',
     copyright: 'Proprietà intellettuale',
     copyrightText:
-      'Salvo diversa indicazione, testi, creazioni grafiche e materiali di gioco appartengono a Marxists Games o sono utilizzati con autorizzazione. I crediti delle opere storiche saranno indicati nei contenuti pertinenti.',
+      'Salvo diversa indicazione, testi, creazioni grafiche e materiali di gioco appartengono a Marxist Games o sono utilizzati con autorizzazione. I crediti delle opere storiche saranno indicati nei contenuti pertinenti.',
   },
 };
 const copy = pageTranslations[locale] ?? pageTranslations.en!;
@@ -106,7 +106,7 @@ const { title, description } = copy;
       <div class="notice">
         <strong>{copy.warning}</strong><p>{copy.warningText}</p>
       </div><h2>{copy.publisher}</h2><p>
-        Marxists Games — {copy.association}<br />{copy.address}<br />E-mail :
+        Marxist Games — {copy.association}<br />{copy.address}<br />E-mail :
         marxismepourdebutant@gmail.com
       </p><h2>{copy.hosting}</h2><p>
         {copy.hostingText}

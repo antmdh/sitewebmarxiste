@@ -29,7 +29,7 @@ const structuredData = {
   dateModified: (article.data.updatedAt ?? article.data.publishedAt).toISOString(),
   inLanguage: locale,
   author: { '@type': 'Person', name: 'Antoine Moens' },
-  publisher: { '@type': 'Organization', name: 'Marxists Games' },
+  publisher: { '@type': 'Organization', name: 'Marxist Games' },
   ...(article.data.heroImage
     ? { image: new URL(article.data.heroImage.src, Astro.site).href }
     : {}),

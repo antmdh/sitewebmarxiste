@@ -8,7 +8,7 @@ developmentStatus: 'En développement'
 platforms: ['Android', 'iOS']
 genre: 'Stratégie et infiltration'
 historicalPeriod: 'Science-fiction inspirée de la guerre française en Indochine'
-description: 'Développé par Marxists Games, Dans la vallée de Sing Sing est un jeu mobile de stratégie et d’infiltration qui transpose la guerre d’Indochine dans un univers de science-fiction. Vous incarnez un officier vénusien pris dans une guerre coloniale sur Rhéa, lune de Jupiter, où l’Empire vénusien affronte une rébellion déterminée. Entre missions tactiques, dilemmes moraux et adaptation constante à un champ de bataille mouvant, ce titre propose une expérience immersive et réflexive sur les guerres d’occupation.'
+description: 'Développé par Marxist Games, Dans la vallée de Sing Sing est un jeu mobile de stratégie et d’infiltration qui transpose la guerre d’Indochine dans un univers de science-fiction. Vous incarnez un officier vénusien pris dans une guerre coloniale sur Rhéa, lune de Jupiter, où l’Empire vénusien affronte une rébellion déterminée. Entre missions tactiques, dilemmes moraux et adaptation constante à un champ de bataille mouvant, ce titre propose une expérience immersive et réflexive sur les guerres d’occupation.'
 cardDescription: 'Incarnez un officier vénusien pris dans une guerre coloniale sur Rhéa, entre infiltration, dilemmes moraux et territoires changeants.'
 category: 'game'
 publishedAt: '2024-10-12'
@@ -73,4 +73,4 @@ Au-delà du gameplay, Dans la vallée de Sing Sing propose :
 
 Disponible prochainement sur mobile — Android et iOS.
 
-🔴 Suivez Marxists Games pour plus d’informations : [abonnez-vous à la newsletter](/fr/newsletter/).
+🔴 Suivez Marxist Games pour plus d’informations : [abonnez-vous à la newsletter](/fr/newsletter/).

@@ -1,6 +1,6 @@
-# Marxists Games
+# Marxist Games
 
-Nouveau site unifié de l’association Marxists Games : catalogue de jeux, studio de commande, revue éditoriale et passerelle vers la communauté Discord.
+Nouveau site unifié de l’association Marxist Games : catalogue de jeux, studio de commande, revue éditoriale et passerelle vers la communauté Discord.
 
 ## Stack
 

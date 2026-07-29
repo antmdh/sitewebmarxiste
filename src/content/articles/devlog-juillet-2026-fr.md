@@ -181,6 +181,6 @@ Le principal objectif des prochaines semaines sera de poursuivre le travail sur 
 
 Merci beaucoup pour votre lecture et pour votre soutien.
 
-N’oubliez pas de vous abonner à la newsletter de **Marxists Games** pour ne rien manquer des prochaines actualités du projet.
+N’oubliez pas de vous abonner à la newsletter de **Marxist Games** pour ne rien manquer des prochaines actualités du projet.
 
 [Inscrivez vous à la newsletter](/fr/newsletter/)

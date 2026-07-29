@@ -3,7 +3,7 @@ import cloudflare from '@astrojs/cloudflare';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://www.marxistsgames.org',
+  site: 'https://marxistgames.org',
   output: 'server',
   adapter: cloudflare({ imageService: 'compile' }),
   integrations: [sitemap()],
